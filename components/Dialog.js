@@ -6,9 +6,13 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XCircle } from "@phosphor-icons/react";
 
 const Dialog = DialogPrimitive.Root;
-const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
+
+const DialogTrigger = forwardRef((props, ref) => {
+  return <DialogPrimitive.Trigger ref={ref} asChild {...props} />;
+});
+DialogTrigger.displayName = DialogPrimitive.Trigger.displayName;
 
 // -----
 // DialogOverlay
@@ -58,6 +62,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 const DialogHeader = forwardRef(({ className, children, ...props }, ref) => {
   const classNames = cn(
     "sticky top-0 z-50 flex items-center justify-between border-b bg-white/95 py-4 font-semibold backdrop-blur-sm",
+    className,
   );
 
   return (
@@ -77,6 +82,7 @@ DialogHeader.displayName = "DialogHeader";
 const DialogFooter = forwardRef(({ className, children, ...props }, ref) => {
   const classNames = cn(
     "sticky bottom-0 flex justify-between border-t bg-white py-4",
+    className,
   );
 
   return (
