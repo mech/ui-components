@@ -18,7 +18,7 @@ const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 const DropdownMenuContent = forwardRef(
   ({ className, sideOffset = 4, ...props }, ref) => {
     const classNames = cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-md",
+      "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-md shadow-gray-100",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -120,7 +120,7 @@ DropdownMenuSubTrigger.displayName =
 // -----
 const DropdownMenuSubContent = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-lg",
+    "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-lg shadow-gray-100",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
     "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

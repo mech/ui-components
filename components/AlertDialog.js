@@ -41,7 +41,7 @@ const AlertDialogContent = forwardRef(
   ({ className, children, ...props }, ref) => {
     const classNames = cn(
       "z-50 mx-auto mt-32 transform rounded-lg bg-white px-4 shadow-lg outline-none",
-      "max-w-2xl overflow-scroll",
+      "w-[95vw] max-w-2xl overflow-scroll",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

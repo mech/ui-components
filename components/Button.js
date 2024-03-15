@@ -8,7 +8,7 @@ import RaceBy from "@/components/RaceBy";
 // https://ui.shadcn.com/docs/components/button
 // Can consider: tracking-wide, flex-shrink-0
 const variants = cva(
-  "inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border font-normal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-95 active:opacity-50 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50",
+  "inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border font-normal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-100 active:opacity-50 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
