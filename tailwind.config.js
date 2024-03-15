@@ -13,6 +13,20 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "accordion-up": "accordion-up 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+      },
     },
     // colors: {
     //   background: "hsl(var(--background) / <alpha-value>)",

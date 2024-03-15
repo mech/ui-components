@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +30,10 @@ const DropdownMenuExamples = () => {
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <Button variant="secondary" suffix={<ChevronDown color="black" />}>
+        <Button
+          variant="secondary"
+          suffix={<ChevronDown size={24} color="black" />}
+        >
           Menu
         </Button>
       </DropdownMenuTrigger>
