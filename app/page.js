@@ -8,6 +8,7 @@ import AccordionExamples from "@/examples/AccordionExamples";
 import PopoverExamples from "@/examples/PopoverExamples";
 import Button from "@/components/Button";
 import LoremIpsum from "@/components/LoremIpsum";
+import Input from "@/components/Input";
 
 import {
   Drawer,
@@ -22,10 +23,10 @@ export default function Home() {
       <Horse color="purple" size="64" weight="fill" />
       {/*<ButtonExamples />*/}
 
-      <div className="flex gap-4">
-        <DropdownMenuExamples />
-        <DialogExamples />
-      </div>
+      {/*<div className="flex gap-4">*/}
+      {/*  <DropdownMenuExamples />*/}
+      {/*  <DialogExamples />*/}
+      {/*</div>*/}
 
       {/*<AccordionExamples />*/}
       {/*<PopoverExamples />*/}
@@ -52,6 +53,19 @@ export default function Home() {
           </section>
         </DrawerContent>
       </Drawer>
+
+      <div className="flex flex-wrap items-start gap-4">
+        <Input
+          // size="sm"
+          label="Email"
+          // prefix="https://"
+          // suffix={<Sun size="24" weight="bold" />}
+          // errorMessage="Gosh!! What is happening!?"
+          // helpText="Just try to enter whatever you want"
+        />
+
+        <Button>Submit</Button>
+      </div>
     </main>
   );
 }
