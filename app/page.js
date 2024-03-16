@@ -1,17 +1,26 @@
+"use client";
+
 import { Horse, Sun } from "@phosphor-icons/react/dist/ssr";
 import ButtonExamples from "@/examples/ButtonExamples";
 import DropdownMenuExamples from "@/examples/DropdownMenuExamples";
 import DialogExamples from "@/examples/DialogExamples";
 import AccordionExamples from "@/examples/AccordionExamples";
+import PopoverExamples from "@/examples/PopoverExamples";
 import Button from "@/components/Button";
+import LoremIpsum from "@/components/LoremIpsum";
 
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/Popover";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerClose,
+} from "@/components/Drawer";
 
 export default function Home() {
   return (
     <main className="space-y-4 p-4">
       <Horse color="purple" size="64" weight="fill" />
-      <ButtonExamples />
+      {/*<ButtonExamples />*/}
 
       <div className="flex gap-4">
         <DropdownMenuExamples />
@@ -19,27 +28,30 @@ export default function Home() {
       </div>
 
       {/*<AccordionExamples />*/}
+      {/*<PopoverExamples />*/}
 
-      <Popover>
-        <PopoverTrigger>
-          <Button
-            variant="ghost"
-            prefix={<Sun size={24} weight="bold" />}
-          ></Button>
-        </PopoverTrigger>
-        <PopoverContent align="start">
-          <div className="space-y-2">
-            <h1 className="font-semibold">Profile</h1>
-            <p>Settings</p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-              consequuntur distinctio error excepturi impedit laudantium nam
-              quidem quod rerum voluptatibus. Id praesentium quia quo? Eos
-              itaque nulla rem sapiente voluptatibus?
-            </p>
+      <Drawer modal={false}>
+        <DrawerTrigger>
+          <Button variant="secondary">Inspector</Button>
+        </DrawerTrigger>
+        <DrawerContent
+          side="right"
+          className="w-1/2"
+          onInteractOutside={(e) => e.preventDefault()}
+          onCloseAutoFocus={(e) => e.preventDefault()}
+        >
+          <div className="flex items-center justify-between p-4">
+            <strong>Some inspecting to do</strong>
+            <DrawerClose asChild>
+              <Button variant="secondary">Close</Button>
+            </DrawerClose>
           </div>
-        </PopoverContent>
-      </Popover>
+
+          <section className="space-y-4 p-4">
+            <LoremIpsum p={10} />
+          </section>
+        </DrawerContent>
+      </Drawer>
     </main>
   );
 }
