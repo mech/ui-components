@@ -18,7 +18,7 @@ InputOTP.displayName = "InputOTP";
 // InputOTPGroup
 // -----
 const InputOTPGroup = forwardRef(({ className, ...props }, ref) => {
-  const classNames = cn("flex items-center", className);
+  const classNames = cn("flex items-center gap-1", className);
 
   return <div ref={ref} className={classNames} {...props} />;
 });
@@ -28,10 +28,14 @@ InputOTPGroup.displayName = "InputOTPGroup";
 // InputOTPSlot
 // -----
 const InputOTPSlot = forwardRef(
-  ({ char, hasFakeCaret, isActive, className, ...props }, ref) => {
+  ({ order = 1, char, hasFakeCaret, isActive, className, ...props }, ref) => {
     const classNames = cn(
-      "border-input relative flex h-10 w-10 items-center justify-center border-y border-r transition-all first:rounded-l-md first:border-l last:rounded-r-md",
-      isActive && "z-10 ring-2 ring-blue-500 ring-offset-white",
+      "relative flex h-10 w-10 items-center justify-center border border-gray-400 transition-all first:border-l",
+      isActive &&
+        "z-50 border-blue-600 ring-4 ring-blue-500 ring-opacity-30 ring-offset-white",
+      { "first:rounded-l-md": order === 1 },
+      { "last:rounded-r-md": order === 2 },
+      { "first:border-r": order === 2 },
       className,
     );
 
@@ -40,7 +44,7 @@ const InputOTPSlot = forwardRef(
         {char}
         {hasFakeCaret && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="animate-caret-blink h-4 w-px bg-black duration-1000" />
+            <div className="h-4 w-px animate-caret-blink bg-black duration-1000" />
           </div>
         )}
       </div>
@@ -60,7 +64,7 @@ const InputOTPSeparator = forwardRef(({ className, ...props }, ref) => {
       className="flex items-center justify-center"
       {...props}
     >
-      <div className="h-1 w-3 rounded-full bg-gray-200" />
+      <div className="h-1 w-4 rounded-full bg-gray-200" />
     </div>
   );
 });

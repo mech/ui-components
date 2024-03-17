@@ -92,13 +92,13 @@ export default function Home() {
           <>
             <InputOTPGroup>
               {slots.slice(0, 3).map((slot, index) => (
-                <InputOTPSlot key={index} {...slot} />
+                <InputOTPSlot key={index} {...slot} order={1} />
               ))}
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
               {slots.slice(3).map((slot, index) => (
-                <InputOTPSlot key={index} {...slot} />
+                <InputOTPSlot key={index} {...slot} order={2} />
               ))}
             </InputOTPGroup>
           </>
