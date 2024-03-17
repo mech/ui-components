@@ -5,9 +5,6 @@ import { Info, SealWarning } from "@phosphor-icons/react";
 
 // Using focus-within to style inner input
 // group and group-focus-within
-const variants = cva(
-  "group relative flex w-full rounded-md border border-gray-400 text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[invalid=true]:border-red-500 data-[invalid=true]:text-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
-);
 
 const sizeVariants = cva([], {
   variants: {
@@ -48,11 +45,16 @@ const Input = forwardRef(
       "flex items-center border-gray-400 px-2 text-black group-focus-within:border-blue-600 group-data-[invalid=true]:border-red-500";
 
     return (
-      <div data-control="input">
+      <div
+        data-control="input"
+        className={cn({
+          "opacity-50": props.disabled,
+        })}
+      >
         <div
           data-invalid={!!errorMessage}
           className={cn(
-            "group relative flex w-full rounded-md border border-gray-400 text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[invalid=true]:border-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
+            "group relative flex w-full rounded-md border border-gray-400 text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none data-[invalid=true]:border-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
           )}
         >
           <label htmlFor={id} className={labelClassNames}>
@@ -69,7 +71,7 @@ const Input = forwardRef(
             data-invalid={!!errorMessage}
             className={cn(
               sizeVariants({ size }),
-              "order-2 w-full appearance-none rounded-md text-black outline-none data-[invalid=true]:text-red-500",
+              "order-2 w-full appearance-none rounded-md text-black outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               {
                 "pl-2": prefix,
                 "pr-2": suffix,

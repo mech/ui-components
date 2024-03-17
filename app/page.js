@@ -9,6 +9,9 @@ import PopoverExamples from "@/examples/PopoverExamples";
 import Button from "@/components/Button";
 import LoremIpsum from "@/components/LoremIpsum";
 import Input from "@/components/Input";
+import { Switch } from "@/components/Switch";
+import { Checkbox } from "@/components/Checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/RadioGroup";
 
 import {
   Drawer,
@@ -54,7 +57,7 @@ export default function Home() {
         </DrawerContent>
       </Drawer>
 
-      <div className="flex flex-wrap items-start gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <Input
           // size="sm"
           label="Email"
@@ -65,6 +68,16 @@ export default function Home() {
         />
 
         <Button>Submit</Button>
+
+        <Switch />
+        <Checkbox checked="indeterminate" />
+        <Checkbox />
+
+        <RadioGroup>
+          <RadioGroupItem value="1">One</RadioGroupItem>
+          <RadioGroupItem value="2">Two</RadioGroupItem>
+          <RadioGroupItem value="3">Three</RadioGroupItem>
+        </RadioGroup>
       </div>
     </main>
   );
