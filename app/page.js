@@ -12,6 +12,12 @@ import Input from "@/components/Input";
 import { Switch } from "@/components/Switch";
 import { Checkbox } from "@/components/Checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/RadioGroup";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "@/components/InputOTP";
 
 import {
   Drawer,
@@ -79,6 +85,25 @@ export default function Home() {
           <RadioGroupItem value="3">Three</RadioGroupItem>
         </RadioGroup>
       </div>
+
+      <InputOTP
+        maxLength={6}
+        render={({ slots }) => (
+          <>
+            <InputOTPGroup>
+              {slots.slice(0, 3).map((slot, index) => (
+                <InputOTPSlot key={index} {...slot} />
+              ))}
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              {slots.slice(3).map((slot, index) => (
+                <InputOTPSlot key={index} {...slot} />
+              ))}
+            </InputOTPGroup>
+          </>
+        )}
+      />
     </main>
   );
 }

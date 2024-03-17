@@ -24,13 +24,14 @@ const RadioGroupItem = forwardRef(({ className, ...props }, ref) => {
     "aspect-square h-5 w-5 rounded-full border-2 border-blue-500",
     "ring-offset-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:ring-offset-2",
     "disabled:cursor-not-allowed disabled:opacity-50",
+    "data-[state=checked]:bg-blue-500",
     className,
   );
 
   return (
     <RadioGroupPrimitive.Item ref={ref} className={classNames} {...props}>
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <span className="h-3 w-3 rounded-full bg-blue-500"></span>
+        <span className="h-2 w-2 rounded-full bg-white"></span>
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );

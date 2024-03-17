@@ -23,10 +23,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 300ms cubic-bezier(0.87, 0, 0.13, 1)",
         "accordion-up": "accordion-up 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "caret-blink": "caret-blink 1.2s ease-out infinite",
       },
     },
     // colors: {
