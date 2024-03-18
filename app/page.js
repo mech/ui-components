@@ -63,7 +63,7 @@ export default function Home() {
         </DrawerContent>
       </Drawer>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex hidden flex-wrap items-center gap-4">
         <Input
           // size="sm"
           label="Email"

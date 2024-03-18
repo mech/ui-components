@@ -10,7 +10,12 @@ import { OTPInput } from "input-otp";
 const InputOTP = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn("flex items-center gap-2", className);
 
-  return <OTPInput ref={ref} containerClassName={classNames} {...props} />;
+  // Will have horizontal scroll if not in flex container
+  return (
+    <div className="flex">
+      <OTPInput ref={ref} containerClassName={classNames} {...props} />
+    </div>
+  );
 });
 InputOTP.displayName = "InputOTP";
 
