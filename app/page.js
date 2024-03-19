@@ -6,6 +6,7 @@ import DropdownMenuExamples from "@/examples/DropdownMenuExamples";
 import DialogExamples from "@/examples/DialogExamples";
 import AccordionExamples from "@/examples/AccordionExamples";
 import PopoverExamples from "@/examples/PopoverExamples";
+import FloatingExamples from "@/examples/FloatingExamples";
 import Button from "@/components/Button";
 import LoremIpsum from "@/components/LoremIpsum";
 import Input from "@/components/Input";
@@ -18,13 +19,13 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from "@/components/InputOTP";
-
 import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
   DrawerClose,
 } from "@/components/Drawer";
+import cn from "@/lib/cn";
 
 export default function Home() {
   return (
@@ -32,13 +33,15 @@ export default function Home() {
       <Horse color="purple" size="64" weight="fill" />
       {/*<ButtonExamples />*/}
 
-      {/*<div className="flex gap-4">*/}
-      {/*  <DropdownMenuExamples />*/}
-      {/*  <DialogExamples />*/}
-      {/*</div>*/}
+      <FloatingExamples />
+
+      <div className="flex gap-4">
+        <DropdownMenuExamples />
+        <DialogExamples />
+        <PopoverExamples />
+      </div>
 
       {/*<AccordionExamples />*/}
-      {/*<PopoverExamples />*/}
 
       <Drawer modal={false}>
         <DrawerTrigger>
@@ -63,7 +66,7 @@ export default function Home() {
         </DrawerContent>
       </Drawer>
 
-      <div className="flex hidden flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <Input
           // size="sm"
           label="Email"
@@ -104,6 +107,12 @@ export default function Home() {
           </>
         )}
       />
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam autem
+        commodi cumque dolor ea, eius eveniet inventore iure minima nemo nostrum
+        numquam, obcaecati odio optio repellendus sapiente sed vel voluptatum?
+      </p>
     </main>
   );
 }

@@ -11,7 +11,7 @@ const PopoverExamples = () => {
           prefix={<Sun size={24} weight="bold" />}
         ></Button>
       </PopoverTrigger>
-      <PopoverContent align="start">
+      <PopoverContent align="start" className="max-w-lg">
         <div className="space-y-2">
           <h1 className="font-semibold">Profile</h1>
           <p>Settings</p>

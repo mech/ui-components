@@ -3,7 +3,6 @@
 import { forwardRef } from "react";
 import cn from "@/lib/cn";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 const Popover = PopoverPrimitive.Root;
 const PopoverAnchor = PopoverPrimitive.Anchor;
@@ -22,7 +21,7 @@ PopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 const PopoverContent = forwardRef(
   ({ className, align = "center", sideOffset = 4, ...props }, ref) => {
     const classNames = cn(
-      "z-50 max-w-xl rounded-lg border p-2 shadow-md shadow-gray-100 outline-none",
+      "z-50 rounded-lg border bg-white p-2 shadow-md outline-none",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       // "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

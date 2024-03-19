@@ -5,9 +5,31 @@ import cn from "@/lib/cn";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XCircle } from "@phosphor-icons/react";
 
-const Dialog = DialogPrimitive.Root;
+// Problem with pointer-event: none locking
+// https://github.com/radix-ui/primitives/issues/1859
+// https://github.com/radix-ui/primitives/issues/2219
+
 const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
+
+// -----
+// Dialog
+// Automatically remove pointer-events: none from <body> so that Combobox can overlap.
+// -----
+const Dialog = forwardRef(({ onOpenChange = () => {}, ...props }, ref) => {
+  return (
+    <DialogPrimitive.Root
+      ref={ref}
+      onOpenChange={(e) => {
+        setTimeout(() => (document.body.style.pointerEvents = ""), 0);
+
+        onOpenChange && onOpenChange(e);
+      }}
+      {...props}
+    />
+  );
+});
+Dialog.displayName = DialogPrimitive.Root.displayName;
 
 const DialogTrigger = forwardRef((props, ref) => {
   return <DialogPrimitive.Trigger ref={ref} asChild {...props} />;

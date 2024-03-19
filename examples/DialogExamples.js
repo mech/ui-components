@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -15,6 +17,29 @@ import {
   AlertDialogTrigger,
 } from "@/components/AlertDialog";
 import { HandPalm } from "@phosphor-icons/react/dist/ssr";
+import DropdownMenuExamples from "@/examples/DropdownMenuExamples";
+import PopoverExamples from "@/examples/PopoverExamples";
+import Select from "react-select";
+import FloatingExamples from "@/examples/FloatingExamples";
+
+const options = [
+  {
+    value: "chocolate",
+    label: (
+      <>
+        Chocol<em className="bg-yellow-200">ate</em>
+      </>
+    ),
+  },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+  { value: "mango", label: "Mango" },
+  { value: "banana", label: "Banana" },
+  { value: "apple", label: "Apple" },
+  { value: "orange", label: "Orange" },
+  { value: "grape", label: "Grape" },
+  { value: "peach", label: "Peach" },
+];
 
 const DialogExamples = () => {
   return (
@@ -25,7 +50,7 @@ const DialogExamples = () => {
             Open Dialog
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
           <DialogHeader>Profile</DialogHeader>
           <section className="space-y-4 py-2">
             <h1>testing...</h1>
@@ -35,6 +60,24 @@ const DialogExamples = () => {
               quis quos recusandae repellat reprehenderit similique sunt
               voluptates, voluptatibus. At exercitationem nisi ratione.
             </p>
+          </section>
+          <section className="space-y-4 py-4">
+            <div>Please verify this is what you intended to do!</div>
+            <div>
+              <DropdownMenuExamples />
+            </div>
+            <div>
+              <PopoverExamples />
+            </div>
+            <div>
+              <Select
+                options={options}
+                styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                menuPortalTarget={
+                  typeof window !== "undefined" ? document.body : null
+                }
+              />
+            </div>
           </section>
           <DialogFooter>
             <Button>Update</Button>
@@ -48,14 +91,31 @@ const DialogExamples = () => {
             Open Alert Dialog
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="">
           <AlertDialogTitle className="flex items-center gap-1">
             <HandPalm color="red" size="32" weight="fill" />
             Stop!
           </AlertDialogTitle>
-          <section className="space-y-4 py-2">
-            Please verify this is what you intended to do!
+          <section className="space-y-4 py-4">
+            <div>Please verify this is what you intended to do!</div>
+            <div>
+              <DropdownMenuExamples />
+            </div>
+            <div>
+              <PopoverExamples />
+            </div>
+
+            <Select
+              options={options}
+              styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+              menuPortalTarget={
+                typeof window !== "undefined" ? document.body : null
+              }
+            />
+
+            <FloatingExamples />
           </section>
+
           <AlertDialogFooter className="justify-center">
             <AlertDialogCancel>
               <Button variant="secondary" outline pill>

@@ -4,8 +4,26 @@ import { forwardRef } from "react";
 import cn from "@/lib/cn";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
-const AlertDialog = AlertDialogPrimitive.Root;
 const AlertDialogPortal = AlertDialogPrimitive.Portal;
+
+// -----
+// AlertDialog
+// Automatically remove pointer-events: none from <body> so that Combobox can overlap.
+// -----
+const AlertDialog = forwardRef(({ onOpenChange = () => {}, ...props }, ref) => {
+  return (
+    <AlertDialogPrimitive.Root
+      ref={ref}
+      onOpenChange={(e) => {
+        setTimeout(() => (document.body.style.pointerEvents = ""), 0);
+
+        onOpenChange && onOpenChange(e);
+      }}
+      {...props}
+    />
+  );
+});
+AlertDialog.displayName = AlertDialogPrimitive.Root.displayName;
 
 const AlertDialogTrigger = forwardRef((props, ref) => {
   return <AlertDialogPrimitive.Trigger ref={ref} asChild {...props} />;
@@ -69,7 +87,7 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;
 // AlertDialogTitle
 // -----
 const AlertDialogTitle = forwardRef(({ className, ...props }, ref) => {
-  const classNames = cn("text-lg font-semibold py-4", className);
+  const classNames = cn("py-4 text-lg font-semibold", className);
 
   return <h1 ref={ref} className={classNames} {...props} />;
 });
