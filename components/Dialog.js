@@ -56,26 +56,41 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 // -----
 // DialogContent
 // -----
-const DialogContent = forwardRef(({ className, children, ...props }, ref) => {
-  const classNames = cn(
-    "z-50 mx-auto mt-16 transform rounded-lg bg-white px-4 shadow-lg outline-none",
-    "max-h-[calc(100%-128px)] w-[95vw] max-w-5xl overflow-scroll",
-    "data-[state=open]:animate-in data-[state=closed]:animate-out",
-    "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-    "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-    className,
-  );
+const DialogContent = forwardRef(
+  ({ preventClose = false, className, children, ...props }, ref) => {
+    const classNames = cn(
+      "z-50 mx-auto mt-16 transform rounded-lg bg-white px-4 shadow-lg outline-none",
+      "max-h-[calc(100%-128px)] w-[95vw] max-w-5xl overflow-scroll",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      className,
+    );
 
-  return (
-    <DialogPortal>
-      <DialogOverlay>
-        <DialogPrimitive.Content ref={ref} className={classNames} {...props}>
-          {children}
-        </DialogPrimitive.Content>
-      </DialogOverlay>
-    </DialogPortal>
-  );
-});
+    const onInteractOutside = (e) => {
+      if (preventClose) {
+        e.preventDefault();
+      } else {
+        props.onInteractOutside && props.onInteractOutside(e);
+      }
+    };
+
+    return (
+      <DialogPortal>
+        <DialogOverlay>
+          <DialogPrimitive.Content
+            ref={ref}
+            className={classNames}
+            onInteractOutside={onInteractOutside}
+            {...props}
+          >
+            {children}
+          </DialogPrimitive.Content>
+        </DialogOverlay>
+      </DialogPortal>
+    );
+  },
+);
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 // -----

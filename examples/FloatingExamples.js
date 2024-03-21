@@ -25,13 +25,16 @@ const FloatingExamples = () => {
     middleware: [
       offset(8),
       size({
-        apply({ rects, elements }) {
+        apply({ availableHeight, rects, elements }) {
           Object.assign(elements.floating.style, {
             width: `${rects.reference.width}px`,
+            maxHeight: `${Math.max(250, availableHeight / 3)}px`,
           });
         },
       }),
-      flip(),
+      flip({
+        fallbackStrategy: "initialPlacement",
+      }),
     ],
     whileElementsMounted: autoUpdate,
   });

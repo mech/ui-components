@@ -7,6 +7,7 @@ import DialogExamples from "@/examples/DialogExamples";
 import AccordionExamples from "@/examples/AccordionExamples";
 import PopoverExamples from "@/examples/PopoverExamples";
 import FloatingExamples from "@/examples/FloatingExamples";
+import DownshiftExamples from "@/examples/DownshiftExamples";
 import Button from "@/components/Button";
 import LoremIpsum from "@/components/LoremIpsum";
 import Input from "@/components/Input";
@@ -26,14 +27,17 @@ import {
   DrawerClose,
 } from "@/components/Drawer";
 import cn from "@/lib/cn";
+import { useForm } from "react-hook-form";
 
 export default function Home() {
+  const { register, handleSubmit, formState } = useForm();
+
   return (
     <main className="space-y-4 p-4">
-      <Horse color="purple" size="64" weight="fill" />
       {/*<ButtonExamples />*/}
 
-      <FloatingExamples />
+      <DownshiftExamples />
+      {/*<FloatingExamples />*/}
 
       <div className="flex gap-4">
         <DropdownMenuExamples />
@@ -43,34 +47,36 @@ export default function Home() {
 
       {/*<AccordionExamples />*/}
 
-      <Drawer modal={false}>
-        <DrawerTrigger>
-          <Button variant="secondary">Inspector</Button>
-        </DrawerTrigger>
-        <DrawerContent
-          side="right"
-          className="w-1/2"
-          onInteractOutside={(e) => e.preventDefault()}
-          onCloseAutoFocus={(e) => e.preventDefault()}
-        >
-          <div className="flex items-center justify-between p-4">
-            <strong>Some inspecting to do</strong>
-            <DrawerClose asChild>
-              <Button variant="secondary">Close</Button>
-            </DrawerClose>
-          </div>
+      <div className="hidden">
+        <Drawer modal={false}>
+          <DrawerTrigger>
+            <Button variant="secondary">Inspector</Button>
+          </DrawerTrigger>
+          <DrawerContent
+            side="right"
+            className="w-1/2"
+            onInteractOutside={(e) => e.preventDefault()}
+            onCloseAutoFocus={(e) => e.preventDefault()}
+          >
+            <div className="flex items-center justify-between p-4">
+              <strong>Some inspecting to do</strong>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </div>
 
-          <section className="space-y-4 p-4">
-            <LoremIpsum p={10} />
-          </section>
-        </DrawerContent>
-      </Drawer>
+            <section className="space-y-4 p-4">
+              <LoremIpsum p={10} />
+            </section>
+          </DrawerContent>
+        </Drawer>
+      </div>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex hidden flex-wrap items-center gap-4">
         <Input
           // size="sm"
           label="Email"
-          // prefix="https://"
+          prefix="https://"
           // suffix={<Sun size="24" weight="bold" />}
           // errorMessage="Gosh!! What is happening!?"
           // helpText="Just try to enter whatever you want"
@@ -89,30 +95,24 @@ export default function Home() {
         </RadioGroup>
       </div>
 
-      <InputOTP
-        maxLength={6}
-        render={({ slots }) => (
-          <>
-            <InputOTPGroup>
-              {slots.slice(0, 3).map((slot, index) => (
-                <InputOTPSlot key={index} {...slot} order={1} />
-              ))}
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              {slots.slice(3).map((slot, index) => (
-                <InputOTPSlot key={index} {...slot} order={2} />
-              ))}
-            </InputOTPGroup>
-          </>
-        )}
-      />
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam autem
-        commodi cumque dolor ea, eius eveniet inventore iure minima nemo nostrum
-        numquam, obcaecati odio optio repellendus sapiente sed vel voluptatum?
-      </p>
+      {/*<InputOTP*/}
+      {/*  maxLength={6}*/}
+      {/*  render={({ slots }) => (*/}
+      {/*    <>*/}
+      {/*      <InputOTPGroup>*/}
+      {/*        {slots.slice(0, 3).map((slot, index) => (*/}
+      {/*          <InputOTPSlot key={index} {...slot} order={1} />*/}
+      {/*        ))}*/}
+      {/*      </InputOTPGroup>*/}
+      {/*      <InputOTPSeparator />*/}
+      {/*      <InputOTPGroup>*/}
+      {/*        {slots.slice(3).map((slot, index) => (*/}
+      {/*          <InputOTPSlot key={index} {...slot} order={2} />*/}
+      {/*        ))}*/}
+      {/*      </InputOTPGroup>*/}
+      {/*    </>*/}
+      {/*  )}*/}
+      {/*/>*/}
     </main>
   );
 }

@@ -76,6 +76,7 @@ const Input = forwardRef(
                 "pl-2": prefix,
                 "pr-2": suffix,
               },
+              className,
             )}
             {...props}
           />

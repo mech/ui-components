@@ -21,6 +21,7 @@ import DropdownMenuExamples from "@/examples/DropdownMenuExamples";
 import PopoverExamples from "@/examples/PopoverExamples";
 import Select from "react-select";
 import FloatingExamples from "@/examples/FloatingExamples";
+import DownshiftExamples from "@/examples/DownshiftExamples";
 
 const options = [
   {
@@ -50,7 +51,7 @@ const DialogExamples = () => {
             Open Dialog
           </Button>
         </DialogTrigger>
-        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent preventClose>
           <DialogHeader>Profile</DialogHeader>
           <section className="space-y-4 py-2">
             <h1>testing...</h1>
@@ -91,7 +92,7 @@ const DialogExamples = () => {
             Open Alert Dialog
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="">
+        <AlertDialogContent>
           <AlertDialogTitle className="flex items-center gap-1">
             <HandPalm color="red" size="32" weight="fill" />
             Stop!
@@ -114,6 +115,7 @@ const DialogExamples = () => {
             />
 
             <FloatingExamples />
+            <DownshiftExamples />
           </section>
 
           <AlertDialogFooter className="justify-center">

@@ -38,7 +38,7 @@ const DropdownMenuExamples = () => {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent>
+      <DropdownMenuContent loop>
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <BadgeAlert color="green" size={20} />
@@ -66,13 +66,13 @@ const DropdownMenuExamples = () => {
               Invite
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent loop>
                 <DropdownMenuItem>Invite to project</DropdownMenuItem>
                 <DropdownMenuItem>Invite to team</DropdownMenuItem>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>Invite</DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
+                    <DropdownMenuSubContent loop>
                       <DropdownMenuItem>Invite to project</DropdownMenuItem>
                       <DropdownMenuItem>Invite to team</DropdownMenuItem>
                     </DropdownMenuSubContent>
