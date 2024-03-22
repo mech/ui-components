@@ -22,6 +22,7 @@ import PopoverExamples from "@/examples/PopoverExamples";
 import Select from "react-select";
 import FloatingExamples from "@/examples/FloatingExamples";
 import DownshiftExamples from "@/examples/DownshiftExamples";
+import MultipleSelectionDownshiftExamples from "@/examples/MultipleSelectionDownshiftExamples";
 
 const options = [
   {
@@ -79,6 +80,9 @@ const DialogExamples = () => {
                 }
               />
             </div>
+            <div>
+              <DownshiftExamples />
+            </div>
           </section>
           <DialogFooter>
             <Button>Update</Button>
@@ -116,6 +120,7 @@ const DialogExamples = () => {
 
             <FloatingExamples />
             <DownshiftExamples />
+            <MultipleSelectionDownshiftExamples />
           </section>
 
           <AlertDialogFooter className="justify-center">

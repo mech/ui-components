@@ -28,6 +28,7 @@ import {
 } from "@/components/Drawer";
 import cn from "@/lib/cn";
 import { useForm } from "react-hook-form";
+import MultipleSelectionDownshiftExamples from "@/examples/MultipleSelectionDownshiftExamples";
 
 export default function Home() {
   const { register, handleSubmit, formState } = useForm();
@@ -35,6 +36,8 @@ export default function Home() {
   return (
     <main className="space-y-4 p-4">
       {/*<ButtonExamples />*/}
+
+      <MultipleSelectionDownshiftExamples />
 
       <DownshiftExamples />
       {/*<FloatingExamples />*/}
@@ -77,7 +80,10 @@ export default function Home() {
           // size="sm"
           label="Email"
           prefix="https://"
-          // suffix={<Sun size="24" weight="bold" />}
+          prefixStyling={false}
+          suffix={<Sun size="24" weight="bold" />}
+          suffixStyling={false}
+          placeholder="Enter your email"
           // errorMessage="Gosh!! What is happening!?"
           // helpText="Just try to enter whatever you want"
         />

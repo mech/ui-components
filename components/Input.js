@@ -29,6 +29,8 @@ const Input = forwardRef(
       errorMessage,
       prefix,
       suffix,
+      prefixStyling = true,
+      suffixStyling = true,
       className,
       ...props
     },
@@ -82,10 +84,9 @@ const Input = forwardRef(
           />
           {prefix && (
             <span
-              className={cn(
-                prefixSuffixClassNames,
-                "order-1 rounded-l-md border-r",
-              )}
+              className={cn(prefixSuffixClassNames, "order-1 rounded-l-md", {
+                "border-r": prefixStyling,
+              })}
             >
               {prefix}
             </span>
@@ -93,10 +94,9 @@ const Input = forwardRef(
 
           {suffix && !errorMessage && (
             <span
-              className={cn(
-                prefixSuffixClassNames,
-                "order-3 rounded-r-md border-l",
-              )}
+              className={cn(prefixSuffixClassNames, "order-3 rounded-r-md", {
+                "border-l": suffixStyling,
+              })}
             >
               {suffix}
             </span>

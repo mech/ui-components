@@ -4,7 +4,6 @@ import {
   autoUpdate,
   offset,
   flip,
-  shift,
   size,
   FloatingPortal,
 } from "@floating-ui/react";
@@ -12,7 +11,8 @@ import { useState } from "react";
 import Input from "@/components/Input";
 import cn from "@/lib/cn";
 import { matchSorter } from "match-sorter";
-import { Check } from "lucide-react";
+import { Check, CircleX } from "lucide-react";
+import button from "@/components/Button";
 
 const fetch = [
   { id: "1", nationality: "Singaporean" },
@@ -70,6 +70,7 @@ const DownshiftExamples = () => {
     getItemProps,
     highlightedIndex,
     selectedItem,
+    selectItem,
   } = useCombobox({
     items,
     itemToString: (item) => {
@@ -130,8 +131,9 @@ const DownshiftExamples = () => {
     },
   );
 
+  // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
   const itemClassNames = cn(
-    "p-2 data-[highlighted=true]:bg-blue-100 data-[selected=true]:font-semibold",
+    "p-2 data-[highlighted=true]:bg-blue-100 [&>*]:data-[selected=true]:font-semibold",
   );
 
   // Need to use suppressRefError: true due to FloatingPortal
@@ -141,10 +143,19 @@ const DownshiftExamples = () => {
 
   return (
     <div data-control="combobox-input">
-      <h1>{selectedItems.length}</h1>
       <div ref={refs.setReference}>
         <Input
-          label={`Nationality: ${selectedItem?.nationality}`}
+          suffix={
+            <button
+              onClick={() => {
+                setSelectedItems([]);
+                selectItem(null);
+              }}
+            >
+              <CircleX size={24} />
+            </button>
+          }
+          label={`Nationality: ${selectedItems.length} picked`}
           placeholder={placeholder}
           className="placeholder-black"
           {...getInputProps({
@@ -174,8 +185,11 @@ const DownshiftExamples = () => {
               {items.map((item, index) => (
                 <li
                   key={item.id}
+                  data-list={true}
                   data-highlighted={highlightedIndex === index}
-                  data-selected={selectedItem?.id === item.id}
+                  data-selected={
+                    selectedItem?.id === item.id || selectedItems.includes(item)
+                  }
                   className={itemClassNames}
                   {...getItemProps({ item, index })}
                 >
