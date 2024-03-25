@@ -38,6 +38,7 @@ const PopoverContent = forwardRef(
           ref={ref}
           align={align}
           sideOffset={sideOffset}
+          collisionPadding={{ left: 16, right: 16 }}
           className={classNames}
           {...props}
         />

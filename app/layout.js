@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import Sidebar from "@/app/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,10 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="grid h-screen grid-cols-4">
+            <Sidebar />
+            <main className="col-span-3">{children}</main>
+          </div>
         </ThemeProvider>
         <div id="portal-one"></div>
       </body>

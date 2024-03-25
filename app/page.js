@@ -29,6 +29,10 @@ import {
 import cn from "@/lib/cn";
 import { useForm } from "react-hook-form";
 import MultipleSelectionDownshiftExamples from "@/examples/MultipleSelectionDownshiftExamples";
+import {
+  SegmentedControlRoot,
+  SegmentedControlItem,
+} from "@/components/SegmentedControl";
 
 export default function Home() {
   const { register, handleSubmit, formState } = useForm();
@@ -36,6 +40,16 @@ export default function Home() {
   return (
     <main className="space-y-4 p-4">
       {/*<ButtonExamples />*/}
+
+      <div>
+        <h1>Segmented control</h1>
+
+        <SegmentedControlRoot size="sm">
+          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+        </SegmentedControlRoot>
+      </div>
 
       <MultipleSelectionDownshiftExamples />
 
@@ -75,7 +89,19 @@ export default function Home() {
         </Drawer>
       </div>
 
-      <div className="flex hidden flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
+        <SegmentedControlRoot size="sm" defaultValue="1">
+          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+        </SegmentedControlRoot>
+
+        <SegmentedControlRoot defaultValue="2">
+          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+        </SegmentedControlRoot>
+
         <Input
           // size="sm"
           label="Email"
