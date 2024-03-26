@@ -1,6 +1,6 @@
 [data-control="segmented-control"] {
     --segmented-control-transition-duration: 100ms;
-    --segmented-control-border-radius: 0.25rem;
+    --segmented-control-border-radius: 0.375rem;
 
     --font-weight-regular: 400;
     --tab-inactive-letter-spacing: 0em;
@@ -58,14 +58,13 @@
 
     /* stylelint-disable-next-line selector-max-type */
     & :where(svg) {
-        /* Don’t squish icons */
+        /* Don't squish icons */
         flex-shrink: 0;
     }
 
     @media (hover: hover) {
         :where(.rt-SegmentedControlItem[data-state='off']:hover) & {
-            /*background-color: var(--gray-a2);*/
-            @apply bg-gray-300
+            @apply bg-gray-300/50;
         }
     }
 }

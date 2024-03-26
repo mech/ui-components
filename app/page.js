@@ -27,124 +27,158 @@ import {
   DrawerClose,
 } from "@/components/Drawer";
 import cn from "@/lib/cn";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, useController } from "react-hook-form";
 import MultipleSelectionDownshiftExamples from "@/examples/MultipleSelectionDownshiftExamples";
 import {
   SegmentedControlRoot,
   SegmentedControlItem,
 } from "@/components/SegmentedControl";
+import { useState } from "react";
 
 export default function Home() {
-  const { register, handleSubmit, formState } = useForm();
+  const [formData, setFormData] = useState({});
+  const methods = useForm();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = methods;
+
+  const submit = (data) => {
+    setFormData(data);
+  };
 
   return (
     <main className="space-y-4 p-4">
-      {/*<ButtonExamples />*/}
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(submit)} className="space-y-4">
+          {/*<ButtonExamples />*/}
 
-      <div>
-        <h1>Segmented control</h1>
+          <div>
+            <h1>Segmented control</h1>
 
-        <SegmentedControlRoot size="sm">
-          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
-        </SegmentedControlRoot>
-      </div>
+            <SegmentedControlRoot size="sm">
+              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+            </SegmentedControlRoot>
+          </div>
 
-      <MultipleSelectionDownshiftExamples />
+          <MultipleSelectionDownshiftExamples name="multi-select" />
 
-      <DownshiftExamples />
-      {/*<FloatingExamples />*/}
+          {/*<DownshiftExamples />*/}
+          {/*<FloatingExamples />*/}
 
-      <div className="flex gap-4">
-        <DropdownMenuExamples />
-        <DialogExamples />
-        <PopoverExamples />
-      </div>
+          <div className="flex gap-4">
+            <DropdownMenuExamples />
+            <DialogExamples />
+            <PopoverExamples />
+          </div>
 
-      {/*<AccordionExamples />*/}
+          {/*<AccordionExamples />*/}
 
-      <div className="hidden">
-        <Drawer modal={false}>
-          <DrawerTrigger>
-            <Button variant="secondary">Inspector</Button>
-          </DrawerTrigger>
-          <DrawerContent
-            side="right"
-            className="w-1/2"
-            onInteractOutside={(e) => e.preventDefault()}
-            onCloseAutoFocus={(e) => e.preventDefault()}
-          >
-            <div className="flex items-center justify-between p-4">
-              <strong>Some inspecting to do</strong>
-              <DrawerClose asChild>
-                <Button variant="secondary">Close</Button>
-              </DrawerClose>
-            </div>
+          <div className="hidden">
+            <Drawer modal={false}>
+              <DrawerTrigger>
+                <Button variant="secondary">Inspector</Button>
+              </DrawerTrigger>
+              <DrawerContent
+                side="right"
+                className="w-1/2"
+                onInteractOutside={(e) => e.preventDefault()}
+                onCloseAutoFocus={(e) => e.preventDefault()}
+              >
+                <div className="flex items-center justify-between p-4">
+                  <strong>Some inspecting to do</strong>
+                  <DrawerClose asChild>
+                    <Button variant="secondary">Close</Button>
+                  </DrawerClose>
+                </div>
 
-            <section className="space-y-4 p-4">
-              <LoremIpsum p={10} />
-            </section>
-          </DrawerContent>
-        </Drawer>
-      </div>
+                <section className="space-y-4 p-4">
+                  <LoremIpsum p={10} />
+                </section>
+              </DrawerContent>
+            </Drawer>
+          </div>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <SegmentedControlRoot size="sm" defaultValue="1">
-          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
-        </SegmentedControlRoot>
+          <div className="flex flex-wrap items-center gap-4">
+            <SegmentedControlRoot size="sm" defaultValue="1">
+              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+            </SegmentedControlRoot>
 
-        <SegmentedControlRoot defaultValue="2">
-          <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-          <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-          <SegmentedControlItem value="3">Roles</SegmentedControlItem>
-        </SegmentedControlRoot>
+            <SegmentedControlRoot defaultValue="2">
+              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+            </SegmentedControlRoot>
 
-        <Input
-          // size="sm"
-          label="Email"
-          prefix="https://"
-          prefixStyling={false}
-          suffix={<Sun size="24" weight="bold" />}
-          suffixStyling={false}
-          placeholder="Enter your email"
-          // errorMessage="Gosh!! What is happening!?"
-          // helpText="Just try to enter whatever you want"
-        />
+            <Input
+              // size="sm"
+              {...register("linkedInUrl", { required: "URL is required" })}
+              label="LinkedIn"
+              prefix="https://"
+              // prefixStyling={false}
+              suffix={<Sun size="24" weight="bold" />}
+              suffixStyling={false}
+              placeholder="Enter your LinkedIn account"
+              errorMessage={errors.linkedInUrl?.message}
+              // errorMessage="Gosh!! What is happening!?"
+              // helpText="Just try to enter whatever you want"
+            />
 
-        <Button>Submit</Button>
+            <Button>Submit</Button>
 
-        <Switch />
-        <Checkbox checked="indeterminate" />
-        <Checkbox />
+            <Switch
+              name="switch-1"
+              requiredMessage="Switch is required"
+              errorMessage={errors["switch-1"]?.message}
+            />
+            <Switch name="switch-2" />
+            <Checkbox name="cb-0" checked="indeterminate" />
+            <Checkbox name="cb-1" />
 
-        <RadioGroup>
-          <RadioGroupItem value="1">One</RadioGroupItem>
-          <RadioGroupItem value="2">Two</RadioGroupItem>
-          <RadioGroupItem value="3">Three</RadioGroupItem>
-        </RadioGroup>
-      </div>
+            <RadioGroup name="rr-1" defaultValue="2">
+              <RadioGroupItem value="1">One</RadioGroupItem>
+              <RadioGroupItem value="2">Two</RadioGroupItem>
+              <RadioGroupItem value="3">Three</RadioGroupItem>
+            </RadioGroup>
+          </div>
 
-      {/*<InputOTP*/}
-      {/*  maxLength={6}*/}
-      {/*  render={({ slots }) => (*/}
-      {/*    <>*/}
-      {/*      <InputOTPGroup>*/}
-      {/*        {slots.slice(0, 3).map((slot, index) => (*/}
-      {/*          <InputOTPSlot key={index} {...slot} order={1} />*/}
-      {/*        ))}*/}
-      {/*      </InputOTPGroup>*/}
-      {/*      <InputOTPSeparator />*/}
-      {/*      <InputOTPGroup>*/}
-      {/*        {slots.slice(3).map((slot, index) => (*/}
-      {/*          <InputOTPSlot key={index} {...slot} order={2} />*/}
-      {/*        ))}*/}
-      {/*      </InputOTPGroup>*/}
-      {/*    </>*/}
-      {/*  )}*/}
-      {/*/>*/}
+          <InputOTP
+            name="opt"
+            requiredMessage="OTP is required"
+            errorMessage={errors.opt?.message}
+            maxLength={6}
+            render={({ slots }) => (
+              <>
+                <InputOTPGroup>
+                  {slots.slice(0, 3).map((slot, index) => (
+                    <InputOTPSlot key={index} {...slot} order={1} />
+                  ))}
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
+                  {slots.slice(3).map((slot, index) => (
+                    <InputOTPSlot key={index} {...slot} order={2} />
+                  ))}
+                </InputOTPGroup>
+              </>
+            )}
+          />
+
+          <div>
+            <pre>{JSON.stringify(formData, null, 2)}</pre>
+          </div>
+
+          <Button type="submit">Test form</Button>
+        </form>
+      </FormProvider>
+
+      {/*<Switch />*/}
     </main>
   );
 }

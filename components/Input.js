@@ -44,7 +44,7 @@ const Input = forwardRef(
     });
 
     const prefixSuffixClassNames =
-      "flex items-center border-gray-400 px-2 text-black group-focus-within:border-blue-600 group-data-[invalid=true]:border-red-500";
+      "flex items-center border-gray-400 text-black group-focus-within:border-blue-600 group-data-[invalid=true]:border-red-500";
 
     return (
       <div
@@ -77,6 +77,8 @@ const Input = forwardRef(
               {
                 "pl-2": prefix,
                 "pr-2": suffix,
+                "pl-1": !prefixStyling,
+                "pr-1": !suffixStyling,
               },
               className,
             )}
@@ -85,7 +87,8 @@ const Input = forwardRef(
           {prefix && (
             <span
               className={cn(prefixSuffixClassNames, "order-1 rounded-l-md", {
-                "border-r": prefixStyling,
+                "border-r px-2": prefixStyling,
+                "pl-2": !prefixStyling,
               })}
             >
               {prefix}
@@ -95,7 +98,8 @@ const Input = forwardRef(
           {suffix && !errorMessage && (
             <span
               className={cn(prefixSuffixClassNames, "order-3 rounded-r-md", {
-                "border-l": suffixStyling,
+                "border-l px-2": suffixStyling,
+                "pr-2": !suffixStyling,
               })}
             >
               {suffix}
@@ -104,7 +108,10 @@ const Input = forwardRef(
 
           {!!errorMessage && (
             <span
-              className={cn(prefixSuffixClassNames, "order-3 rounded-r-md")}
+              className={cn(
+                prefixSuffixClassNames,
+                "order-3 rounded-r-md px-2",
+              )}
             >
               <SealWarning size={24} color="#ef4444" weight="regular" />
             </span>

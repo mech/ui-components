@@ -3,15 +3,27 @@
 import { forwardRef } from "react";
 import cn from "@/lib/cn";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { useController } from "react-hook-form";
 
 // -----
 // RadioGroup
 // -----
-const RadioGroup = forwardRef(({ className, ...props }, ref) => {
+const RadioGroup = forwardRef(({ className, name, ...props }, ref) => {
+  const { field } = useController({
+    name,
+    defaultValue: props.defaultValue,
+  });
+
   const classNames = cn("grid gap-2", className);
 
   return (
-    <RadioGroupPrimitive.Root ref={ref} className={classNames} {...props} />
+    <RadioGroupPrimitive.Root
+      ref={ref}
+      className={classNames}
+      value={field.value}
+      onValueChange={field.onChange}
+      {...props}
+    />
   );
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;

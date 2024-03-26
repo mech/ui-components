@@ -3,8 +3,14 @@
 import { forwardRef } from "react";
 import cn from "@/lib/cn";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import { useController } from "react-hook-form";
 
-const Checkbox = forwardRef(({ className, ...props }, ref) => {
+const Checkbox = forwardRef(({ className, name, ...props }, ref) => {
+  const { field } = useController({
+    name,
+    defaultValue: props.checked || false,
+  });
+
   const classNames = cn(
     "peer h-5 w-5 shrink-0 rounded-md border-2 border-blue-500 ring-offset-white",
     "hover:bg-gray-50",
@@ -15,7 +21,13 @@ const Checkbox = forwardRef(({ className, ...props }, ref) => {
   );
 
   return (
-    <CheckboxPrimitive.Root ref={ref} className={classNames} {...props}>
+    <CheckboxPrimitive.Root
+      ref={ref}
+      className={classNames}
+      checked={field.value}
+      onCheckedChange={field.onChange}
+      {...props}
+    >
       <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
         {props.checked === "indeterminate" ? (
           <IndeterminateIcon />

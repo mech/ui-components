@@ -11,6 +11,7 @@ import cn from "@/lib/cn";
 import { useState, useId } from "react";
 import { Check } from "lucide-react";
 import { cva } from "class-variance-authority";
+import { useController } from "react-hook-form";
 
 const sizeVariants = cva([], {
   variants: {
@@ -56,10 +57,25 @@ const stateReducer = (state, actionAndChanges) => {
   }
 };
 
-const MultipleSelectionDownshiftExamples = () => {
+const MultipleSelectionDownshiftExamples = ({
+  name,
+  requiredMessage,
+  defaultValue,
+}) => {
   const [items, setItems] = useState(fetch);
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
+  const { field } = useController({
+    name,
+    rules: { required: requiredMessage },
+    defaultValue,
+  });
+
+  const handleOnChange = (selectedItems) => {
+    setSelectedItems(selectedItems);
+    field.onChange(selectedItems);
+  };
 
   // useMultipleSelection
   const {
@@ -75,7 +91,8 @@ const MultipleSelectionDownshiftExamples = () => {
         case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
         case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
         case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
-          setSelectedItems(newSelectedItems);
+          // setSelectedItems(newSelectedItems);
+          handleOnChange(newSelectedItems);
           break;
         default:
           break;
@@ -111,7 +128,12 @@ const MultipleSelectionDownshiftExamples = () => {
         case useCombobox.stateChangeTypes.ItemClick:
         case useCombobox.stateChangeTypes.InputBlur:
           if (newSelectedItem) {
-            setSelectedItems([...selectedItems, newSelectedItem]);
+            const newSelectedItems = [...selectedItems, newSelectedItem];
+
+            // setSelectedItems(newSelectedItems);
+            // field.onChange(newSelectedItems);
+            handleOnChange(newSelectedItems);
+
             setInputValue("");
           }
           break;
