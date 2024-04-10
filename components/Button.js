@@ -131,12 +131,24 @@ const Button = (
       tabIndex={_disabled ? -1 : 0}
       {...props}
     >
-      {prefix}
+      <Prefix prefix={prefix} loading={loading} />
       {loading && <SpinnerWithoutLoadingText variant={variant} />}
       {loading ? <span className="invisible">{children}</span> : children}
-      {suffix}
+      <Suffix suffix={suffix} loading={loading} />
     </Comp>
   );
+};
+
+const Prefix = ({ prefix, loading }) => {
+  if (!prefix) return null;
+
+  return loading ? <div className="opacity-10">{prefix}</div> : prefix;
+};
+
+const Suffix = ({ suffix, loading }) => {
+  if (!suffix) return null;
+
+  return loading ? <div className="opacity-10">{suffix}</div> : suffix;
 };
 
 Button.displayName = "Button";

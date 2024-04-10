@@ -24,7 +24,7 @@
     font-style: normal;
     text-align: center;
 
-    /* Create a new stacking context */
+    /* Create a create stacking context */
     isolation: isolate;
 }
 

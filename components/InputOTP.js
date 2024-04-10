@@ -70,8 +70,7 @@ const InputOTPSlot = forwardRef(
       "relative flex h-10 w-10 items-center justify-center border border-gray-400 transition-all first:border-l",
       isActive &&
         "z-50 border-blue-600 ring-4 ring-blue-500 ring-opacity-30 ring-offset-white",
-      isActive &&
-        "group-data-[error=true]:border-red-500 group-data-[error=true]:bg-red-50 group-data-[error=true]:ring-red-500 group-data-[error=true]:ring-opacity-30",
+      "group-data-[error=true]:border-red-500 group-data-[error=true]:bg-red-50 group-data-[error=true]:ring-red-500 group-data-[error=true]:ring-opacity-30",
       { "first:rounded-l-md": order === 1 },
       { "last:rounded-r-md": order === 2 },
       { "first:border-r": order === 2 },

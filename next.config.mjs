@@ -3,6 +3,11 @@ const nextConfig = {
   devIndicators: {
     buildActivity: true,
     buildActivityPosition: "top-right"
+  },
+  logging: {
+    fetches: {
+      fullUrl: true
+    }
   }
 };
 

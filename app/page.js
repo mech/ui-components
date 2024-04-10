@@ -134,8 +134,8 @@ export default function Home() {
 
             <Switch
               name="switch-1"
-              requiredMessage="Switch is required"
-              errorMessage={errors["switch-1"]?.message}
+              // requiredMessage="Switch is required"
+              // errorMessage={errors["switch-1"]?.message}
             />
             <Switch name="switch-2" />
             <Checkbox name="cb-0" checked="indeterminate" />

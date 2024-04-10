@@ -15,8 +15,8 @@ const ButtonExamples = () => (
     <Button variant="destructive" outline>
       Outline
     </Button>
-    <Button variant="primary" loading>
-      Permanent remove
+    <Button variant="primary" loading prefix={<RefreshCcw />}>
+      Refresh
     </Button>
     <Button variant="destructive" loading>
       Delete it!

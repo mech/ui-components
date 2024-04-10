@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useId } from "react";
 import { cva } from "class-variance-authority";
 import cn from "@/lib/cn";
