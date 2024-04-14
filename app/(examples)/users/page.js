@@ -1,5 +1,5 @@
-import RefreshUserButton from "@/app/users/RefreshUserButton";
-import { getUsers } from "@/app/users/getUsers";
+import RefreshUserButton from "@/app/(examples)/users/RefreshUserButton";
+import { getUsers } from "@/app/(examples)/users/getUsers";
 import Link from "next/link";
 
 export const metadata = {

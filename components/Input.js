@@ -51,7 +51,7 @@ const Input = forwardRef(
     return (
       <div
         data-control="input"
-        className={cn({
+        className={cn("w-full", {
           "opacity-50": props.disabled,
         })}
       >

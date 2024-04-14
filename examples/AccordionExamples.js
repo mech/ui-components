@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/Accordion";
+import { HandPalm } from "@phosphor-icons/react/dist/ssr";
 
 const AccordionExamples = () => {
   return (
@@ -20,6 +21,7 @@ const AccordionExamples = () => {
               impedit magnam nisi nostrum obcaecati odio officia, pariatur quod
               repellat
             </p>
+            <HandPalm color="red" size="32" weight="fill" />
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam
               commodi cumque earum eligendi et facere iste libero minima modi

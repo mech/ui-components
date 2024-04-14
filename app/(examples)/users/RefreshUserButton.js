@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import { RefreshCcw } from "lucide-react";
-import { clearPath, clearTag } from "@/app/users/clear_cache_action";
+import { clearPath, clearTag } from "@/app/(examples)/users/clear_cache_action";
 import { startTransition, useTransition } from "react";
 
 const RefreshUserButton = () => {

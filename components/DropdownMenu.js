@@ -35,6 +35,7 @@ const DropdownMenuContent = forwardRef(
           ref={ref}
           className={classNames}
           sideOffset={sideOffset}
+          collisionPadding={{ left: 16, right: 16 }}
           align="start"
           {...props}
         />

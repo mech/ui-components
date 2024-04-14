@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import RefreshUserButton from "@/app/users/RefreshUserButton";
+import RefreshUserButton from "@/app/(examples)/users/RefreshUserButton";
 import cn from "@/lib/cn";
 
 const Sidebar = () => {
@@ -20,6 +20,16 @@ const Sidebar = () => {
               })}
             >
               Home
+            </Link>
+          </li>
+          <li className="rounded-md bg-amber-100 p-2">
+            <Link
+              href="/dashboard"
+              className={cn("inline-flex w-full", {
+                "font-bold": pathname === "/dashboard",
+              })}
+            >
+              Dashboard
             </Link>
           </li>
           <li className="rounded-md bg-amber-100 p-2">

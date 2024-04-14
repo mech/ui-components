@@ -76,7 +76,7 @@ export default function Home() {
             <PopoverExamples />
           </div>
 
-          {/*<AccordionExamples />*/}
+          <AccordionExamples />
 
           <div className="hidden">
             <Drawer modal={false}>
