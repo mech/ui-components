@@ -177,7 +177,7 @@ const MultipleSelectionDownshiftExamples = ({
     },
   );
   const itemClassNames = cn(
-    "p-2 data-[highlighted=true]:bg-blue-100 [&>*]:data-[selected=true]:font-semibold",
+    "p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
     "dark:data-[highlighted=true]:bg-popover-focus",
   );
 
@@ -197,7 +197,7 @@ const MultipleSelectionDownshiftExamples = ({
             return (
               <span
                 key={`selected-item-${index}`}
-                className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-sm text-black outline-none focus:bg-green-400"
+                className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-sm text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
                 {...getSelectedItemProps({ selectedItem, index })}
               >
                 {selectedItem.nationality}
