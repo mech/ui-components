@@ -40,13 +40,16 @@ const Input = forwardRef(
   ) => {
     const id = `input-${useId()}`;
 
-    const labelClassNames = cn("absolute -top-3 left-2 bg-white px-1 text-sm", {
-      "text-red-500": errorMessage,
-      "-top-2.5 text-xs": size === "sm",
-    });
+    const labelClassNames = cn(
+      "absolute -top-3 left-2 bg-background px-1 text-sm text-foreground",
+      {
+        "text-input-error": errorMessage,
+        "-top-2.5 text-xs": size === "sm",
+      },
+    );
 
     const prefixSuffixClassNames =
-      "flex items-center border-gray-400 text-black group-focus-within:border-blue-600 group-data-[invalid=true]:border-red-500";
+      "flex items-center border-input text-black group-focus-within:border-input-focus group-data-[invalid=true]:border-input-error";
 
     return (
       <div
@@ -58,7 +61,9 @@ const Input = forwardRef(
         <div
           data-invalid={!!errorMessage}
           className={cn(
-            "group relative flex w-full rounded-md border border-gray-400 text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none data-[invalid=true]:border-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
+            "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent",
+            "focus-within:ring-input-ring focus-within:text-input-ring focus-within:border-input-focus focus-within:ring-4 focus-within:ring-opacity-30 focus:outline-none",
+            "data-[invalid=true]:border-input-error data-[invalid=true]:ring-input-error data-[invalid=true]:ring-4 data-[invalid=true]:ring-opacity-30",
           )}
         >
           <label htmlFor={id} className={labelClassNames}>
@@ -75,7 +80,8 @@ const Input = forwardRef(
             data-invalid={!!errorMessage}
             className={cn(
               sizeVariants({ size }),
-              "order-2 w-full appearance-none rounded-md text-black outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
+              "order-2 w-full appearance-none rounded-md bg-background text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
+              "dark:data-[invalid=true]:text-red-300",
               {
                 "pl-2": prefix,
                 "pr-2": suffix,
@@ -88,10 +94,14 @@ const Input = forwardRef(
           />
           {prefix && (
             <span
-              className={cn(prefixSuffixClassNames, "order-1 rounded-l-md", {
-                "border-r px-2": prefixStyling,
-                "pl-2": !prefixStyling,
-              })}
+              className={cn(
+                prefixSuffixClassNames,
+                "order-1 rounded-l-md text-foreground",
+                {
+                  "border-r px-2": prefixStyling,
+                  "pl-2": !prefixStyling,
+                },
+              )}
             >
               {prefix}
             </span>
@@ -99,10 +109,14 @@ const Input = forwardRef(
 
           {suffix && !errorMessage && (
             <span
-              className={cn(prefixSuffixClassNames, "order-3 rounded-r-md", {
-                "border-l px-2": suffixStyling,
-                "pr-2": !suffixStyling,
-              })}
+              className={cn(
+                prefixSuffixClassNames,
+                "order-3 rounded-r-md text-foreground",
+                {
+                  "border-l px-2": suffixStyling,
+                  "pr-2": !suffixStyling,
+                },
+              )}
             >
               {suffix}
             </span>
@@ -115,7 +129,11 @@ const Input = forwardRef(
                 "order-3 rounded-r-md px-2",
               )}
             >
-              <SealWarning size={24} color="#ef4444" weight="regular" />
+              <SealWarning
+                size={24}
+                weight="regular"
+                className="text-input-error"
+              />
             </span>
           )}
         </div>
@@ -132,7 +150,7 @@ const ErrorMessage = ({ errorMessage }) => {
   if (errorMessage === " ") return null;
 
   return (
-    <div role="alert" className="mt-1 text-sm text-red-500">
+    <div role="alert" className="text-input-error mt-1 text-sm">
       {errorMessage}
     </div>
   );

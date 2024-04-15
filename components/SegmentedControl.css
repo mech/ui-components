@@ -18,7 +18,7 @@
     grid-auto-columns: 1fr;
     align-items: stretch;
     color: #000;
-    @apply bg-gray-200;
+    @apply bg-gray-200 dark:bg-input;
     position: relative;
     min-width: max-content;
     font-style: normal;
@@ -64,7 +64,7 @@
 
     @media (hover: hover) {
         :where(.rt-SegmentedControlItem[data-state='off']:hover) & {
-            @apply bg-gray-300/50;
+            @apply bg-gray-300/50 dark:bg-neutral-400/50;
         }
     }
 }
@@ -121,7 +121,7 @@
     margin-right: -0.5px;
     width: 1px;
     /*background-color: lime;*/
-    @apply bg-gray-300;
+    @apply bg-gray-300 dark:bg-background;
     transition: opacity calc(0.8 * var(--segmented-control-transition-duration));
 
     /* Make separators slow to disappear and fast to appear, syncing it well with the indicator motion */

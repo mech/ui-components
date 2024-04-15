@@ -21,9 +21,10 @@ PopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 const PopoverContent = forwardRef(
   ({ className, align = "center", sideOffset = 4, ...props }, ref) => {
     const classNames = cn(
-      "z-50 rounded-lg border bg-white p-2 shadow-md outline-none",
+      "bg-popover z-50 rounded-lg border p-2 shadow-md outline-none",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "dark:shadow-xl",
       // "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
       // "data-[side=bottom]:slide-in-from-top-2",
       // "data-[side=left]:slide-in-from-right-2",

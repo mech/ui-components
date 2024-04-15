@@ -18,7 +18,7 @@ const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 const DropdownMenuContent = forwardRef(
   ({ className, sideOffset = 4, ...props }, ref) => {
     const classNames = cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-md",
+      "bg-popover text-popover-foreground z-50 min-w-[8rem] overflow-hidden rounded-lg border p-1.5 shadow-md",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -26,6 +26,7 @@ const DropdownMenuContent = forwardRef(
       "data-[side=left]:slide-in-from-right-2",
       "data-[side=right]:slide-in-from-left-2",
       "data-[side=top]:slide-in-from-bottom-2",
+      "dark:shadow-xl",
       className,
     );
 
@@ -50,7 +51,7 @@ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 // -----
 const DropdownMenuItem = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none focus:bg-gray-200 hover:active:bg-gray-300 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+    "focus:bg-popover-focus hover:active:bg-popover-active flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
     className,
   );
 
@@ -79,7 +80,7 @@ DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 // DropdownMenuSeparator
 // -----
 const DropdownMenuSeparator = forwardRef(({ className, ...props }, ref) => {
-  const classNames = cn("-mx-1 my-1.5 h-px bg-gray-200", className);
+  const classNames = cn("bg-border -mx-1 my-1.5 h-px", className);
 
   return (
     <DropdownMenuPrimitive.Separator
@@ -97,7 +98,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 const DropdownMenuSubTrigger = forwardRef(
   ({ className, children, ...props }, ref) => {
     const classNames = cn(
-      "flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none focus:bg-gray-200 hover:active:bg-gray-300",
+      "focus:bg-popover-focus hover:active:bg-popover-active flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none",
       className,
     );
 
@@ -121,7 +122,7 @@ DropdownMenuSubTrigger.displayName =
 // -----
 const DropdownMenuSubContent = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-gray-50 p-1.5 shadow-lg",
+    "bg-popover z-50 min-w-[8rem] overflow-hidden rounded-lg border p-1.5 shadow-lg",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
     "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -129,6 +130,7 @@ const DropdownMenuSubContent = forwardRef(({ className, ...props }, ref) => {
     "data-[side=left]:slide-in-from-right-2",
     "data-[side=right]:slide-in-from-left-2",
     "data-[side=top]:slide-in-from-bottom-2",
+    "dark:shadow-3xl",
     className,
   );
 

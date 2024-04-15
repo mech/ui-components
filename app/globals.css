@@ -2,25 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-}
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --background: 214 14% 16%;*/
+/*    --foreground: 0 0% 100%;*/
+/*  }*/
+/*}*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 214 14% 16%;
-    --foreground: 0 0% 100%;
-  }
-}
-
-.dark {
-  --background: 214 14% 16%;
-  --foreground: 160 50% 50%;
-}
-
-body {
-}
+/*.dark {*/
+/*  --background: 214 14% 16%;*/
+/*  --foreground: 160 50% 50%;*/
+/*}*/
 
 @layer utilities {
   .text-balance {
@@ -30,22 +22,86 @@ body {
 
 @layer base {
   :root {
+    --border: 220 13% 91%; /* gray-200 = #e5e7eb */
+
+    --input: 218 11% 65%; /* gray-400 */
+    --input-error: 360 84% 60%; /* red-500 = #ef4444 */
+    --input-focus: 221 83% 53%; /* blue-600 = #2563eb */
+    --input-ring: 217 91% 60%; /* blue-500 = #3b82f6 */
+
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover-foreground: 0 0% 0%;
+    --popover-focus: 220 13% 91%;
+    --popover-active: 216 12% 84%;
 
-    --primary: 160 50% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 142 71% 45%; /* green-500 = #22c55e */
+    --primary-foreground: 0 0% 100%; /* white */
+    --primary-border: 142 76% 36%; /* green-600 = #16a34a */
+    --primary-ring: 142 71% 45%; /* green-500 = #22c55e */
+
+    --secondary: 220 13% 91%; /* gray-200 = #e5e7eb */
+    --secondary-foreground: 0 0% 0%; /* black */
+    --secondary-border: 216 12% 84%; /* gray-300 = #d1d5db */
+    --secondary-ring: 218 11% 65%; /* gray-400 = #9ca3af */
+
+    --destructive: 360 84% 60%; /* red-500 = #ef4444 */
+    --destructive-foreground: 0 0% 100%; /* white */
+    --destructive-border: 360 72% 51%; /* red-600 = #dc2626 */
+    --destructive-ring: 360 84% 60%; /* red-500 = #ef4444 */
 
     --muted: 0 0% 100%;
     --muted-foreground: 20 14.3% 4.1%;
   }
+
+  .dark {
+    --border: 0 0% 25%; /* neutral-700 = #404040 */
+
+    --input: 0 0% 45%; /* neutral-500 = #737373 */
+    --input-error: 360 94% 82%; /* red-300 = #fca5a5 */
+    --input-focus: 221 83% 70%; /* blue-600 = #2563eb */
+    --input-ring: 217 91% 40%; /* blue-500 = #3b82f6 */
+
+    --background: 0 0% 9%; /* neutral-900 = #171717 */
+    --foreground: 0 0% 100%; /* white */
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --popover-focus: 0 0% 20%;
+    --popover-active: 0 0% 15%; /* neutral-800 = #262626 */
+
+    --primary: 142 71% 25%; /* green-500 = #22c55e, L=25% */
+    --primary-foreground: 0 0% 100%; /* white */
+    --primary-border: 142 76% 36%; /* green-600 = #16a34a */
+    --primary-ring: 142 71% 25%; /* green-500 = #22c55e, L=25% */
+
+    --secondary: 0 0% 45%; /* neutral-500 = #737373 */
+    --secondary-foreground: 0 0% 100%; /* white */
+    --secondary-border: 0 0% 64%; /* neutral-400 = #a3a3a3 */
+    --secondary-ring: 0 0% 64%; /* neutral-400 = #a3a3a3 */
+
+    --destructive: 360 84% 20%; /* red-500 = #ef4444, L=30% */
+    --destructive-foreground: 360 94% 82%; /* red-300 = #fca5a5 */
+    --destructive-border: 360 94% 82%; /* red-600 = #dc2626 */
+    --destructive-ring: 360 84% 65%; /* red-500 = #ef4444 */
+  }
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 
 /* RaceBy loader */
 .race-by {

@@ -30,10 +30,7 @@ const DropdownMenuExamples = () => {
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <Button
-          variant="secondary"
-          suffix={<ChevronDown size={24} color="black" />}
-        >
+        <Button variant="secondary" suffix={<ChevronDown size={24} />}>
           Menu
         </Button>
       </DropdownMenuTrigger>
@@ -56,9 +53,11 @@ const DropdownMenuExamples = () => {
             <User2 size={20} />
             Open in LinkedIn
           </DropdownMenuItem>
-          <DropdownMenuItem disabled>
+          <DropdownMenuItem>
             <DropdownMenuEmptyIcon />
-            <span className="text-red-500">Sync status</span>
+            <span className="text-red-500 dark:text-red-300">
+              Sync status (1)
+            </span>
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

@@ -167,15 +167,18 @@ const MultipleSelectionDownshiftExamples = ({
     whileElementsMounted: autoUpdate,
   });
 
-  const labelClassNames = cn("absolute -top-3 left-2 bg-white px-1 text-sm");
+  const labelClassNames = cn(
+    "absolute -top-3 left-2 bg-background px-1 text-sm text-foreground",
+  );
   const menuClassNames = cn(
-    "absolute z-50 w-full overflow-scroll rounded-lg bg-white shadow-md",
+    "absolute z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
     {
       border: isOpen && items.length > 0,
     },
   );
   const itemClassNames = cn(
     "p-2 data-[highlighted=true]:bg-blue-100 [&>*]:data-[selected=true]:font-semibold",
+    "dark:data-[highlighted=true]:bg-popover-focus",
   );
 
   return (
@@ -183,7 +186,7 @@ const MultipleSelectionDownshiftExamples = ({
       <div
         ref={refs.setReference}
         className={cn(
-          "group relative flex w-full rounded-md border border-gray-400 text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none data-[invalid=true]:border-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
+          "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent focus-within:border-blue-600 focus-within:text-blue-500 focus-within:ring-4 focus-within:ring-blue-500 focus-within:ring-opacity-30 focus:outline-none data-[invalid=true]:border-red-500 data-[invalid=true]:ring-4 data-[invalid=true]:ring-red-500 data-[invalid=true]:ring-opacity-30",
         )}
       >
         <label className={labelClassNames} {...getLabelProps()}>
@@ -206,7 +209,7 @@ const MultipleSelectionDownshiftExamples = ({
             <input
               className={cn(
                 sizeVariants(),
-                "order-2 w-full appearance-none rounded-md text-black outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
+                "order-2 w-full appearance-none rounded-md bg-background text-black text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               )}
               {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
             />

@@ -8,21 +8,21 @@ import RaceBy from "@/components/RaceBy";
 // https://ui.shadcn.com/docs/components/button
 // Can consider: tracking-wide, flex-shrink-0
 const variants = cva(
-  "inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border font-normal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-100 active:opacity-50 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50",
+  "inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border font-normal ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-100 active:opacity-50 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "border-green-600 bg-green-500 text-white focus-visible:ring-green-500 hover:enabled:bg-green-500/90",
+          "border-primary-border focus-visible:ring-primary-ring bg-primary text-primary-foreground hover:enabled:bg-primary/90",
         secondary:
-          "border-gray-300 bg-gray-200 text-black focus-visible:ring-gray-400",
+          "border-secondary-border focus-visible:ring-secondary-ring bg-secondary text-secondary-foreground hover:enabled:bg-secondary/90",
         destructive:
-          "border-red-600 bg-red-500 text-white focus-visible:ring-red-500 hover:enabled:bg-red-500/90",
+          "border-destructive-border focus-visible:ring-destructive-ring bg-destructive text-destructive-foreground hover:enabled:bg-destructive/90",
         ghost:
-          "border-transparent bg-white text-black focus-visible:ring-gray-400 hover:enabled:bg-gray-200",
+          "focus-visible:ring-secondary-ring border-transparent bg-background text-foreground hover:enabled:bg-gray-200 dark:hover:enabled:bg-neutral-800",
         plainIcon: "border-transparent",
         bgIcon:
-          "rounded border-transparent focus:bg-gray-100 active:bg-gray-200 hover:enabled:bg-gray-100",
+          "focus-visible:ring-secondary-ring rounded-md border-transparent focus:bg-gray-200 hover:enabled:bg-gray-200 dark:focus:bg-neutral-800 dark:hover:enabled:bg-neutral-800",
       },
       size: {
         sm: ["px-2", "py-1", "text-sm"],
@@ -37,17 +37,17 @@ const variants = cva(
       {
         variant: "primary",
         outline: true,
-        className: "text-green-600",
+        className: "text-green-600 dark:text-green-400",
       },
       {
         variant: "secondary",
         outline: true,
-        className: "border-gray-400 bg-white text-black",
+        className: "border-gray-400 dark:border-neutral-400",
       },
       {
         variant: "destructive",
         outline: true,
-        className: "text-red-600",
+        className: "text-red-600 dark:text-red-300",
       },
       {
         variant: "ghost",
@@ -142,13 +142,13 @@ const Button = (
 const Prefix = ({ prefix, loading }) => {
   if (!prefix) return null;
 
-  return loading ? <div className="opacity-10">{prefix}</div> : prefix;
+  return loading ? <div className="opacity-0">{prefix}</div> : prefix;
 };
 
 const Suffix = ({ suffix, loading }) => {
   if (!suffix) return null;
 
-  return loading ? <div className="opacity-10">{suffix}</div> : suffix;
+  return loading ? <div className="opacity-0">{suffix}</div> : suffix;
 };
 
 Button.displayName = "Button";

@@ -10,7 +10,7 @@ const AccordionExamples = () => {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger className="border-b p-2 hover:bg-sky-50">
+        <AccordionTrigger className="border-b p-2">
           Accordion 1
         </AccordionTrigger>
         <AccordionContent>
@@ -38,7 +38,7 @@ const AccordionExamples = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger className="border-b p-2 hover:bg-yellow-50">
+        <AccordionTrigger className="border-b p-2">
           Accordion 2
         </AccordionTrigger>
         <AccordionContent>
@@ -59,7 +59,7 @@ const AccordionExamples = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
-        <AccordionTrigger className="border-b p-2 hover:bg-rose-50">
+        <AccordionTrigger className="border-b p-2">
           Accordion 3
         </AccordionTrigger>
         <AccordionContent>

@@ -9,8 +9,8 @@ const ButtonExamples = () => (
     <Button variant="primary" outline>
       Outline
     </Button>
-    <Button variant="secondary" outline suffix={<ChevronDown color="black" />}>
-      Menu
+    <Button variant="secondary" outline suffix={<ChevronDown />}>
+      Menu (1)
     </Button>
     <Button variant="destructive" outline>
       Outline
@@ -35,7 +35,7 @@ const ButtonExamples = () => (
       Pill button
     </Button>
     <Button variant="secondary">Secondary</Button>
-    <Button variant="ghost">Hello button!</Button>
+    <Button variant="ghost">Ghost button!</Button>
     <Button variant="ghost" disabled>
       Disabled ghost
     </Button>

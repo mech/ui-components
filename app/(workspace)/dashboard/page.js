@@ -52,8 +52,8 @@ export default function Dashboard() {
               className="grid grid-cols-[16px_24px_1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
             >
               <ChevronRight className="accordion-arrow shrink-0 transition-transform duration-150" />
-              <ContractorIcon />
-              <div className=" text-xl font-normal subpixel-antialiased">
+              <ContractorIcon className="shrink-0" />
+              <div className="text-xl font-normal subpixel-antialiased">
                 Contractors
               </div>
             </AccordionTrigger>
@@ -149,9 +149,9 @@ const DropdownMenuOne = () => {
             <User2 size={20} />
             Open in LinkedIn
           </DropdownMenuItem>
-          <DropdownMenuItem disabled>
+          <DropdownMenuItem>
             <DropdownMenuEmptyIcon />
-            <span className="text-red-500">Sync status</span>
+            <span className="text-red-500 dark:text-red-300">Sync status</span>
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -214,7 +214,7 @@ const ContractorIcon = () => {
 const PayrollIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-      <g fill="#000" fillRule="nonzero">
+      <g fill="currentcolor" fillRule="nonzero">
         <path d="M10.468 11.234a.255.255 0 0 0 .255-.255V.255A.255.255 0 0 0 10.468 0H3.83A3.83 3.83 0 0 0 0 3.83v7.149c0 .14.114.255.255.255h10.213ZM7.915 7.149H6.383a.255.255 0 0 0-.255.255v1.532a.766.766 0 0 1-1.532 0V7.404a.255.255 0 0 0-.256-.255H2.81a.766.766 0 1 1 0-1.532H4.34a.255.255 0 0 0 .256-.255V3.83a.766.766 0 0 1 1.532 0v1.532c0 .14.114.255.255.255h1.532a.766.766 0 0 1 0 1.532ZM12.255 10.979c0 .14.115.255.256.255h11.234a.255.255 0 0 0 .255-.255v-7.15A3.83 3.83 0 0 0 20.17 0h-7.66a.255.255 0 0 0-.255.255V10.98Zm7.915-3.83h-5.106a.766.766 0 0 1 0-1.532h5.106a.766.766 0 0 1 0 1.532ZM10.723 13.021a.255.255 0 0 0-.255-.255H.255a.255.255 0 0 0-.255.255v7.15A3.83 3.83 0 0 0 3.83 24h6.638a.255.255 0 0 0 .255-.255V13.02ZM2.81 16.085a.766.766 0 1 1 1.02-1.021l1.318 1.317a.255.255 0 0 0 .368 0l1.379-1.317a.766.766 0 1 1 1.02 1.021l-1.286 1.348a.255.255 0 0 0 0 .368l1.287 1.348c.26.29.26.73 0 1.021-.29.26-.73.26-1.021 0l-1.348-1.287a.255.255 0 0 0-.368 0L3.83 20.17c-.291.26-.73.26-1.021 0a.766.766 0 0 1 0-1.021l1.317-1.318a.255.255 0 0 0 0-.367l-1.317-1.379ZM12.51 12.766a.255.255 0 0 0-.255.255v10.724c0 .14.115.255.256.255h7.66A3.83 3.83 0 0 0 24 20.17v-7.149a.255.255 0 0 0-.255-.255H12.51Zm1.788 3.83a.776.776 0 0 1 .766-.766h5.106a.766.766 0 0 1 0 1.532h-5.106a.776.776 0 0 1-.766-.766Zm.766 2.298h5.106a.766.766 0 0 1 0 1.532h-5.106a.766.766 0 1 1 0-1.532Z" />
       </g>
     </svg>

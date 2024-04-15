@@ -53,7 +53,7 @@ export default function Home() {
     <main className="space-y-4 p-4">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)} className="space-y-4">
-          {/*<ButtonExamples />*/}
+          <ButtonExamples />
 
           <div>
             <h1>Segmented control</h1>
@@ -119,10 +119,10 @@ export default function Home() {
             <Input
               // size="sm"
               {...register("linkedInUrl", { required: "URL is required" })}
-              label="LinkedIn"
+              label="LinkedIn URL"
               prefix="https://"
               // prefixStyling={false}
-              suffix={<Sun size="24" weight="bold" />}
+              suffix={<Sun size="24" />}
               suffixStyling={false}
               placeholder="Enter your LinkedIn account"
               errorMessage={errors.linkedInUrl?.message}
@@ -177,6 +177,13 @@ export default function Home() {
           <Button type="submit">Test form</Button>
         </form>
       </FormProvider>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+        commodi culpa, dignissimos dolor eaque enim molestias quae quibusdam
+        sint vitae? Consectetur et explicabo facere fuga in iusto molestiae
+        pariatur saepe?
+      </p>
 
       {/*<Switch />*/}
     </main>
