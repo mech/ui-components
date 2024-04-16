@@ -78,7 +78,7 @@ export default function Home() {
 
           <AccordionExamples />
 
-          <div className="hidden">
+          <div className="">
             <Drawer modal={false}>
               <DrawerTrigger>
                 <Button variant="secondary">Inspector</Button>

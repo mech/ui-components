@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/DropdownMenu";
 import Button from "@/components/Button";
+import { AppBar } from "@/components/AppBar";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,40 @@ export default function Dashboard() {
 
   return (
     <div className="w-1/2 space-y-4 p-4">
-      <div className="flex items-start justify-between">
+      <AppBar />
+      <Accordion type="single" collapsible className="hidden">
+        <AccordionItem outline={false} value="contractors">
+          <AccordionTrigger
+            arrow={false}
+            className="grid grid-cols-[16px_24px_1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
+          >
+            <ChevronRight className="accordion-arrow shrink-0 transition-transform duration-150" />
+            <ContractorIcon className="shrink-0" />
+            <div className="flex items-center justify-between">
+              <div className="text-xl font-normal subpixel-antialiased">
+                Contractors
+              </div>
+              <div onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuTwo />
+              </div>
+            </div>
+          </AccordionTrigger>
+
+          <AccordionContent>
+            <div className="mt-2 grid grid-cols-[48px_1fr] gap-2">
+              <span></span>
+              <ul className="leading-loose">
+                <li>Currently Hired</li>
+                <li>Onboarding</li>
+                <li>Work Pass</li>
+                <li>Renewal</li>
+              </ul>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <div className="flex hidden items-start justify-between">
         <Accordion type="single" collapsible className="flex-1">
           <AccordionItem outline={false} value="contractors">
             <AccordionTrigger
@@ -74,7 +108,7 @@ export default function Dashboard() {
         <DropdownMenuOne />
       </div>
 
-      <div className="flex items-start justify-between">
+      <div className="flex hidden items-start justify-between">
         <Accordion type="single" collapsible className="flex-1">
           <AccordionItem outline={false} value="contractors">
             <AccordionTrigger
@@ -110,13 +144,95 @@ export default function Dashboard() {
   );
 }
 
+const DropdownMenuTwo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger
+        onPointerDown={(e) => {
+          e.preventDefault();
+        }}
+        onClick={(e) => {
+          setOpen((prev) => !prev);
+        }}
+      >
+        <EllipsisVertical />
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent loop>
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => console.log("Edit profile")}>
+            <BadgeAlert color="green" size={20} />
+            Edit profile
+            <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <DropdownMenuEmptyIcon />
+            Edit profile
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <User2 size={20} />
+            Open in LinkedIn
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <DropdownMenuEmptyIcon />
+            <span className="text-red-500 dark:text-red-300">Sync status</span>
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <DropdownMenuEmptyIcon />
+              Invite
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent loop>
+                <DropdownMenuItem
+                  onClick={() => console.log("Invite to project")}
+                >
+                  Invite to project
+                </DropdownMenuItem>
+                <DropdownMenuItem>Invite to team</DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Invite</DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent loop>
+                      <DropdownMenuItem>Invite to project</DropdownMenuItem>
+                      <DropdownMenuItem>Invite to team</DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            <DropdownMenuEmptyIcon />
+            Add to pipeline (1st beta afternoon)
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>
+            <DropdownMenuEmptyIcon />
+            More actions
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <DropdownMenuEmptyIcon />
+            Edit profile
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const DropdownMenuOne = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
-        asChild
         onPointerDown={(e) => {
           e.preventDefault();
         }}

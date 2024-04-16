@@ -6,11 +6,19 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { ChevronRight } from "lucide-react";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+// const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 const DropdownMenuGroup = DropdownMenuPrimitive.Group;
 const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+
+// -----
+// DropdownMenuTrigger
+// -----
+const DropdownMenuTrigger = forwardRef((props, ref) => {
+  return <DropdownMenuPrimitive.Trigger ref={ref} asChild {...props} />;
+});
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
 
 // -----
 // DropdownMenuContent
@@ -18,7 +26,7 @@ const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 const DropdownMenuContent = forwardRef(
   ({ className, sideOffset = 4, ...props }, ref) => {
     const classNames = cn(
-      "bg-popover text-popover-foreground z-50 min-w-[8rem] overflow-hidden rounded-lg border p-1.5 shadow-md",
+      "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-popover p-1.5 text-popover-foreground shadow-md",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -51,7 +59,7 @@ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 // -----
 const DropdownMenuItem = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "focus:bg-popover-focus hover:active:bg-popover-active flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+    "flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none focus:bg-popover-focus hover:active:bg-popover-active data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
     className,
   );
 
@@ -80,7 +88,7 @@ DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 // DropdownMenuSeparator
 // -----
 const DropdownMenuSeparator = forwardRef(({ className, ...props }, ref) => {
-  const classNames = cn("bg-border -mx-1 my-1.5 h-px", className);
+  const classNames = cn("-mx-1 my-1.5 h-px bg-border", className);
 
   return (
     <DropdownMenuPrimitive.Separator
@@ -98,7 +106,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 const DropdownMenuSubTrigger = forwardRef(
   ({ className, children, ...props }, ref) => {
     const classNames = cn(
-      "focus:bg-popover-focus hover:active:bg-popover-active flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none",
+      "flex select-none items-center gap-2 rounded-md px-2 py-1.5 outline-none focus:bg-popover-focus hover:active:bg-popover-active",
       className,
     );
 
@@ -122,7 +130,7 @@ DropdownMenuSubTrigger.displayName =
 // -----
 const DropdownMenuSubContent = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "bg-popover z-50 min-w-[8rem] overflow-hidden rounded-lg border p-1.5 shadow-lg",
+    "z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-popover p-1.5 shadow-lg",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
     "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
