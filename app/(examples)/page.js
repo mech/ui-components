@@ -84,7 +84,7 @@ export default function Home() {
                 <Button variant="secondary">Inspector</Button>
               </DrawerTrigger>
               <DrawerContent
-                side="right"
+                side="left"
                 className="w-1/2"
                 onInteractOutside={(e) => e.preventDefault()}
                 onCloseAutoFocus={(e) => e.preventDefault()}
@@ -97,7 +97,7 @@ export default function Home() {
                 </div>
 
                 <section className="space-y-4 p-4">
-                  <LoremIpsum p={10} />
+                  <LoremIpsum p={1} />
                 </section>
               </DrawerContent>
             </Drawer>

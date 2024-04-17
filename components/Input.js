@@ -62,8 +62,8 @@ const Input = forwardRef(
           data-invalid={!!errorMessage}
           className={cn(
             "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent",
-            "focus-within:ring-input-ring focus-within:text-input-ring focus-within:border-input-focus focus-within:ring-4 focus-within:ring-opacity-30 focus:outline-none",
-            "data-[invalid=true]:border-input-error data-[invalid=true]:ring-input-error data-[invalid=true]:ring-4 data-[invalid=true]:ring-opacity-30",
+            "focus-within:border-input-focus focus-within:text-input-ring focus-within:ring-4 focus-within:ring-input-ring focus-within:ring-opacity-30 focus:outline-none",
+            "data-[invalid=true]:border-input-error data-[invalid=true]:ring-4 data-[invalid=true]:ring-input-error data-[invalid=true]:ring-opacity-30",
           )}
         >
           <label htmlFor={id} className={labelClassNames}>
@@ -80,7 +80,7 @@ const Input = forwardRef(
             data-invalid={!!errorMessage}
             className={cn(
               sizeVariants({ size }),
-              "order-2 w-full appearance-none rounded-md bg-background text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
+              "order-2 w-full appearance-none rounded-md bg-transparent text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               "dark:data-[invalid=true]:text-red-300",
               {
                 "pl-2": prefix,
@@ -150,7 +150,7 @@ const ErrorMessage = ({ errorMessage }) => {
   if (errorMessage === " ") return null;
 
   return (
-    <div role="alert" className="text-input-error mt-1 text-sm">
+    <div role="alert" className="mt-1 text-sm text-input-error">
       {errorMessage}
     </div>
   );

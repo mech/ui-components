@@ -42,11 +42,26 @@ const variants = cva(
         top: "inset-x-0 top-0 rounded-b-xl border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
         bottom:
           "inset-x-0 bottom-0 rounded-t-xl border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "bottom-0 left-0 top-0 m-4 rounded-xl border data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+        left: "bottom-0 left-0 top-0 rounded-xl data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
         right:
-          "bottom-0 right-0 top-0 m-4 rounded-xl border data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+          "bottom-0 right-0 top-0 rounded-xl data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+      },
+      offset: {
+        true: "m-4 border",
       },
     },
+    compoundVariants: [
+      {
+        side: "left",
+        offset: false,
+        className: "border-r",
+      },
+      {
+        side: "right",
+        offset: false,
+        className: "border-l",
+      },
+    ],
     defaultVariants: {
       side: "right",
     },
@@ -54,8 +69,8 @@ const variants = cva(
 );
 
 const DrawerContent = forwardRef(
-  ({ side = "right", className, children, ...props }, ref) => {
-    const classNames = cn(variants({ side }), className);
+  ({ side = "right", offset = false, className, children, ...props }, ref) => {
+    const classNames = cn(variants({ side, offset }), className);
 
     return (
       <DrawerPortal>
