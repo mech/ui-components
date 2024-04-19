@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className="bg-background text-foreground"
     >
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased_`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

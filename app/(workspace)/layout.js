@@ -4,5 +4,5 @@ export const metadata = {
 };
 
 export default function DashboardRootLayout({ children }) {
-  return <main className="col-span-3">{children}</main>;
+  return children;
 }

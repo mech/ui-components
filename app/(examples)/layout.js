@@ -1,4 +1,4 @@
-import Sidebar from "@/app/Sidebar";
+import Sidebar from "@/app/(examples)/Sidebar";
 
 export const metadata = {
   title: "Create Next App",

@@ -28,193 +28,200 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/DropdownMenu";
+import { Atkinson_Hyperlegible } from "next/font/google";
+
+const atkinson = Atkinson_Hyperlegible({ weight: ["400", "700"] });
 
 const AppBar = () => {
-  //
+  // sticky inset-0
 
   return (
-    <div className="sticky inset-0 grid h-screen grid-rows-[auto,1fr,auto] space-y-3 bg-background p-4 text-gray-800 dark:text-gray-400">
-      <div className="space-y-4">
-        <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2 rounded-full bg-amber-100 py-1 text-black dark:bg-amber-900 dark:text-amber-500">
-          <HomeIcon className="col-start-2" />
-          <span className="text-lg font-normal subpixel-antialiased">Home</span>
+    <div className={`${atkinson.className} antialiased`}>
+      <div className="grid h-screen grid-rows-[auto,1fr,auto] space-y-3 bg-background p-4 text-gray-800 dark:text-gray-400">
+        <div className="space-y-4">
+          <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2 rounded-full bg-amber-100 py-1 text-black dark:bg-amber-900 dark:text-amber-500">
+            <HomeIcon className="col-start-2" />
+            <span className="text-lg font-normal subpixel-antialiased">
+              Home
+            </span>
+          </div>
+
+          <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
+            <NotificationIcon className="col-start-2" />
+            <span className="text-lg font-normal subpixel-antialiased">
+              Notifications
+            </span>
+          </div>
+
+          <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
+            <SearchIcon className="col-start-2" />
+            <span className="text-lg font-normal subpixel-antialiased">
+              Search...
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <div className="text-gray-500">WORKSPACE</div>
+            <Input
+              placeholder="Filter workspace"
+              size="sm"
+              prefix={<FilterIcon />}
+              prefixStyling={false}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-          <NotificationIcon className="col-start-2" />
-          <span className="text-lg font-normal subpixel-antialiased">
-            Notifications
-          </span>
-        </div>
-
-        <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-          <SearchIcon className="col-start-2" />
-          <span className="text-lg font-normal subpixel-antialiased">
-            Search...
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <div className="text-gray-500">WORKSPACE</div>
-          <Input
-            placeholder="Filter workspace"
-            size="sm"
-            prefix={<FilterIcon />}
-            prefixStyling={false}
-          />
-        </div>
-      </div>
-
-      <div className="space-y-4 overflow-y-auto">
-        <Accordion type="multiple" className="space-y-4">
-          <AccordionItem outline={false} value="organizations">
-            <AccordionTrigger
-              arrow={false}
-              className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
-            >
-              <ChevronRight className="accordion-arrow transition-transform duration-150" />
-              <OrganizationIcon />
-              <div className="flex items-center justify-between">
-                <div className="text-lg font-normal subpixel-antialiased">
-                  Organizations
+        <div className="space-y-4 overflow-y-auto">
+          <Accordion type="multiple" className="space-y-4">
+            <AccordionItem outline={false} value="organizations">
+              <AccordionTrigger
+                arrow={false}
+                className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
+              >
+                <ChevronRight className="accordion-arrow transition-transform duration-150" />
+                <OrganizationIcon />
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-normal subpixel-antialiased">
+                    Organizations
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}></div>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}></div>
-              </div>
-            </AccordionTrigger>
+              </AccordionTrigger>
 
-            <AccordionContent>
-              <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
-                <ul className="col-start-2 leading-loose">
-                  <li>Subscriptions</li>
-                  <li>Members</li>
-                  <li>Access Rights</li>
-                  <li>Governance</li>
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem outline={false} value="projects">
-            <AccordionTrigger
-              arrow={false}
-              className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
-            >
-              <ChevronRight className="accordion-arrow transition-transform duration-150" />
-              <ProjectIcon />
-              <div className="flex items-center justify-between">
-                <div className="text-lg font-normal subpixel-antialiased">
-                  Projects
+              <AccordionContent>
+                <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
+                  <ul className="col-start-2 leading-loose">
+                    <li>Subscriptions</li>
+                    <li>Members</li>
+                    <li>Access Rights</li>
+                    <li>Governance</li>
+                  </ul>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}></div>
-              </div>
-            </AccordionTrigger>
+              </AccordionContent>
+            </AccordionItem>
 
-            <AccordionContent>
-              <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
-                <ul className="col-start-2 leading-loose">
-                  <li>Quotations</li>
-                  <li>Entitlements</li>
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem outline={false} value="contractors">
-            <AccordionTrigger
-              arrow={false}
-              className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
-            >
-              <ChevronRight className="accordion-arrow transition-transform duration-150" />
-              <ContractorIcon />
-              <div className="flex items-center justify-between">
-                <div className="text-lg font-normal subpixel-antialiased">
-                  Contractors
+            <AccordionItem outline={false} value="projects">
+              <AccordionTrigger
+                arrow={false}
+                className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
+              >
+                <ChevronRight className="accordion-arrow transition-transform duration-150" />
+                <ProjectIcon />
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-normal subpixel-antialiased">
+                    Projects
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}></div>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <div className="rounded-full border border-gray-400 bg-gray-200 px-2 py-0.5 text-xs font-normal">
-                    2.5k
+              </AccordionTrigger>
+
+              <AccordionContent>
+                <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
+                  <ul className="col-start-2 leading-loose">
+                    <li>Quotations</li>
+                    <li>Entitlements</li>
+                  </ul>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem outline={false} value="contractors">
+              <AccordionTrigger
+                arrow={false}
+                className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
+              >
+                <ChevronRight className="accordion-arrow transition-transform duration-150" />
+                <ContractorIcon />
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-normal subpixel-antialiased">
+                    Contractors
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <div className="rounded-full border border-gray-400 bg-gray-200 px-2 py-0.5 text-xs font-normal">
+                      2.5k
+                    </div>
                   </div>
                 </div>
-              </div>
-            </AccordionTrigger>
+              </AccordionTrigger>
 
-            <AccordionContent>
-              <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
-                <ul className="col-start-2 leading-loose">
-                  <li>Currently Hired</li>
-                  <li>Onboarding</li>
-                  <li>Work Pass</li>
-                  <li>Renewal</li>
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem outline={false} value="payrolls">
-            <AccordionTrigger
-              arrow={false}
-              className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
-            >
-              <ChevronRight className="accordion-arrow transition-transform duration-150" />
-              <PayrollIcon />
-              <div className="flex items-center justify-between">
-                <div className="text-lg font-normal subpixel-antialiased">
-                  Payrolls
+              <AccordionContent>
+                <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
+                  <ul className="col-start-2 leading-loose">
+                    <li>Currently Hired</li>
+                    <li>Onboarding</li>
+                    <li>Work Pass</li>
+                    <li>Renewal</li>
+                  </ul>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <DropdownMenuOne />
-                </div>
-              </div>
-            </AccordionTrigger>
+              </AccordionContent>
+            </AccordionItem>
 
-            <AccordionContent>
-              <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
-                <ul className="col-start-2 leading-loose">
-                  <li>Leaves</li>
-                  <li>Timesheets</li>
-                  <li>Claims</li>
-                  <li>Recently Approved</li>
-                  <li>Reports</li>
-                  <li className="flex items-center justify-between">
-                    <span>Apr 24</span>
-                    <Star size={16} />
-                  </li>
-                  <li>May 24</li>
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+            <AccordionItem outline={false} value="payrolls">
+              <AccordionTrigger
+                arrow={false}
+                className="grid grid-cols-[16px,20px,1fr] gap-2 text-justify [&[data-state=open]>.accordion-arrow]:rotate-90"
+              >
+                <ChevronRight className="accordion-arrow transition-transform duration-150" />
+                <PayrollIcon />
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-normal subpixel-antialiased">
+                    Payrolls
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <DropdownMenuOne />
+                  </div>
+                </div>
+              </AccordionTrigger>
+
+              <AccordionContent>
+                <div className="mt-2 grid grid-cols-[44px,1fr] gap-2">
+                  <ul className="col-start-2 leading-loose">
+                    <li>Leaves</li>
+                    <li>Timesheets</li>
+                    <li>Claims</li>
+                    <li>Recently Approved</li>
+                    <li>Reports</li>
+                    <li className="flex items-center justify-between">
+                      <span>Apr 24</span>
+                      <Star size={16} />
+                    </li>
+                    <li>May 24</li>
+                  </ul>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
+            <RecentIcon className="col-start-2" />
+            <span className="text-lg font-normal subpixel-antialiased">
+              Recent
+            </span>
+          </div>
+        </div>
+
+        <div className="text-gray-500">SUPPORTS</div>
 
         <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-          <RecentIcon className="col-start-2" />
+          <HelpAndSupportIcon className="col-start-2" />
           <span className="text-lg font-normal subpixel-antialiased">
-            Recent
+            Help &amp; Support
           </span>
         </div>
-      </div>
 
-      <div className="text-gray-500">SUPPORTS</div>
+        <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
+          <SettingsIcon className="col-start-2" />
+          <span className="text-lg font-normal subpixel-antialiased">
+            Settings
+          </span>
+        </div>
 
-      <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-        <HelpAndSupportIcon className="col-start-2" />
-        <span className="text-lg font-normal subpixel-antialiased">
-          Help &amp; Support
-        </span>
-      </div>
-
-      <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-        <SettingsIcon className="col-start-2" />
-        <span className="text-lg font-normal subpixel-antialiased">
-          Settings
-        </span>
-      </div>
-
-      <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
-        <ChangelogIcon className="col-start-2" />
-        <span className="text-lg font-normal subpixel-antialiased">
-          Changelog
-        </span>
+        <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2">
+          <ChangelogIcon className="col-start-2" />
+          <span className="text-lg font-normal subpixel-antialiased">
+            Changelog
+          </span>
+        </div>
       </div>
     </div>
   );

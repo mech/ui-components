@@ -9,6 +9,7 @@ import {
 } from "@/components/Drawer";
 import Button from "@/components/Button";
 import { Menu } from "lucide-react";
+import TableTest from "@/app/(workspace)/dashboard/TableTest";
 
 // overflow-y-auto to <main>
 export default function Dashboard() {
@@ -17,15 +18,15 @@ export default function Dashboard() {
       <div className="hidden md:block">
         <AppBar />
       </div>
-      <main className="w-full md:border-l">
-        <header className="sticky top-0 flex items-center gap-2 border-b bg-background px-4 py-3">
+      <main className="w-full overflow-y-auto md:border-l">
+        <header className="sticky top-0 z-50 flex items-center gap-2 border-b bg-background/95 px-4 py-3 backdrop-blur-sm">
           <Drawer modal={false}>
             <DrawerTrigger className="block md:hidden">
               <Button variant="secondary" outline prefix={<Menu />} size="sm" />
             </DrawerTrigger>
             <DrawerContent
               side="left"
-              className="w-60"
+              className="block w-60 md:hidden"
               // onInteractOutside={(e) => e.preventDefault()}
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
@@ -36,18 +37,7 @@ export default function Dashboard() {
         </header>
 
         <div className="space-y-4 p-4">
-          {Array.from({ length: 100 }).map((_, i) => (
-            <p key={i}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Assumenda dolorum fugiat fugit ipsam provident qui recusandae
-              tempora tenetur. Ab consectetur et exercitationem facilis ipsa
-              labore, ullam. Architecto commodi ipsum repudiandae.
-            </p>
-          ))}
-
-          <div className="rounded-lg bg-orange-700 p-4 text-orange-200">
-            Test
-          </div>
+          <TableTest />
         </div>
       </main>
     </div>
