@@ -12,22 +12,29 @@ export const metadata = {
 //   const res = await fetch("http://192.168.1.235:3000/api/users", {
 //     method: "POST",
 //     next: {
-//       tags: ["users"],
+//       tags: ["dbusers"],
 //     },
 //   });
 //
 //   if (!res.ok) {
-//     throw create Error("Failed to fetch users");
+//     throw create Error("Failed to fetch dbusers");
 //   }
 //
 //   return res.json();
 // }
 
-export default async function Page() {
-  const users = await getUsers();
+export default async function Page({ searchParams }) {
+  const currentPage = Number(searchParams?.page) || 1;
+  const users = await getUsers({ page: currentPage });
 
   return (
     <div className="space-y-4 p-4">
+      <div className="mb-4 flex gap-2 border-b">
+        <Link href="/users?page=1">Page 1</Link>
+        <Link href="/users?page=2">Page 2</Link>
+        <Link href="/users?page=3">Page 3</Link>
+        <Link href="/users?page=4">Page 4</Link>
+      </div>
       <h1 className="flex items-center justify-between text-lg font-semibold">
         Users: {users.length}
         <RefreshUserButton />

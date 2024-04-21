@@ -47,7 +47,7 @@ const Sidebar = () => {
             <Link
               href="/users"
               className={cn("inline-flex w-full", {
-                "font-bold": pathname.startsWith("/users"),
+                "font-bold": pathname.startsWith("/dbusers"),
               })}
             >
               Users

@@ -34,7 +34,7 @@ const getCachedUsers = cache(getUsers, ["users"], {
 
 // POST will not be cached!
 export async function POST(req) {
-  // const users = Array.from({ length: 5 }, () => ({
+  // const dbusers = Array.from({ length: 5 }, () => ({
   //   id: faker.string.uuid(),
   //   name: faker.internet.userName(),
   //   email: faker.internet.email(),
@@ -51,7 +51,7 @@ export async function POST(req) {
   //
   // const QUERY = `
   //   query {
-  //     users {
+  //     dbusers {
   //       id
   //       name
   //       email
@@ -63,7 +63,7 @@ export async function POST(req) {
 
   const result = await getCachedUsers();
 
-  // revalidateTag("users");
+  // revalidateTag("dbusers");
 
   return Response.json(result.data.users);
 }

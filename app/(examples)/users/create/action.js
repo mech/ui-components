@@ -2,7 +2,7 @@
 
 import { userSchema } from "@/zod_schema/userSchema";
 import { redirect } from "next/navigation";
-// import { createUsers } from "@/app/users/create/createUser";
+// import { createUsers } from "@/app/dbusers/create/createUser";
 import { gqlMutation } from "@/lib/gqlMutation";
 
 const MUTATION = `

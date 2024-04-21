@@ -111,9 +111,9 @@ export default function Home() {
             </SegmentedControlRoot>
 
             <SegmentedControlRoot defaultValue="2">
-              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+              <SegmentedControlItem value="1">Query</SegmentedControlItem>
+              <SegmentedControlItem value="2">Filters</SegmentedControlItem>
+              <SegmentedControlItem value="3">Sorts</SegmentedControlItem>
             </SegmentedControlRoot>
 
             <Input

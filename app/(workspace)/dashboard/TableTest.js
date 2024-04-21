@@ -1,5 +1,5 @@
 import "@blueprintjs/table/lib/css/table.css";
-import { HotkeysProvider } from "@blueprintjs/core";
+import { HotkeysProvider, Menu, MenuItem } from "@blueprintjs/core";
 import {
   Cell,
   Column,
@@ -9,12 +9,12 @@ import {
   Utils,
 } from "@blueprintjs/table";
 import { faker } from "@faker-js/faker";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { ChevronUp } from "lucide-react";
-import { TextAa } from "@phosphor-icons/react";
 import { Checkbox } from "@/components/Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 import Button from "@/components/Button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/Drawer";
 
 function generateData() {
   // return Array.from({ length: 5 }, () => ({
@@ -35,14 +35,37 @@ function generateData() {
   ];
 }
 
-function renderColumnHeader(index) {
-  const name = ["Name", "Email"][index];
+const renderMenu = () => {
   return (
-    <ColumnHeaderCell2 name={name} index={index} nameRenderer={renderName} />
+    <Menu className="rounded-md border bg-gray-50 p-1 shadow-md">
+      <MenuItem
+        icon="sort-asc"
+        text="Sort Asc"
+        className="flex items-center gap-2 p-1 hover:bg-gray-200"
+      />
+      <MenuItem
+        icon="sort-desc"
+        text="Sort Desc"
+        className="flex items-center gap-2 p-1 hover:bg-gray-200"
+      />
+    </Menu>
   );
-}
+};
+
+const renderColumnHeader = (name) => (index) => {
+  return (
+    <ColumnHeaderCell2
+      // selectCellsOnMenuClick={false}
+      name={name}
+      index={index}
+      nameRenderer={renderName}
+    />
+  );
+};
 
 function renderName(name) {
+  // return <span>{name}</span>;
+
   return (
     <div className="flex h-[30px] w-full flex-col justify-center">
       <div className="flex justify-between gap-0">
@@ -64,13 +87,26 @@ const NameColumn = ({ rowIndex, data }) => {
     <div className="flex items-center gap-2 py-2">
       <Checkbox name={`cb-${rowIndex}`} />
 
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-400 text-white">
-        AWS
-      </div>
+      <Drawer modal={false}>
+        <DrawerTrigger>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-400 text-white">
+            AWS
+          </div>
+        </DrawerTrigger>
+
+        <DrawerContent side="right" className="w-1/2 p-4">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+            beatae dolorum eius eveniet fuga fugiat id incidunt ipsam, itaque
+            magnam perferendis placeat qui sequi totam voluptatum. Consequuntur
+            harum incidunt nemo!
+          </p>
+        </DrawerContent>
+      </Drawer>
 
       <div className="flex flex-col">
         <span className="text-sm font-semibold">{data[rowIndex].name}</span>
-        {rowIndex === 4 && <span>Extra line!</span>}
+        {/*{rowIndex === 4 && <span>Extra line!</span>}*/}
         <div
           // href={`mailto:${data[rowIndex].email}`}
           className="font-mono text-sm text-gray-500"
@@ -125,8 +161,6 @@ const tableColumns = [
   { columnName: "Action", columnWidth: 120 },
 ];
 
-console.log(tableColumns);
-
 const TableTest = () => {
   const [selection, setSelection] = useState([]);
   const DATA = generateData();
@@ -135,7 +169,8 @@ const TableTest = () => {
     return (
       <Column
         key={column.columnName}
-        name={column.columnName}
+        // name={column.columnName}
+        columnHeaderCellRenderer={renderColumnHeader(column.columnName)}
         cellRenderer={getCellRenderer(column.columnName, DATA)}
       />
     );
@@ -182,9 +217,10 @@ const TableTest = () => {
     <HotkeysProvider>
       <FormProvider {...methods}>
         <Table2
-          // selectionModes={SelectionModes.ROWS_ONLY}
+          // enableColumnInteractionBar={true}
+          selectionModes={SelectionModes.ROWS_AND_CELLS}
           ref={tableRef}
-          numRows={columns.length}
+          numRows={DATA.length}
           enableFocusedCell={true}
           enableMultipleSelection={true}
           columnWidths={columnWidths}
