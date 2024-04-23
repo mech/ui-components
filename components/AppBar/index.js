@@ -30,15 +30,15 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/DropdownMenu";
-import { Atkinson_Hyperlegible } from "next/font/google";
+// import { Atkinson_Hyperlegible } from "next/font/google";
 
-const atkinson = Atkinson_Hyperlegible({ weight: ["400", "700"] });
+// const atkinson = Atkinson_Hyperlegible({ weight: ["400", "700"] });
 
 const AppBar = () => {
   // sticky inset-0
 
   return (
-    <div className={`${atkinson.className} antialiased`}>
+    <div>
       <div className="grid h-screen grid-rows-[auto,1fr,auto] space-y-3 bg-background p-4 text-gray-800 dark:text-gray-400">
         <div className="space-y-4">
           <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2 rounded-full bg-amber-100 py-1 text-black dark:bg-amber-900 dark:text-amber-500">

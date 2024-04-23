@@ -8,12 +8,12 @@ import { Info, SealWarning } from "@phosphor-icons/react";
 // Using focus-within to style inner input
 // group and group-focus-within
 
-const sizeVariants = cva([], {
+const variants = cva([], {
   variants: {
     size: {
       sm: ["px-2 py-1 text-sm"],
       md: ["p-1.5 text-base"], // p-[0.3125rem]
-      lg: ["text-lg"],
+      lg: ["p-2 text-lg"],
     },
   },
   defaultVariants: {
@@ -79,7 +79,7 @@ const Input = forwardRef(
             spellCheck="false"
             data-invalid={!!errorMessage}
             className={cn(
-              sizeVariants({ size }),
+              variants({ size }),
               "order-2 w-full appearance-none rounded-md bg-transparent text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               "dark:data-[invalid=true]:text-red-300",
               {

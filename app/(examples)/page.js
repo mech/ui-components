@@ -33,9 +33,11 @@ import {
   SegmentedControlRoot,
   SegmentedControlItem,
 } from "@/components/SegmentedControl";
+import Pagination from "@/components/Pagination";
 import { useState } from "react";
 
 export default function Home() {
+  const [page, setPage] = useState(1);
   const [formData, setFormData] = useState({});
   const methods = useForm();
 
@@ -117,7 +119,7 @@ export default function Home() {
             </SegmentedControlRoot>
 
             <Input
-              // size="sm"
+              // size="lg"
               {...register("linkedInUrl", { required: "URL is required" })}
               label="LinkedIn URL"
               prefix="https://"
@@ -132,12 +134,14 @@ export default function Home() {
 
             <Button>Submit</Button>
 
+            <Switch name="switch-3" size="sm" />
             <Switch
               name="switch-1"
               // requiredMessage="Switch is required"
               // errorMessage={errors["switch-1"]?.message}
             />
             <Switch name="switch-2" />
+
             <Checkbox name="cb-0" checked="indeterminate" />
             <Checkbox name="cb-1" />
 
@@ -169,6 +173,15 @@ export default function Home() {
               </>
             )}
           />
+
+          <div className="flex flex-col gap-1">
+            <strong>Internal Page: {page}</strong>
+            <Pagination
+              currentPage={page}
+              totalPages={40}
+              onChange={(p) => setPage(p)}
+            />
+          </div>
 
           <div>
             <pre>{JSON.stringify(formData, null, 2)}</pre>

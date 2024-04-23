@@ -6,17 +6,17 @@ import { redirect } from "next/navigation";
 import { gqlMutation } from "@/lib/gqlMutation";
 
 const MUTATION = `
-    mutation USER_CREATE($name: String!, $email: String!, $attachment: Upload) {
-      userCreate(name: $name, email: $email, attachment: $attachment) {
-        user {
-          id
-          name
-          email
-          status
-        }
+  mutation USER_CREATE($name: String!, $email: String!, $attachment: Upload) {
+    userCreate(name: $name, email: $email, attachment: $attachment) {
+      user {
+        id
+        name
+        email
+        status
       }
     }
-  `;
+  }
+`;
 
 export async function submit(prevState, formData) {
   const data = Object.fromEntries(formData);

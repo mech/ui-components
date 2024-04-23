@@ -13,16 +13,16 @@ const variants = cva(
     variants: {
       variant: {
         primary:
-          "border-primary-border focus-visible:ring-primary-ring bg-primary text-primary-foreground hover:enabled:bg-primary/90",
+          "border-primary-border bg-primary text-primary-foreground focus-visible:ring-primary-ring hover:enabled:bg-primary/90",
         secondary:
-          "border-secondary-border focus-visible:ring-secondary-ring bg-secondary text-secondary-foreground hover:enabled:bg-secondary/90",
+          "border-secondary-border bg-secondary text-secondary-foreground focus-visible:ring-secondary-ring hover:enabled:bg-secondary/90",
         destructive:
-          "border-destructive-border focus-visible:ring-destructive-ring bg-destructive text-destructive-foreground hover:enabled:bg-destructive/90",
+          "border-destructive-border bg-destructive text-destructive-foreground focus-visible:ring-destructive-ring hover:enabled:bg-destructive/90",
         ghost:
-          "focus-visible:ring-secondary-ring border-transparent bg-background text-foreground hover:enabled:bg-gray-200 dark:hover:enabled:bg-neutral-800",
+          "border-transparent bg-background text-foreground focus-visible:ring-secondary-ring hover:enabled:bg-gray-200 dark:hover:enabled:bg-neutral-800",
         plainIcon: "border-transparent",
         bgIcon:
-          "focus-visible:ring-secondary-ring rounded-md border-transparent focus:bg-gray-200 hover:enabled:bg-gray-200 dark:focus:bg-neutral-800 dark:hover:enabled:bg-neutral-800",
+          "rounded-md border-transparent focus:bg-gray-200 focus-visible:ring-secondary-ring hover:enabled:bg-gray-200 dark:focus:bg-neutral-800 dark:hover:enabled:bg-neutral-800",
       },
       size: {
         sm: ["px-2", "py-1", "text-sm"],
@@ -125,6 +125,7 @@ const Button = (
           "gap-2": prefix || suffix,
         },
       )}
+      type="button"
       ref={ref}
       disabled={_disabled}
       aria-disabled={_disabled}

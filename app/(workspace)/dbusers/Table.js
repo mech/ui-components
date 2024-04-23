@@ -11,7 +11,6 @@ import {
 } from "@blueprintjs/table";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HotkeysProvider } from "@blueprintjs/core";
-import { useSearchParams } from "next/navigation";
 
 const NameColumn = ({ rowIndex, data }) => {
   return (
@@ -21,47 +20,39 @@ const NameColumn = ({ rowIndex, data }) => {
     </div>
   );
 };
-const EmailColumn = ({ rowIndex, data }) => {
+const EmailColumn = ({ rowIndex, data, propertyName }) => {
   return (
     <div className="flex flex-col">
-      <span className="font-mono text-base">{data[rowIndex]?.email}</span>
+      <span className="font-mono text-base">
+        {data[rowIndex][propertyName]}
+      </span>
     </div>
-  );
-};
-const COLUMNS = {
-  Name: NameColumn,
-  Email: EmailColumn,
-};
-
-const getCellRenderer = (name, data) => (rowIndex) => {
-  const Tag = COLUMNS[name];
-
-  return (
-    <Cell>
-      <Tag rowIndex={rowIndex} data={data} />
-    </Cell>
   );
 };
 
 const tableColumns = [
-  { columnName: "Name", columnWidth: 500 },
-  { columnName: "Email", columnWidth: 200 },
+  { columnName: "Name", columnWidth: 500, component: NameColumn },
+  {
+    columnName: "Email",
+    columnWidth: 200,
+    propertyName: "email",
+    component: EmailColumn,
+  },
 ];
 
+const getCellRenderer = (column, data) => (rowIndex) => {
+  const Tag = column.component;
+
+  return (
+    <Cell>
+      <Tag rowIndex={rowIndex} data={data} propertyName={column.propertyName} />
+    </Cell>
+  );
+};
+
 const Table = ({ users }) => {
-  // console.log(users.map((u) => u.name));
   const tableRef = useRef(null);
-  const searchParams = useSearchParams();
   const [selection, setSelection] = useState([]);
-  const columnsState = tableColumns.map((column) => {
-    return (
-      <Column
-        key={column.columnName}
-        name={column.columnName}
-        cellRenderer={getCellRenderer(column.columnName, users)}
-      />
-    );
-  });
   const [columns, setColumns] = useState([]);
   const [columnWidths, setColumnWidths] = useState([]);
 
@@ -73,7 +64,7 @@ const Table = ({ users }) => {
         <Column
           key={column.columnName}
           name={column.columnName}
-          cellRenderer={getCellRenderer(column.columnName, users)}
+          cellRenderer={getCellRenderer(column, users)}
         />
       )),
     );
@@ -110,15 +101,10 @@ const Table = ({ users }) => {
     setColumnWidths(nextColumnWidths);
   };
 
-  const currentPage = Number(searchParams.get("page")) || 1;
-
-  // useEffect(() => {
-  //   console.log(tableRef.current);
-  //   tableRef.current?.clearSelection([Regions.cell(2, 1)]);
-  // }, [currentPage]);
+  const EmptyDiv = () => <div className="hidden"></div>;
 
   return (
-    <HotkeysProvider>
+    <HotkeysProvider renderDialog={() => <EmptyDiv />}>
       <Table2
         enableGhostCells={true}
         forceRerenderOnSelectionChange={true}
