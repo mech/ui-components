@@ -97,9 +97,10 @@ AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName;
 // AlertDialogFooter
 // -----
 const AlertDialogFooter = forwardRef(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, center = true, ...props }, ref) => {
     const classNames = cn(
       "sticky bottom-0 flex justify-between border-t bg-white py-4",
+      { "justify-center": center },
       className,
     );
 

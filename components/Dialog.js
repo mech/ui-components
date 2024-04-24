@@ -41,7 +41,7 @@ DialogTrigger.displayName = DialogPrimitive.Trigger.displayName;
 // -----
 const DialogOverlay = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
-    "bg-gray-900/40 fixed inset-0 z-50",
+    "fixed inset-0 z-50 bg-gray-900/40",
     "dark:bg-neutral-900/70",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -65,7 +65,7 @@ const DialogContent = forwardRef(
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-      "dark:bg-neutral-800 dark:border dark:shadow-2xl",
+      "dark:border dark:bg-neutral-800 dark:shadow-2xl",
       className,
     );
 
@@ -108,7 +108,7 @@ const DialogHeader = forwardRef(({ className, children, ...props }, ref) => {
   return (
     <div ref={ref} className={classNames} {...props}>
       {children}
-      <DialogClose className="focus-visible:ring-blue-500 rounded-full hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 active:opacity-50">
+      <DialogClose className="rounded-full hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:opacity-50">
         <XCircle size="32" weight="fill" />
       </DialogClose>
     </div>

@@ -8,6 +8,8 @@ import Pagination from "@/components/Pagination";
 import TextColumn from "@/components/DataGrid/TextColumn";
 import EmailColumn from "@/components/DataGrid/EmailColumn";
 
+import CustomColumnsDialog from "@/app/(workspace)/dbusers/CustomColumnsDialog";
+
 export const dynamic = "force-dynamic";
 
 const tableColumns_1 = [
@@ -45,6 +47,7 @@ export default async function UserPage({ searchParams }) {
   return (
     <DataGrid.Root className="space-y-4 p-4">
       <Pagination currentPage={currentPage} totalPages={9800} />
+      <CustomColumnsDialog />
 
       <DataGrid.Content className="space-y-4">
         <DataGridTable

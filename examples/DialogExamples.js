@@ -85,7 +85,7 @@ const DialogExamples = () => {
             </div>
           </section>
           <DialogFooter>
-            <div className="flex w-full justify-end gap-4">
+            <div className="flex w-full justify-end gap-3">
               <Button outline variant="secondary">
                 Close (if inside dialog)
               </Button>
