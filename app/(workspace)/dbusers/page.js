@@ -41,13 +41,17 @@ export default async function UserPage({ searchParams }) {
     getTableColumns(),
   ]);
 
+  console.log(tableColumns);
+
   // const users = await getUsers({ page: currentPage });
   // const { tableColumns } = await getTableColumns();
 
   return (
     <DataGrid.Root className="space-y-4 p-4">
-      <Pagination currentPage={currentPage} totalPages={9800} />
-      <CustomColumnsDialog />
+      <div className="flex items-center justify-between">
+        <Pagination currentPage={currentPage} totalPages={9800} />
+        <CustomColumnsDialog tableColumns={tableColumns} />
+      </div>
 
       <DataGrid.Content className="space-y-4">
         <DataGridTable
@@ -57,6 +61,8 @@ export default async function UserPage({ searchParams }) {
         />
 
         {/*<Table users={users} />*/}
+
+        <strong>{JSON.stringify(tableColumns, null, 2)}</strong>
       </DataGrid.Content>
     </DataGrid.Root>
   );

@@ -19,6 +19,7 @@ async function getUsers({ page }) {
         name
         email
         status
+        createdAt
       }
     }
   `;

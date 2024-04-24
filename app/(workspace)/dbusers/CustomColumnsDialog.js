@@ -27,6 +27,9 @@ import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { ColumnsPlusRight } from "@phosphor-icons/react";
+import { columnWidthsUpdate } from "@/components/DataGrid/actions/columnWidthsUpdate";
+import { useForm } from "react-hook-form";
 
 // https://github.com/atlassian/pragmatic-drag-and-drop/issues/28
 const DragPreview = ({ children }) => {
@@ -38,7 +41,7 @@ const DragPreview = ({ children }) => {
 };
 
 // We actually can also combine both DroppableContainer and DraggableColumn together
-const DraggableColumn = ({ children, columnName, index }) => {
+const DraggableColumn = ({ children, item, index }) => {
   const ref = useRef(null);
   const [dragging, setDragging] = useState(false);
 
@@ -47,13 +50,15 @@ const DraggableColumn = ({ children, columnName, index }) => {
 
     return draggable({
       element: el,
-      getInitialData: () => ({ index, columnName }),
+      getInitialData: () => ({ index, item }),
       onGenerateDragPreview: ({ nativeSetDragImage }) => {
         setCustomNativeDragPreview({
           nativeSetDragImage,
           render: ({ container }) => {
             const root = createRoot(container);
-            root.render(<DragPreview>Moving {columnName} ...</DragPreview>);
+            root.render(
+              <DragPreview>Moving {item.columnName} ...</DragPreview>,
+            );
             return () => root.unmount();
           },
         });
@@ -63,7 +68,7 @@ const DraggableColumn = ({ children, columnName, index }) => {
       },
       onDrop: () => setDragging(false),
     });
-  }, [columnName, index]);
+  }, [item, index]);
 
   return (
     <div
@@ -71,14 +76,12 @@ const DraggableColumn = ({ children, columnName, index }) => {
       data-dragging={dragging}
       className="grid cursor-grab grid-cols-[auto,auto,1fr] items-center gap-2 p-2 data-[dragging=true]:cursor-grabbing data-[dragging=true]:opacity-50"
     >
-      <GripVertical size={20} />
       {children}
-      <Switch checked size="sm" className="justify-self-end" />
     </div>
   );
 };
 
-const DroppableContainer = ({ children, columnName, index }) => {
+const DroppableContainer = ({ children, item, index }) => {
   const ref = useRef(null);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
   const [closestEdge, setClosestEdge] = useState(null);
@@ -103,7 +106,7 @@ const DroppableContainer = ({ children, columnName, index }) => {
       getData: ({ input, element }) => {
         const data = {
           index,
-          columnName,
+          item,
         };
 
         return attachClosestEdge(data, {
@@ -113,7 +116,7 @@ const DroppableContainer = ({ children, columnName, index }) => {
         });
       },
     });
-  }, [columnName, index]);
+  }, [item, index]);
 
   return (
     <div
@@ -127,17 +130,13 @@ const DroppableContainer = ({ children, columnName, index }) => {
   );
 };
 
-const outsideItems = [
-  { columnName: "Name" },
-  { columnName: "Email" },
-  { columnName: "Created At" },
-];
+const CustomColumnsDialog = ({ tableColumns }) => {
+  const [items, setItems] = useState(tableColumns);
 
-const CustomColumnsDialog = () => {
-  const [items, setItems] = useState(outsideItems);
+  const { register, getValues } = useForm(tableColumns);
 
   const reorderItem = useCallback(
-    ({ startIndex, indexOfTarget, closestEdgeOfTarget }) => {
+    async ({ startIndex, indexOfTarget, closestEdgeOfTarget }) => {
       const finishIndex = getReorderDestinationIndex({
         startIndex,
         closestEdgeOfTarget,
@@ -147,15 +146,20 @@ const CustomColumnsDialog = () => {
 
       if (finishIndex === startIndex) return; // No movement
 
-      setItems((prevItems) => {
-        return reorder({
-          list: prevItems,
-          startIndex,
-          finishIndex,
-        });
+      const newItems = reorder({
+        list: items,
+        startIndex,
+        finishIndex,
       });
+
+      setItems(newItems);
+
+      console.log(getValues());
+
+      // const outcome = await columnWidthsUpdate({ tableColumns: newItems });
+      // console.log(outcome);
     },
-    [],
+    [getValues, items],
   );
 
   useEffect(() => {
@@ -168,7 +172,9 @@ const CustomColumnsDialog = () => {
         const targetData = target.data;
 
         const indexOfTarget = items.findIndex(
-          (item) => item.columnName === targetData.columnName,
+          // Because our getInitialData() and getData() has the same structure
+          // which is: { index, item }, so the targetData need to traverse the `item` key
+          (item) => item.columnName === targetData.item.columnName,
         );
         if (indexOfTarget < 0) return;
 
@@ -178,7 +184,7 @@ const CustomColumnsDialog = () => {
           startIndex: sourceData.index,
           indexOfTarget,
           closestEdgeOfTarget,
-        });
+        }).catch((e) => console.error(e));
       },
     });
   }, [items, reorderItem]);
@@ -186,9 +192,10 @@ const CustomColumnsDialog = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Button variant="secondary" outline>
-          Custom Columns
-        </Button>
+        <Button
+          variant="ghost"
+          prefix={<ColumnsPlusRight weight="fill" size={24} />}
+        />
       </AlertDialogTrigger>
 
       <AlertDialogContent>
@@ -199,11 +206,19 @@ const CustomColumnsDialog = () => {
             return (
               <DroppableContainer
                 key={item.columnName}
-                columnName={item.columnName}
+                item={item}
                 index={index}
               >
-                <DraggableColumn columnName={item.columnName} index={index}>
+                <DraggableColumn item={item} index={index}>
+                  <GripVertical size={20} />
+
                   {item.columnName}
+                  <Switch
+                    defaultChecked={item.visible}
+                    {...register(`tableColumns.${index}.visible`)}
+                    size="sm"
+                    className="justify-self-end"
+                  />
                 </DraggableColumn>
               </DroppableContainer>
             );

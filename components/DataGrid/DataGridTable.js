@@ -13,6 +13,7 @@ import {
   RenderMode,
 } from "@blueprintjs/table";
 import { columnWidthsUpdate } from "@/components/DataGrid/actions/columnWidthsUpdate";
+import TextColumn from "@/components/DataGrid/TextColumn";
 
 const EmptyDiv = () => <div className="hidden"></div>;
 
@@ -47,7 +48,7 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
           cellRenderer={getCellRenderer(
             column,
             data,
-            components[column.columnName],
+            components[column.columnName] || TextColumn,
           )}
         />
       )),

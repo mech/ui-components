@@ -17,6 +17,7 @@ async function getTableColumns() {
           columnName
           columnWidth
           propertyName
+          visible
         }
       }
     }
