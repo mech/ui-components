@@ -1,7 +1,7 @@
 "use server";
 
 import { gqlMutation } from "@/lib/gqlMutation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 const MUTATION = `
   mutation PersonalTableColumnUpdate($columnWidths: [Int!], $columnNames: [String!], $tableColumns: [TableColumnInput!]) {
@@ -26,6 +26,7 @@ export async function columnWidthsUpdate({
 
   // Must revalidatePath to clear Router Cache so whatever visited page can clear the columnWidths cache
   revalidatePath("/dbusers");
+  revalidateTag("table-columns");
 
   // Optional
   return outcome;

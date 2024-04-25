@@ -29,7 +29,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { ColumnsPlusRight } from "@phosphor-icons/react";
 import { columnWidthsUpdate } from "@/components/DataGrid/actions/columnWidthsUpdate";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 // https://github.com/atlassian/pragmatic-drag-and-drop/issues/28
 const DragPreview = ({ children }) => {
@@ -131,9 +131,14 @@ const DroppableContainer = ({ children, item, index }) => {
 };
 
 const CustomColumnsDialog = ({ tableColumns }) => {
-  const [items, setItems] = useState(tableColumns);
+  const [items, setItems] = useState([]);
 
-  const { register, getValues } = useForm(tableColumns);
+  useEffect(() => {
+    setItems(tableColumns);
+  }, [tableColumns]);
+
+  const methods = useForm();
+  const { handleSubmit } = methods;
 
   const reorderItem = useCallback(
     async ({ startIndex, indexOfTarget, closestEdgeOfTarget }) => {
@@ -153,14 +158,22 @@ const CustomColumnsDialog = ({ tableColumns }) => {
       });
 
       setItems(newItems);
-
-      console.log(getValues());
-
-      // const outcome = await columnWidthsUpdate({ tableColumns: newItems });
-      // console.log(outcome);
     },
-    [getValues, items],
+    [items],
   );
+
+  const submit = async (data) => {
+    const newItems = items.map((item) => {
+      const { visible } = data[item.columnName];
+      return {
+        ...item,
+        visible,
+      };
+    });
+
+    const outcome = await columnWidthsUpdate({ tableColumns: newItems });
+    console.log(outcome);
+  };
 
   useEffect(() => {
     return monitorForElements({
@@ -199,39 +212,47 @@ const CustomColumnsDialog = ({ tableColumns }) => {
       </AlertDialogTrigger>
 
       <AlertDialogContent>
-        <AlertDialogTitle>Custom columns to show or hide</AlertDialogTitle>
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(submit)}>
+            <AlertDialogTitle>Custom columns to show or hide</AlertDialogTitle>
 
-        <div className="mx-auto w-2/3 py-4">
-          {items.map((item, index) => {
-            return (
-              <DroppableContainer
-                key={item.columnName}
-                item={item}
-                index={index}
-              >
-                <DraggableColumn item={item} index={index}>
-                  <GripVertical size={20} />
+            <div className="mx-auto w-2/3 py-4">
+              {items.map((item, index) => {
+                return (
+                  <DroppableContainer
+                    key={item.columnName}
+                    item={item}
+                    index={index}
+                  >
+                    <DraggableColumn item={item} index={index}>
+                      <GripVertical size={20} />
 
-                  {item.columnName}
-                  <Switch
-                    defaultChecked={item.visible}
-                    {...register(`tableColumns.${index}.visible`)}
-                    size="sm"
-                    className="justify-self-end"
-                  />
-                </DraggableColumn>
-              </DroppableContainer>
-            );
-          })}
-        </div>
+                      {item.columnName}
+                      <Switch
+                        value={item.visible}
+                        name={`${item.columnName}.visible`}
+                        size="sm"
+                        className="justify-self-end"
+                      />
+                    </DraggableColumn>
+                  </DroppableContainer>
+                );
+              })}
+            </div>
 
-        <AlertDialogFooter>
-          <AlertDialogCancel>
-            <Button variant="secondary" outline pill>
-              Close
-            </Button>
-          </AlertDialogCancel>
-        </AlertDialogFooter>
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                <Button variant="ghost" pill>
+                  Dismiss
+                </Button>
+              </AlertDialogCancel>
+
+              <Button type="submit" variant="secondary" outline pill>
+                Apply
+              </Button>
+            </AlertDialogFooter>
+          </form>
+        </FormProvider>
       </AlertDialogContent>
     </AlertDialog>
   );

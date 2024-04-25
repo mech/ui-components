@@ -17,14 +17,16 @@ const RefreshUserButton = () => {
   };
 
   return (
-    <Button
-      variant="primary"
-      prefix={<RefreshCcw />}
-      onClick={handleClick}
-      loading={isPending}
-    >
-      Refresh
-    </Button>
+    <div>
+      <Button
+        variant="primary"
+        prefix={<RefreshCcw />}
+        onClick={handleClick}
+        loading={isPending}
+      >
+        Refresh
+      </Button>
+    </div>
   );
 };
 

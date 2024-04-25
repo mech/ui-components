@@ -30,6 +30,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/DropdownMenu";
+import ServerComponentTest from "@/app/(examples)/users/ServerComponentTest";
 // import { Atkinson_Hyperlegible } from "next/font/google";
 
 // const atkinson = Atkinson_Hyperlegible({ weight: ["400", "700"] });

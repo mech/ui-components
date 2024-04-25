@@ -7,56 +7,89 @@ import DataGridTable from "@/components/DataGrid/DataGridTable";
 import Pagination from "@/components/Pagination";
 import TextColumn from "@/components/DataGrid/TextColumn";
 import EmailColumn from "@/components/DataGrid/EmailColumn";
+import TimestampColumn from "@/components/DataGrid/TimestampColumn";
 
 import CustomColumnsDialog from "@/app/(workspace)/dbusers/CustomColumnsDialog";
+import ServerComponentTest from "@/app/(examples)/users/ServerComponentTest";
 
 export const dynamic = "force-dynamic";
 
-const tableColumns_1 = [
+const defaultTableColumns = [
+  {
+    columnName: "ID",
+    columnWidth: 100,
+    propertyName: "id",
+    visible: true,
+  },
   {
     columnName: "Name",
     columnWidth: 500,
     propertyName: "name",
-    display: true,
+    visible: true,
   },
   {
     columnName: "Email",
     columnWidth: 280,
     propertyName: "email",
-    display: true,
+    visible: true,
+  },
+  {
+    columnName: "Created At",
+    columnWidth: 100,
+    propertyName: "createdAt",
+    visible: false,
   },
 ];
 
 const mapper = {
   Name: TextColumn,
   Email: EmailColumn,
+  "Created At": TimestampColumn,
+};
+
+const mergeColumns = (defaultTableColumns, tableColumns) => {
+  const missingDefaultColumns = [];
+
+  defaultTableColumns.forEach((column) => {
+    const tableColumn = tableColumns.find(
+      (tc) => tc.columnName === column.columnName,
+    );
+
+    if (!tableColumn) {
+      missingDefaultColumns.push(column);
+    }
+  });
+
+  return [...tableColumns, ...missingDefaultColumns];
 };
 
 export default async function UserPage({ searchParams }) {
   const currentPage = Number(searchParams?.page) || 1;
 
   // https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#parallel-data-fetching
-  const [users, { tableColumns }] = await Promise.all([
-    getUsers({ page: currentPage }),
-    getTableColumns(),
-  ]);
+  // const [users, { tableColumns }] = await Promise.all([
+  //   getUsers({ page: currentPage }),
+  //   getTableColumns(),
+  // ]);
 
-  console.log(tableColumns);
+  const users = await getUsers({ page: currentPage });
+  const { tableColumns } = await getTableColumns();
 
-  // const users = await getUsers({ page: currentPage });
-  // const { tableColumns } = await getTableColumns();
+  const mergedColumns = mergeColumns(defaultTableColumns, tableColumns);
 
   return (
     <DataGrid.Root className="space-y-4 p-4">
+      <ServerComponentTest />
+
       <div className="flex items-center justify-between">
         <Pagination currentPage={currentPage} totalPages={9800} />
-        <CustomColumnsDialog tableColumns={tableColumns} />
+        <CustomColumnsDialog tableColumns={mergedColumns} />
       </div>
 
       <DataGrid.Content className="space-y-4">
         <DataGridTable
           data={users}
-          tableColumns={tableColumns}
+          tableColumns={mergedColumns.filter((c) => c.visible)}
           components={mapper}
         />
 

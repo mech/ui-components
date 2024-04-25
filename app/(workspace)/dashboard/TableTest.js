@@ -7,6 +7,7 @@ import {
   Table2,
   SelectionModes,
   Utils,
+  RenderMode,
 } from "@blueprintjs/table";
 import { faker } from "@faker-js/faker";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -231,6 +232,7 @@ const TableTest = () => {
               return next;
             });
           }}
+          renderMode={RenderMode.NONE}
           enableColumnReordering={true}
           onSelection={(a) => {
             // We filter out the undefined values if you select header cells
