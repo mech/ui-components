@@ -137,7 +137,7 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
           {columns}
         </Table2>
 
-        <div className="space-y-2">
+        <div className="hidden space-y-2">
           <div>
             <strong>{JSON.stringify(columnWidths, null, 2)}</strong>
           </div>

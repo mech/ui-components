@@ -42,10 +42,9 @@ const Pagination = ({
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [pending, startTransition] = useTransition();
+  // const [pending, startTransition] = useTransition();
 
   // Allow UI to update quicker even if server is not yet done
-  const [optimisticPage, setOptimisticPage] = useOptimistic(currentPage);
 
   const { push } = useRouter();
 
@@ -58,15 +57,21 @@ const Pagination = ({
   };
 
   const moveToPage = (page) => {
-    startTransition(() => {
-      setOptimisticPage(page);
+    if (onChange) {
+      onChange(page);
+    } else {
+      push(getPageUrl(page));
+    }
 
-      if (onChange) {
-        onChange(page);
-      } else {
-        push(getPageUrl(page));
-      }
-    });
+    // startTransition(() => {
+    //   // setOptimisticPage(page);
+    //
+    //   if (onChange) {
+    //     onChange(page);
+    //   } else {
+    //     push(getPageUrl(page));
+    //   }
+    // });
   };
 
   const dataPending = (pending) => {
@@ -74,15 +79,15 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex gap-1" data-pending={dataPending(pending)}>
+    <div className="flex gap-1">
       <PrevButton
-        onClick={() => moveToPage(optimisticPage - 1)}
-        currentPage={optimisticPage}
+        onClick={() => moveToPage(currentPage - 1)}
+        currentPage={currentPage}
       />
 
-      {pagingCells(totalPages, optimisticPage, maxCells).map(
+      {pagingCells(totalPages, currentPage, maxCells).map(
         ({ nr, ellipsis }) => {
-          const active = nr === optimisticPage;
+          const active = nr === currentPage;
           const classNames = cn(
             "min-w-[30px] focus:border-gray-500 focus-visible:border-gray-500",
             {
@@ -107,9 +112,9 @@ const Pagination = ({
       )}
 
       <NextButton
-        currentPage={optimisticPage}
+        currentPage={currentPage}
         totalPages={totalPages}
-        onClick={() => moveToPage(optimisticPage + 1)}
+        onClick={() => moveToPage(currentPage + 1)}
       />
     </div>
   );

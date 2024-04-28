@@ -24,9 +24,10 @@ async function getUsers({ page }) {
     }
   `;
 
-  const result = await client.query(QUERY, { page });
+  // const result = await client.query(QUERY, { page });
+  // return result.data.users;
 
-  return result.data.users;
+  return client.query(QUERY, { page });
 }
 
 // const getUsers = cache(getUncachedUsers, ["users"], {
