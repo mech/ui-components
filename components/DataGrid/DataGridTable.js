@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { HotkeysProvider } from "@blueprintjs/core";
 import "@blueprintjs/table/lib/css/table.css";
 import {
@@ -14,6 +20,7 @@ import {
 } from "@blueprintjs/table";
 import { columnWidthsUpdate } from "@/components/DataGrid/actions/columnWidthsUpdate";
 import TextColumn from "@/components/DataGrid/TextColumn";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const EmptyDiv = () => <div className="hidden"></div>;
 
@@ -35,6 +42,10 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
   const tableRef = useRef(null);
   const [columns, setColumns] = useState([]);
   const [columnWidths, setColumnWidths] = useState([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [pending, startTransition] = useTransition();
 
   // In case user want to use a different deps than relying on ID
   // const effectDeps = deps ? deps : JSON.stringify(data.map((u) => u.id));
@@ -69,7 +80,7 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [data]); // Must have `data` at the deps for ClientComponent to work
 
   // Must async due to Server Action
   const handleColumnsReordered = async (oldIndex, newIndex, length) => {
@@ -89,6 +100,13 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
 
     // Set up a startTransition here to show a Toast notifying column is being re-ordered
     await columnWidthsUpdate({ columnNames: nextColumns.map((c) => c.key) });
+
+    const params = new URLSearchParams(searchParams);
+    params.set("random", Math.random());
+    const url = `${pathname}?${params.toString()}`;
+
+    router.push(url);
+    router.refresh();
   };
 
   // Must async due to Server Action
@@ -98,6 +116,13 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
 
     setColumnWidths(next);
     await columnWidthsUpdate({ columnWidths: next });
+
+    const params = new URLSearchParams(searchParams);
+    params.set("random", Math.random());
+    const url = `${pathname}?${params.toString()}`;
+
+    router.push(url);
+    router.refresh();
 
     // Below will hit with this error:
     // DataGridTable.js:103 Warning: Cannot update a component (`Router`) while rendering a different component (`DataGridTable`). To locate the bad setState() call inside `DataGridTable`, follow the stack trace as described in

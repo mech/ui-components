@@ -6,8 +6,10 @@ import Users from "@/app/(workspace)/dbusers2/Users";
 import Pagination from "@/components/Pagination2";
 import { getUsers } from "@/app/(examples)/users/getUsers";
 import { getUser } from "@/app/(workspace)/dbusers2/getUser";
+import ClientUsersTable from "@/app/(workspace)/fetch-examples/ClientUsersTable";
+import ClientUserDetails from "@/app/(workspace)/fetch-examples/ClientUserDetails";
 
-export default async function Page({ searchParams }) {
+export default function Page({ searchParams }) {
   // const currentPage = Number(searchParams?.page) || 1;
   // const users = await getUsers({ page: currentPage });
 
@@ -25,10 +27,19 @@ export default async function Page({ searchParams }) {
   //   </div>
   // );
 
+  // return <ClientUsersTable />;
+
+  // return (
+  //   <PanelContainer
+  //     master={<ClientUsersTable />}
+  //     details={<UserDetails searchParams={searchParams} />}
+  //   />
+  // );
+
   return (
     <PanelContainer
       master={<UserPage searchParams={searchParams} />}
-      details={<UserDetails searchParams={searchParams} />}
+      details={<ClientUserDetails />}
     />
   );
 }

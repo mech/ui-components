@@ -17,11 +17,11 @@ const TextColumn = ({ rowIndex, data, propertyName }) => {
   const pathname = usePathname();
   const { push } = useRouter();
   const [pending, startTransition] = useTransition();
-  const { setIsPanelPending } = useContext(PendingContext);
+  // const { setIsPanelPending } = useContext(PendingContext);
 
-  useEffect(() => {
-    setIsPanelPending(pending);
-  }, [pending, setIsPanelPending]);
+  // useEffect(() => {
+  //   setIsPanelPending(pending);
+  // }, [pending, setIsPanelPending]);
 
   if (!data[rowIndex]) return null;
 

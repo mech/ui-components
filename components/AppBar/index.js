@@ -38,15 +38,15 @@ import { useSearchParams } from "next/navigation";
 
 const AppBar = () => {
   // sticky inset-0
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
-  const pick = searchParams.get("pick");
+  // const pick = searchParams.get("page");
 
   return (
     <div>
       <div className="grid h-screen grid-rows-[auto,1fr,auto] space-y-3 bg-background p-4 text-gray-800 dark:text-gray-400">
         <div className="space-y-4">
-          <pre>{JSON.stringify(pick, null, 2)}</pre>
+          {/*<pre>{JSON.stringify(pick, null, 2)}</pre>*/}
 
           <div className="grid grid-cols-[16px,20px,1fr] items-center gap-2 rounded-full bg-amber-100 py-1 text-black dark:bg-amber-900 dark:text-amber-500">
             <HomeIcon className="col-start-2" />

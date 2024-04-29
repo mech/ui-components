@@ -12,6 +12,7 @@ export async function POST(request) {
   });
 
   const result = await client.query(query, variables);
+  return Response.json(result); // This will work with Client's URQL
 
-  return Response.json({ result });
+  // return Response.json({ result });
 }

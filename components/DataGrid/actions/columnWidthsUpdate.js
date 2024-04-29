@@ -26,8 +26,11 @@ export async function columnWidthsUpdate({
 
   // Must revalidatePath to clear Router Cache so whatever visited page can clear the columnWidths cache
   revalidatePath("/dbusers");
+  revalidatePath("/fetch-examples");
   revalidateTag("table-columns");
 
+  // console.log(outcome);
+
   // Optional
-  return outcome;
+  return { message: "okay" };
 }

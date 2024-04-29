@@ -51,6 +51,7 @@ const Pagination = ({
   const getPageUrl = (page) => {
     const params = new URLSearchParams(searchParams);
     params.set(pageParamName, page);
+    params.delete("random");
     // params.delete("pick");
 
     return `${pathname}?${params.toString()}`;

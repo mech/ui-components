@@ -4,6 +4,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { PendingContext } from "@/app/(workspace)/dbusers2/PendingContext";
+import UrqlProvider from "@/app/(workspace)/fetch-examples/UrqlProvider";
 
 export default function PanelContainer({ master, details = null }) {
   const [panelPending, setIsPanelPending] = useState(false);
@@ -37,15 +38,17 @@ export default function PanelContainer({ master, details = null }) {
             className="data-[panel-pending]:opacity-50"
           >
             <div className="h-full overflow-auto">
-              <Suspense
-                fallback={
-                  <div className="grid h-full place-content-center">
-                    Loading...
-                  </div>
-                }
-              >
-                {details}
-              </Suspense>
+              <UrqlProvider>{details}</UrqlProvider>
+
+              {/*<Suspense*/}
+              {/*  fallback={*/}
+              {/*    <div className="grid h-full place-content-center">*/}
+              {/*      Loading...*/}
+              {/*    </div>*/}
+              {/*  }*/}
+              {/*>*/}
+              {/*  {details}*/}
+              {/*</Suspense>*/}
             </div>
           </Panel>
         </>

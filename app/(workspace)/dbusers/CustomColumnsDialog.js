@@ -25,11 +25,12 @@ import {
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { createRoot } from "react-dom/client";
 import { ColumnsPlusRight } from "@phosphor-icons/react";
 import { columnWidthsUpdate } from "@/components/DataGrid/actions/columnWidthsUpdate";
 import { FormProvider, useForm } from "react-hook-form";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 // https://github.com/atlassian/pragmatic-drag-and-drop/issues/28
 const DragPreview = ({ children }) => {
@@ -132,6 +133,10 @@ const DroppableContainer = ({ children, item, index }) => {
 
 const CustomColumnsDialog = ({ tableColumns }) => {
   const [items, setItems] = useState([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [pending, startTransition] = useTransition();
 
   useEffect(() => {
     setItems(tableColumns);
@@ -173,6 +178,21 @@ const CustomColumnsDialog = ({ tableColumns }) => {
 
     const outcome = await columnWidthsUpdate({ tableColumns: newItems });
     console.log(outcome);
+
+    // location.reload();
+    const params = new URLSearchParams(searchParams);
+    params.set("random", Math.random());
+    const url = `${pathname}?${params.toString()}`;
+
+    router.push(url);
+    router.refresh();
+
+    // startTransition(async () => {
+    //   // Does not seem to work
+    //   setConfigUpdating(true);
+    //   const outcome = await columnWidthsUpdate({ tableColumns: newItems });
+    //   setConfigUpdating(false);
+    // });
   };
 
   useEffect(() => {

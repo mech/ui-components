@@ -4,9 +4,12 @@ const DataGrid = ({ children, className }) => {
   return <div className={cn("group", className)}>{children}</div>;
 };
 
-const DataGridContent = ({ children, className }) => {
+const DataGridContent = ({ children, className, ...props }) => {
   return (
-    <div className={cn("group-has-[[data-pending]]:opacity-50", className)}>
+    <div
+      className={cn("group-has-[[data-pending]]:opacity-50", className)}
+      {...props}
+    >
       {children}
     </div>
   );
