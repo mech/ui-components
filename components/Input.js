@@ -34,6 +34,7 @@ const Input = forwardRef(
       prefixStyling = true,
       suffixStyling = true,
       className,
+      wrapperClassName,
       ...props
     },
     ref,
@@ -64,6 +65,7 @@ const Input = forwardRef(
             "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent",
             "focus-within:border-input-focus focus-within:text-input-ring focus-within:ring-4 focus-within:ring-input-ring focus-within:ring-opacity-30 focus:outline-none",
             "data-[invalid=true]:border-input-error data-[invalid=true]:ring-4 data-[invalid=true]:ring-input-error data-[invalid=true]:ring-opacity-30",
+            wrapperClassName,
           )}
         >
           <label htmlFor={id} className={labelClassNames}>

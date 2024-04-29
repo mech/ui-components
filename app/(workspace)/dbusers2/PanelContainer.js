@@ -34,6 +34,7 @@ export default function PanelContainer({ master, details = null }) {
             id="details"
             order={2}
             defaultSize={40}
+            minSize={30}
             data-panel-pending={dataPending(panelPending)}
             className="data-[panel-pending]:opacity-50"
           >
