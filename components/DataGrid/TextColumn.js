@@ -28,9 +28,12 @@ const TextColumn = ({ rowIndex, data, propertyName }) => {
   const getPageUrl = () => {
     startTransition(() => {
       const params = new URLSearchParams(searchParams);
-      params.set("pick", data[rowIndex]["id"]);
+      const id = data[rowIndex]["id"];
 
-      const url = `${pathname}?${params.toString()}`;
+      // params.set("pick", id);
+      // const url = `${pathname}?${params.toString()}`;
+
+      const url = `/parallel-examples/${id}?${params.toString()}`;
 
       push(url);
     });
