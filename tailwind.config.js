@@ -47,13 +47,17 @@ module.exports = {
         },
         popover: {
           DEFAULT: "hsl(var(--popover) / <alpha-value>)",
-          foreground: "hsl(var(--popover-foreground))",
+          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
           focus: "hsl(var(--popover-focus) / <alpha-value>)",
           active: "hsl(var(--popover-active) / <alpha-value>)",
         },
+        dialog: {
+          DEFAULT: "hsl(var(--dialog) / <alpha-value>)",
+        },
         card: {
           DEFAULT: "hsl(var(--card) / <alpha-value>)",
-          foreground: "hsl(var(--card-foreground))",
+          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
+          border: "hsl(var(--card-border) / <alpha-value>)",
         },
       },
       backgroundImage: {

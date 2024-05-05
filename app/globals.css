@@ -32,13 +32,16 @@
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+    --card-border: 216 12% 84%; /* gray-300 = #d1d5db */
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
     --popover-focus: 220 13% 91%;
     --popover-active: 216 12% 84%;
+
+    --dialog: var(--background);
 
     --primary: 142 71% 45%; /* green-500 = #22c55e */
     --primary-foreground: 0 0% 100%; /* white */
@@ -70,10 +73,14 @@
     --background: 0 0% 9%; /* neutral-900 = #171717 */
     --foreground: 0 0% 100%; /* white */
 
+    --card-border: var(--border);
+
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 100%;
     --popover-focus: 0 0% 20%;
     --popover-active: 0 0% 15%; /* neutral-800 = #262626 */
+
+    --dialog: var(--background); /* Same as --background if not inside dialog */
 
     --primary: 142 71% 25%; /* green-500 = #22c55e, L=25% */
     --primary-foreground: 0 0% 100%; /* white */
@@ -89,6 +96,11 @@
     --destructive-foreground: 360 94% 82%; /* red-300 = #fca5a5 */
     --destructive-border: 360 94% 82%; /* red-600 = #dc2626 */
     --destructive-ring: 360 84% 65%; /* red-500 = #ef4444 */
+  }
+
+  .dark [role="alertdialog"],
+  .dark [role="dialog"] {
+    --dialog: 0 0% 15%; /* neutral-800 = #262626 */
   }
 }
 

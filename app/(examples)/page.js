@@ -35,6 +35,9 @@ import {
 } from "@/components/SegmentedControl";
 import Pagination from "@/components/Pagination";
 import { useState } from "react";
+import Card from "@/components/Card";
+import FormCol from "@/components/FormCol";
+import { HandPalm } from "@phosphor-icons/react/dist/ssr";
 
 export default function Home() {
   const [page, setPage] = useState(1);
@@ -55,7 +58,32 @@ export default function Home() {
     <main className="space-y-4 p-4">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)} className="space-y-4">
-          <ButtonExamples />
+          <Card className="space-y-5">
+            <FormCol>
+              <Input label="Location One" />
+              <Input label="Location Two" errorMessage={null} />
+
+              <div className="relative top-1 flex-none">
+                <FormCol className="items-center">
+                  <HandPalm
+                    color="red"
+                    size="32"
+                    weight="fill"
+                    className="flex-none"
+                  />
+                  <Switch name="a" className="" />
+                  <Checkbox name="b" />
+                </FormCol>
+              </div>
+            </FormCol>
+
+            <FormCol>
+              <Input label="Location One" />
+              <Input label="Location Two" />
+            </FormCol>
+          </Card>
+
+          {/*<ButtonExamples />*/}
 
           <div>
             <h1>Segmented control</h1>
@@ -190,13 +218,6 @@ export default function Home() {
           <Button type="submit">Test form</Button>
         </form>
       </FormProvider>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
-        commodi culpa, dignissimos dolor eaque enim molestias quae quibusdam
-        sint vitae? Consectetur et explicabo facere fuga in iusto molestiae
-        pariatur saepe?
-      </p>
 
       {/*<Switch />*/}
     </main>

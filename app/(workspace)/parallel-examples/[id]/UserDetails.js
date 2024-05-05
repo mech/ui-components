@@ -1,6 +1,7 @@
 import { getUser } from "@/app/(workspace)/dbusers2/getUser";
 import { IdentificationBadge } from "@phosphor-icons/react/dist/ssr";
 import { InfoIcon } from "lucide-react";
+import Card from "@/components/Card";
 
 export default async function UserDetails({ id }) {
   const res = await getUser({ id });
@@ -55,12 +56,12 @@ export default async function UserDetails({ id }) {
           <li>Tab 3</li>
         </ul>
 
-        <p className="rounded-lg bg-gray-50 p-4">
+        <Card>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
           architecto assumenda at atque dicta ea error excepturi, facere fugit
           id impedit in iste, minus molestias necessitatibus repellat suscipit,
           velit voluptatem.
-        </p>
+        </Card>
       </div>
     </div>
   );
