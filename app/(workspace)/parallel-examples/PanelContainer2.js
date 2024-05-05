@@ -19,7 +19,7 @@ export default function PanelContainer2({ master, details = null }) {
       {params.id && (
         <Fragment>
           <PanelResizeHandle className="flex items-stretch justify-stretch">
-            <div className="my-2 w-2 rounded-full bg-gray-50 transition-colors hover:bg-gray-100"></div>
+            <div className="my-2 w-2 rounded-full bg-border/50 transition-colors hover:bg-border"></div>
           </PanelResizeHandle>
 
           <Panel id="details" order={2} defaultSize={40} minSize={30}>

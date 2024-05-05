@@ -6,14 +6,29 @@ import {
   Shapes,
   Sparkles,
 } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import Link from "next/link";
+import { startTransition } from "react";
 
 export default function Tabs() {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const params = useParams();
 
-  console.log(`${pathname}/unread?${searchParams.toString()}`);
+  const id = params.id;
+
+  // const visitUrl = (tabName) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   const url = `/parallel-examples/${id}/${tabName}?${params.toString()}`;
+  //
+  //   startTransition(() => {
+  //     push(url);
+  //   });
+  // };
 
   return (
     <ul className="no-scrollbar flex cursor-pointer select-none flex-nowrap items-center gap-0 overflow-y-hidden overflow-x-scroll overscroll-contain border-y border-gray-300">
@@ -21,8 +36,7 @@ export default function Tabs() {
         <div className="flex items-center gap-1">
           <MessageSquareDashed className="shrink-0" />
           <Link
-            href={`${pathname}/unread?${searchParams.toString()}`}
-            className="flex-none"
+            href={`/parallel-examples/${id}/unread?${searchParams.toString()}`}
           >
             Unread
           </Link>
@@ -31,7 +45,11 @@ export default function Tabs() {
       <li className="rounded-mds flex-none border-r border-gray-300 bg-gray-100 px-4 py-2 shadow-inner transition-colors">
         <div className="flex flex-nowrap items-center gap-1">
           <Sparkles className="shrink-0" />
-          <span className="flex-none">AI Assistant</span>
+          <Link
+            href={`/parallel-examples/${id}/ai-assistant?${searchParams.toString()}`}
+          >
+            Unread
+          </Link>
         </div>
       </li>
       <li className="rounded-mds flex-none border-r border-gray-300 px-4 py-2 transition-colors hover:bg-gray-100">

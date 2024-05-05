@@ -8,7 +8,8 @@ import {
   useTransition,
 } from "react";
 import { HotkeysProvider } from "@blueprintjs/core";
-import "@blueprintjs/table/lib/css/table.css";
+// import "@blueprintjs/table/lib/css/table.css";
+import "@/app/table.css";
 import {
   Cell,
   Column,
@@ -45,7 +46,6 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [pending, startTransition] = useTransition();
 
   // In case user want to use a different deps than relying on ID
   // const effectDeps = deps ? deps : JSON.stringify(data.map((u) => u.id));

@@ -125,15 +125,19 @@ const DialogExamples = () => {
 
             <FloatingExamples />
             <DownshiftExamples />
-            <MultipleSelectionDownshiftExamples />
+            {/*<MultipleSelectionDownshiftExamples />*/}
           </section>
 
-          <AlertDialogFooter className="justify-center">
+          <AlertDialogFooter>
             <AlertDialogCancel>
-              <Button variant="secondary" outline pill>
-                Close
+              <Button variant="ghost" pill>
+                Dismiss
               </Button>
             </AlertDialogCancel>
+
+            <Button type="submit" variant="secondary" outline pill>
+              Apply
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

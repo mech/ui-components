@@ -41,6 +41,7 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 const AlertDialogOverlay = forwardRef(({ className, ...props }, ref) => {
   const classNames = cn(
     "fixed inset-0 z-50 bg-gray-900/40",
+    "dark:bg-neutral-900/70",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
     className,
@@ -58,11 +59,12 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 const AlertDialogContent = forwardRef(
   ({ className, children, ...props }, ref) => {
     const classNames = cn(
-      "z-50 mx-auto mt-24 transform rounded-lg bg-white px-4 shadow-lg outline-none",
+      "z-50 mx-auto mt-24 transform rounded-lg bg-background px-4 shadow-lg outline-none",
       "max-h-[calc(100%-128px)] w-[95vw] max-w-2xl overflow-scroll",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      "dark:border dark:bg-neutral-800 dark:shadow-2xl",
       className,
     );
 
@@ -99,8 +101,9 @@ AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName;
 const AlertDialogFooter = forwardRef(
   ({ className, children, center = true, ...props }, ref) => {
     const classNames = cn(
-      "sticky bottom-0 flex justify-between gap-4 border-t bg-white py-4",
+      "sticky bottom-0 flex justify-between gap-4 border-t bg-background py-4",
       { "justify-center": center },
+      "dark:bg-neutral-800",
       className,
     );
 

@@ -85,9 +85,11 @@ const Pagination = ({
         ({ nr, ellipsis }) => {
           const active = nr === optimisticPage;
           const classNames = cn(
-            "min-w-[30px] focus:border-gray-500 focus-visible:border-gray-500",
+            "min-w-[30px]",
+            "dark:hover:enabled:border-transparent dark:hover:enabled:bg-neutral-200 dark:hover:enabled:text-black",
             {
-              "border-gray-500": active,
+              "border-gray-500 dark:border-transparent dark:bg-neutral-200 dark:text-black":
+                active,
             },
           );
 

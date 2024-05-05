@@ -19,7 +19,7 @@ const variants = cva(
         destructive:
           "border-destructive-border bg-destructive text-destructive-foreground focus-visible:ring-destructive-ring hover:enabled:bg-destructive/90",
         ghost:
-          "border-transparent bg-background text-foreground focus-visible:ring-secondary-ring hover:enabled:bg-gray-200 dark:hover:enabled:bg-neutral-800",
+          "border-transparent bg-transparent text-foreground focus-visible:ring-secondary-ring hover:enabled:bg-gray-200 dark:hover:enabled:bg-neutral-700",
         plainIcon: "border-transparent",
         bgIcon:
           "rounded-md border-transparent focus:bg-gray-200 focus-visible:ring-secondary-ring hover:enabled:bg-gray-200 dark:focus:bg-neutral-800 dark:hover:enabled:bg-neutral-800",

@@ -25,7 +25,10 @@ export default async function UserDetails({ id }) {
           </div>
           <div className="flex items-center justify-between gap-8 py-2">
             <span className="text-gray-500">Email</span>
-            <a href={`mailto:${user.email}`} className="truncate text-blue-700">
+            <a
+              href={`mailto:${user.email}`}
+              className="truncate text-blue-700 dark:text-blue-400"
+            >
               {user.email}
             </a>
           </div>

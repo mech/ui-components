@@ -6,7 +6,7 @@ const EmailColumn = ({ rowIndex, data, propertyName }) => {
   return (
     <a
       href={`mailto:${data[rowIndex][propertyName]}`}
-      className="text-base text-blue-700"
+      className="text-base text-blue-700 dark:text-blue-400"
     >
       {data[rowIndex][propertyName]}
     </a>
