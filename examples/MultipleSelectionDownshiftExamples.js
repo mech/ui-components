@@ -4,7 +4,7 @@ import {
   autoUpdate,
   offset,
   flip,
-  size,
+  size as floatingUISize,
   FloatingPortal,
 } from "@floating-ui/react";
 import cn from "@/lib/cn";
@@ -12,6 +12,7 @@ import { useState, useId } from "react";
 import { Check } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useController } from "react-hook-form";
+import { matchSorter } from "match-sorter";
 
 const sizeVariants = cva([], {
   variants: {
@@ -41,28 +42,16 @@ const fetch = [
   { id: "12", nationality: "Chinese" },
 ];
 
-const stateReducer = (state, actionAndChanges) => {
-  const { type, changes, index } = actionAndChanges;
-
-  switch (type) {
-    case useCombobox.stateChangeTypes.InputKeyDownEnter:
-    case useCombobox.stateChangeTypes.ItemClick:
-      return {
-        ...changes,
-        isOpen: true,
-        highlightedIndex: state.highlightedIndex, // To maintain selection position at dropdown
-      };
-    default:
-      return changes;
-  }
-};
-
 const MultipleSelectionDownshiftExamples = ({
   name,
   requiredMessage,
   defaultValue,
+  size,
 }) => {
   const [items, setItems] = useState(fetch);
+
+  // `selectedItems` is not needed as it is handled by `useMultipleSelection`
+  // However, if you want to use it as "control prop", you can handle it with useState
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -81,17 +70,18 @@ const MultipleSelectionDownshiftExamples = ({
   const {
     getSelectedItemProps,
     getDropdownProps,
-    addSelectedItem,
+    // addSelectedItem, // Not being used if we manage ourselves using "control prop"
     removeSelectedItem,
+    setActiveIndex,
   } = useMultipleSelection({
-    selectedItems,
+    selectedItems, // Acts as "control prop"
     onStateChange: ({ selectedItems: newSelectedItems, type }) => {
       switch (type) {
         case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownBackspace:
         case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
         case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
         case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
-          // setSelectedItems(newSelectedItems);
+          // Do both onChange handler and setting the `selectedItems` state
           handleOnChange(newSelectedItems);
           break;
         default:
@@ -116,8 +106,37 @@ const MultipleSelectionDownshiftExamples = ({
     },
     defaultHighlightedIndex: 0,
     inputValue,
-    stateReducer,
-    selectedItem: null,
+    // onInputValueChange: ({ inputValue }) => {
+    //   // Only needed if using matchSorter!
+    //
+    //   // How you filter the items in the list. You can either filter by
+    //   // querying the DB or use matchSorter if all items are downloaded.
+    //
+    //   setItems(
+    //     matchSorter(fetch, inputValue, {
+    //       keys: ["nationality"],
+    //       baseSort: (a, b) => {
+    //         return a.index < b.index ? -1 : 1;
+    //       },
+    //     }),
+    //   );
+    // },
+    stateReducer: (state, actionAndChanges) => {
+      const { type, changes } = actionAndChanges;
+
+      switch (type) {
+        case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        case useCombobox.stateChangeTypes.ItemClick:
+          return {
+            ...changes,
+            isOpen: true,
+            highlightedIndex: state.highlightedIndex, // To maintain selection position at dropdown
+          };
+        default:
+          return changes;
+      }
+    },
+    selectedItem: null, // Since `useMultipleSelection` will handle the items selection
     onStateChange: ({
       inputValue: newInputValue,
       selectedItem: newSelectedItem,
@@ -126,16 +145,24 @@ const MultipleSelectionDownshiftExamples = ({
       switch (type) {
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
-        case useCombobox.stateChangeTypes.InputBlur:
           if (newSelectedItem) {
             const newSelectedItems = [...selectedItems, newSelectedItem];
 
+            // If we only want single value
+            // const newSelectedItems = [newSelectedItem];
+
             // setSelectedItems(newSelectedItems);
             // field.onChange(newSelectedItems);
+
+            // Let outside onChange know (esp. RHF)
             handleOnChange(newSelectedItems);
 
-            setInputValue("");
+            setInputValue(""); // Must also clear input value after selection
           }
+          break;
+        case useCombobox.stateChangeTypes.InputBlur:
+          // InputBlur must be separate in order for Backspace to work
+          setInputValue("");
           break;
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(newInputValue);
@@ -152,7 +179,7 @@ const MultipleSelectionDownshiftExamples = ({
     open: isOpen,
     middleware: [
       offset(8),
-      size({
+      floatingUISize({
         apply({ availableHeight, rects, elements }) {
           Object.assign(elements.floating.style, {
             width: `${rects.reference.width}px`,
@@ -208,10 +235,22 @@ const MultipleSelectionDownshiftExamples = ({
           <div className="flex grow gap-0.5">
             <input
               className={cn(
-                sizeVariants(),
+                sizeVariants({ size }),
                 "order-2 w-full appearance-none rounded-md bg-background text-black text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               )}
-              {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+              {...getInputProps(
+                getDropdownProps({
+                  // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
+                  onKeyDown: (e) => {
+                    if (e.key === "Backspace") {
+                      e.nativeEvent.preventDownshiftDefault = true;
+                      if (e.target.value === "") {
+                        setActiveIndex(selectedItems.length - 1);
+                      }
+                    }
+                  },
+                }),
+              )}
             />
           </div>
         </div>
@@ -230,27 +269,35 @@ const MultipleSelectionDownshiftExamples = ({
         >
           {isOpen && (
             <>
-              {items.map((item, index) => (
-                <li
-                  key={item.id}
-                  data-list={true}
-                  data-highlighted={highlightedIndex === index}
-                  data-selected={
-                    selectedItem?.id === item.id || selectedItems.includes(item)
-                  }
-                  className={itemClassNames}
-                  {...getItemProps({ item, index })}
-                >
-                  <div className="flex items-center gap-2">
-                    {selectedItems.includes(item) ? (
-                      <Check size={16} strokeWidth={2} />
-                    ) : (
-                      <div className="invisible w-4" />
-                    )}
-                    {item.nationality}
-                  </div>
-                </li>
-              ))}
+              {items.map((item, index) => {
+                const selected =
+                  !!selectedItems.find((s) => s.id === item.id) ||
+                  selectedItems.includes(item);
+
+                // Can use this "selectedItems.includes(item);" if primitive value
+
+                // React.cloneElement(child, props)
+
+                return (
+                  <li
+                    key={item.id}
+                    data-list={true}
+                    data-highlighted={highlightedIndex === index}
+                    data-selected={selected}
+                    className={itemClassNames}
+                    {...getItemProps({ item, index })}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selected ? (
+                        <Check size={16} strokeWidth={2} />
+                      ) : (
+                        <div className="invisible w-4" />
+                      )}
+                      {item.nationality}
+                    </div>
+                  </li>
+                );
+              })}
             </>
           )}
         </ul>

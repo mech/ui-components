@@ -15,6 +15,7 @@ import { Check, CircleX } from "lucide-react";
 import button from "@/components/Button";
 
 const fetch = [
+  { id: "0", nationality: "NULL" },
   { id: "1", nationality: "Singaporean" },
   { id: "2", nationality: "Malaysian" },
   { id: "3", nationality: "Indonesian" },
@@ -43,12 +44,12 @@ const stateReducer = (state, actionAndChanges) => {
         ...changes,
         isOpen: true,
         highlightedIndex: state.highlightedIndex,
-        inputValue: "",
+        inputValue: "", // If we disallow custom value
       };
     case useCombobox.stateChangeTypes.InputBlur:
       return {
         ...changes,
-        inputValue: "",
+        inputValue: "", // If we disallow custom value
       };
     default:
       return changes;
@@ -77,6 +78,9 @@ const DownshiftExamples = () => {
       return item ? item.nationality : "";
     },
     onInputValueChange: ({ inputValue }) => {
+      // How you filter the items in the list. You can either filter by
+      // querying the DB or use matchSorter if all items are downloaded.
+
       setItems(
         matchSorter(fetch, inputValue, {
           keys: ["nationality"],
@@ -155,7 +159,8 @@ const DownshiftExamples = () => {
               <CircleX size={24} />
             </button>
           }
-          label={`Nationality: ${selectedItems.length} picked`}
+          // label={`Nationality: ${selectedItems.length} picked`}
+          label="A"
           placeholder={placeholder}
           className="placeholder-black"
           {...getInputProps({
@@ -182,27 +187,30 @@ const DownshiftExamples = () => {
         >
           {isOpen && (
             <>
-              {items.map((item, index) => (
-                <li
-                  key={item.id}
-                  data-list={true}
-                  data-highlighted={highlightedIndex === index}
-                  data-selected={
-                    selectedItem?.id === item.id || selectedItems.includes(item)
-                  }
-                  className={itemClassNames}
-                  {...getItemProps({ item, index })}
-                >
-                  <div className="flex items-center gap-2">
-                    {selectedItems.includes(item) ? (
-                      <Check size={16} strokeWidth={2} />
-                    ) : (
-                      <div className="invisible w-4" />
-                    )}
-                    {item.nationality}
-                  </div>
-                </li>
-              ))}
+              {items.map((item, index) => {
+                const selected =
+                  selectedItem?.id === item.id || selectedItems.includes(item);
+
+                return (
+                  <li
+                    key={item.id}
+                    data-list={true}
+                    data-highlighted={highlightedIndex === index}
+                    data-selected={selected}
+                    className={itemClassNames}
+                    {...getItemProps({ item, index })}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selected ? (
+                        <Check size={16} strokeWidth={2} />
+                      ) : (
+                        <div className="invisible w-4" />
+                      )}
+                      {item.nationality}
+                    </div>
+                  </li>
+                );
+              })}
             </>
           )}
         </ul>

@@ -97,9 +97,19 @@ export default function Home() {
             </SegmentedControlRoot>
           </div>
 
-          <MultipleSelectionDownshiftExamples name="multi-select" />
+          <MultipleSelectionDownshiftExamples
+            name="multi-select"
+            size="md"
+            // defaultValue={[
+            //   {
+            //     id: "5",
+            //     nationality: "Vietnamese",
+            //   },
+            //   { id: "7", nationality: "Myanmar" },
+            // ]}
+          />
 
-          {/*<DownshiftExamples />*/}
+          <DownshiftExamples />
           {/*<FloatingExamples />*/}
 
           <div className="flex gap-4">
