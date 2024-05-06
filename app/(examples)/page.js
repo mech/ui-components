@@ -63,18 +63,20 @@ export default function Home() {
               <Input label="Location One" />
               <Input label="Location Two" errorMessage={null} />
 
-              <div className="relative top-1 flex-none">
-                <FormCol className="items-center">
-                  <HandPalm
-                    color="red"
-                    size="32"
-                    weight="fill"
-                    className="flex-none"
-                  />
-                  <Switch name="a" className="" />
-                  <Checkbox name="b" />
-                </FormCol>
+              <div className="flex items-center justify-center gap-4 self-center">
+                <HandPalm
+                  color="red"
+                  size="32"
+                  weight="fill"
+                  className="flex-none self-auto"
+                />
+                <Switch name="a" className="self-auto" />
+                <Checkbox name="b" className="self-auto" />
               </div>
+            </FormCol>
+
+            <FormCol>
+              <Input label="Location Two" />
             </FormCol>
 
             <FormCol>
