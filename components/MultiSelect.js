@@ -30,8 +30,9 @@ const sizeVariants = cva([], {
 export default function MultiSelect({
   multiple = true,
   items = [],
-  itemToString = (item) => (item ? item.itemName : ""),
-  itemKey = "id",
+  itemToString,
+  itemKey,
+  itemName,
   label,
   placeholder,
   errorMessage,
@@ -40,12 +41,14 @@ export default function MultiSelect({
   displayCheckMark = true,
   tagRenderer,
   itemRenderer,
-  allowTypeahead = false,
 }) {
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
   // However, if you want to use it as a "control prop", you can handle it with useState
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
+  itemToString = itemToString || ((item) => (item ? item[itemName] : ""));
+  itemRenderer = itemRenderer || (({ item }) => item[itemName]);
 
   const handleOnChange = (selectedItems) => {
     setSelectedItems(selectedItems);
@@ -159,10 +162,12 @@ export default function MultiSelect({
             if (multiple) {
               newSelectedItems = [
                 ...selectedItems,
-                { id: Math.random(), itemName: inputValue },
+                { id: Math.random(), [`${itemName}`]: inputValue },
               ];
             } else {
-              newSelectedItems = [{ id: Math.random(), itemName: inputValue }];
+              newSelectedItems = [
+                { id: Math.random(), [`${itemName}`]: inputValue },
+              ];
             }
 
             handleOnChange(newSelectedItems);
@@ -181,6 +186,9 @@ export default function MultiSelect({
 
   // -----
   // useFloating
+  //
+  // Need to use suppressRefError: true due to FloatingPortal
+  // https://github.com/downshift-js/downshift/issues/1272
   // -----
   const { refs, floatingStyles } = useFloating({
     placement: "bottom-start",
@@ -271,12 +279,14 @@ export default function MultiSelect({
                         if (multiple) {
                           newSelectedItems = [
                             ...selectedItems,
-                            { id: Math.random(), itemName: inputValue },
+                            { id: Math.random(), [`${itemName}`]: inputValue },
                           ];
                         } else {
                           newSelectedItems = [
-                            { id: Math.random(), itemName: inputValue },
+                            { id: Math.random(), [`${itemName}`]: inputValue },
                           ];
+
+                          console.log(newSelectedItems);
                         }
 
                         handleOnChange(newSelectedItems);
@@ -315,6 +325,7 @@ export default function MultiSelect({
 
                 // React.cloneElement(child, props)
 
+                // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
                 return (
                   <li
                     key={`item-${index}`}

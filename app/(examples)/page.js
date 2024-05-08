@@ -44,7 +44,7 @@ const TagRenderer = ({ selectedItem, index, getSelectedItemProps }) => {
   return (
     <div
       key={`selected-item-${index}`}
-      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black text-red-500 outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
+      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
       {...getSelectedItemProps({ selectedItem, index })}
     >
       {selectedItem.nationality}
@@ -56,10 +56,10 @@ const TagRenderer2 = ({ selectedItem, index, getSelectedItemProps }) => {
   return (
     <div
       key={`selected-item-${index}`}
-      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black text-red-500 outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
+      className="cursor-pointer rounded-md bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
       {...getSelectedItemProps({ selectedItem, index })}
     >
-      {selectedItem.itemName}
+      {selectedItem.nationality}
     </div>
   );
 };
@@ -84,21 +84,21 @@ export default function Home() {
   };
 
   const nationalities = [
-    { id: "1", itemName: "Singaporean" },
-    { id: "2", itemName: "Malaysian" },
-    { id: "3", itemName: "Indonesian" },
+    { id: "1", nationality: "Singaporean" },
+    { id: "2", nationality: "Malaysian" },
+    { id: "3", nationality: "Indonesian" },
   ];
 
   return (
     <main className="space-y-4 p-4">
       <MultiSelect
-        label="National"
+        label="Nationality"
         multiple={false}
         items={nationalities}
         itemKey="id"
-        itemRenderer={({ item }) => item.itemName}
+        itemName="nationality"
         tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
-          <TagNormal
+          <TagRenderer2
             // key={`selected-item-${index}`}
             index={index}
             selectedItem={selectedItem}
