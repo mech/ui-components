@@ -181,7 +181,7 @@ const CustomColumnsDialog = ({ tableColumns }) => {
 
     // location.reload();
     const params = new URLSearchParams(searchParams);
-    params.set("random", Math.random());
+    // params.set("random", Math.random());
     const url = `${pathname}?${params.toString()}`;
 
     router.push(url);

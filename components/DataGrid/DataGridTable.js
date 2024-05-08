@@ -102,7 +102,7 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
     await columnWidthsUpdate({ columnNames: nextColumns.map((c) => c.key) });
 
     const params = new URLSearchParams(searchParams);
-    params.set("random", Math.random());
+    // params.set("random", Math.random());
     const url = `${pathname}?${params.toString()}`;
 
     router.push(url);
@@ -118,7 +118,7 @@ const DataGridTable = ({ data, tableColumns, components, numRows = 25 }) => {
     await columnWidthsUpdate({ columnWidths: next });
 
     const params = new URLSearchParams(searchParams);
-    params.set("random", Math.random());
+    // params.set("random", Math.random());
     const url = `${pathname}?${params.toString()}`;
 
     router.push(url);

@@ -1,3 +1,5 @@
+"use client";
+
 import { useCombobox, useMultipleSelection } from "downshift";
 import {
   useFloating,
@@ -8,11 +10,9 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import cn from "@/lib/cn";
-import { useState, useId, Fragment } from "react";
-import { Check } from "lucide-react";
+import { Fragment, useState } from "react";
 import { cva } from "class-variance-authority";
-import { useController } from "react-hook-form";
-import { matchSorter } from "match-sorter";
+import { Check } from "lucide-react";
 
 const sizeVariants = cva([], {
   variants: {
@@ -27,61 +27,42 @@ const sizeVariants = cva([], {
   },
 });
 
-const fetch = [
-  { id: "1", nationality: "Singaporean" },
-  { id: "2", nationality: "Malaysian" },
-  { id: "3", nationality: "Indonesian" },
-  { id: "4", nationality: "Filipino" },
-  { id: "5", nationality: "Vietnamese" },
-  { id: "6", nationality: "Thai" },
-  { id: "7", nationality: "Myanmar" },
-  { id: "8", nationality: "Cambodian" },
-  { id: "9", nationality: "Laotian" },
-  { id: "10", nationality: "Bruneian" },
-  { id: "11", nationality: "Timorese" },
-  { id: "12", nationality: "Chinese" },
-];
-
-const checkDuplicate = (selectedItems, item, itemKey) => {
-  return selectedItems.some((s) => s[itemKey] === item[itemKey]);
-};
-
-const MultipleSelectionDownshiftExamples = ({
-  name,
-  requiredMessage,
+export default function MultiSelect({
+  multiple = true,
+  items = [],
+  itemToString = (item) => (item ? item.itemName : ""),
+  itemKey = "id",
+  label,
+  placeholder,
   errorMessage,
-  defaultValue,
   size,
-  tagRenderer,
+  disabled = false,
   displayCheckMark = true,
-}) => {
-  const [items, setItems] = useState(fetch);
-
+  tagRenderer,
+  itemRenderer,
+  allowTypeahead = false,
+}) {
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
-  // However, if you want to use it as "control prop", you can handle it with useState
+  // However, if you want to use it as a "control prop", you can handle it with useState
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
-  const { field } = useController({
-    name,
-    rules: { required: requiredMessage },
-    defaultValue,
-  });
-
   const handleOnChange = (selectedItems) => {
     setSelectedItems(selectedItems);
-    field.onChange(selectedItems);
+    // field.onChange(selectedItems);
   };
 
+  // -----
   // useMultipleSelection
+  // -----
   const {
     getSelectedItemProps,
     getDropdownProps,
     // addSelectedItem, // Not being used if we manage ourselves using "control prop"
     removeSelectedItem,
-    setActiveIndex,
+    setActiveIndex, // For backspace deletion
   } = useMultipleSelection({
-    selectedItems, // Acts as "control prop"
+    selectedItems, // Acts as "control prop", taken from useState
     onStateChange: ({ selectedItems: newSelectedItems, type }) => {
       switch (type) {
         case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownBackspace:
@@ -97,7 +78,9 @@ const MultipleSelectionDownshiftExamples = ({
     },
   });
 
+  // -----
   // useCombobox
+  // -----
   const {
     isOpen,
     getLabelProps,
@@ -105,29 +88,13 @@ const MultipleSelectionDownshiftExamples = ({
     getMenuProps,
     getItemProps,
     highlightedIndex,
-    selectedItem,
+    selectedItem, // Not useful here since we give it `null`
   } = useCombobox({
+    selectedItem: null, // Since `useMultipleSelection` will handle the items selection
     items,
-    itemToString: (item) => {
-      return item ? item.nationality : "";
-    },
-    // defaultHighlightedIndex: 0,
+    itemToString,
+    // defaultHighlightedIndex: 0, // Best to not pre-select to allow for custom value
     inputValue,
-    // onInputValueChange: ({ inputValue }) => {
-    //   // Only needed if using matchSorter!
-    //
-    //   // How you filter the items in the list. You can either filter by
-    //   // querying the DB or use matchSorter if all items are downloaded.
-    //
-    //   setItems(
-    //     matchSorter(fetch, inputValue, {
-    //       keys: ["nationality"],
-    //       baseSort: (a, b) => {
-    //         return a.index < b.index ? -1 : 1;
-    //       },
-    //     }),
-    //   );
-    // },
     stateReducer: (state, actionAndChanges) => {
       const { type, changes } = actionAndChanges;
 
@@ -143,7 +110,6 @@ const MultipleSelectionDownshiftExamples = ({
           return changes;
       }
     },
-    selectedItem: null, // Since `useMultipleSelection` will handle the items selection
     onStateChange: ({
       inputValue: newInputValue,
       selectedItem: newSelectedItem,
@@ -156,19 +122,21 @@ const MultipleSelectionDownshiftExamples = ({
             const hasDuplicate = checkDuplicate(
               selectedItems,
               newSelectedItem,
-              "id",
+              itemKey,
             );
 
             let newSelectedItems = [];
 
             if (hasDuplicate) {
               newSelectedItems = selectedItems.filter(
-                (s) => s.id !== newSelectedItem.id,
+                (s) => s[itemKey] !== newSelectedItem[itemKey],
               );
             } else {
-              newSelectedItems = [...selectedItems, newSelectedItem];
-
-              // newSelectedItems = [newSelectedItem];
+              if (multiple) {
+                newSelectedItems = [...selectedItems, newSelectedItem];
+              } else {
+                newSelectedItems = [newSelectedItem];
+              }
             }
 
             // If we only want single value
@@ -184,18 +152,23 @@ const MultipleSelectionDownshiftExamples = ({
           }
           break;
         case useCombobox.stateChangeTypes.InputBlur:
+          // InputBlur must be separate in order for Backspace to work
           if (inputValue.trim().length > 0) {
-            const newSelectedItems = [
-              ...selectedItems,
-              { id: Math.random(), nationality: inputValue },
-            ];
+            let newSelectedItems = [];
+
+            if (multiple) {
+              newSelectedItems = [
+                ...selectedItems,
+                { id: Math.random(), itemName: inputValue },
+              ];
+            } else {
+              newSelectedItems = [{ id: Math.random(), itemName: inputValue }];
+            }
+
             handleOnChange(newSelectedItems);
           }
 
           setInputValue("");
-
-          // InputBlur must be separate in order for Backspace to work
-          // setInputValue("");
           break;
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(newInputValue);
@@ -206,7 +179,9 @@ const MultipleSelectionDownshiftExamples = ({
     },
   });
 
+  // -----
   // useFloating
+  // -----
   const { refs, floatingStyles } = useFloating({
     placement: "bottom-start",
     open: isOpen,
@@ -231,15 +206,12 @@ const MultipleSelectionDownshiftExamples = ({
     "text-input-error": errorMessage,
     "-top-2.5 text-xs": size === "sm",
   });
+
   const menuClassNames = cn(
     "absolute z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
     {
       border: isOpen && items.length > 0,
     },
-  );
-  const itemClassNames = cn(
-    "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
-    "dark:data-[highlighted=true]:bg-popover-focus",
   );
 
   return (
@@ -255,18 +227,10 @@ const MultipleSelectionDownshiftExamples = ({
         )}
       >
         <label className={labelClassNames} {...getLabelProps()}>
-          Nationality
+          {label}
         </label>
-        <div className="flex w-full flex-wrap items-center gap-1">
+        <div className="flex w-full flex-wrap items-center gap-1 text-foreground">
           {selectedItems.map((selectedItem, index) => {
-            // if (typeof tagRenderer === "function") {
-            //   return tagRenderer({
-            //     selectedItem,
-            //     index,
-            //     getSelectedItemProps,
-            //   });
-            // }
-
             return (
               <Fragment key={`selected-item-${index}`}>
                 {typeof tagRenderer === "function" &&
@@ -277,24 +241,6 @@ const MultipleSelectionDownshiftExamples = ({
                   })}
               </Fragment>
             );
-
-            // return (
-            //   <TagRenderer
-            //     key={`selected-item-${index}`}
-            //     index={index}
-            //     selectedItem={selectedItem}
-            //     getSelectedItemProps={getSelectedItemProps}
-            //   />
-            // );
-            // return (
-            //   <span
-            //     key={`selected-item-${index}`}
-            //     className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-sm text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
-            //     {...getSelectedItemProps({ selectedItem, index })}
-            //   >
-            //     {selectedItem.nationality}
-            //   </span>
-            // );
           })}
 
           <div className="flex grow">
@@ -302,6 +248,7 @@ const MultipleSelectionDownshiftExamples = ({
               className={cn(
                 "order-2 w-full appearance-none rounded-md bg-background text-black text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               )}
+              placeholder={placeholder}
               {...getInputProps(
                 getDropdownProps({
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
@@ -309,16 +256,29 @@ const MultipleSelectionDownshiftExamples = ({
                     if (e.key === "Backspace") {
                       e.nativeEvent.preventDownshiftDefault = true;
                       if (e.target.value === "") {
-                        setActiveIndex(selectedItems.length - 1);
+                        if (multiple) {
+                          setActiveIndex(selectedItems.length - 1);
+                        } else {
+                          handleOnChange([]);
+                        }
                       }
                     } else if (e.key === "Enter") {
                       const customValue = e.target.value;
 
                       if (customValue.trim().length > 0) {
-                        const newSelectedItems = [
-                          ...selectedItems,
-                          { id: Math.random(), nationality: customValue },
-                        ];
+                        let newSelectedItems = [];
+
+                        if (multiple) {
+                          newSelectedItems = [
+                            ...selectedItems,
+                            { id: Math.random(), itemName: inputValue },
+                          ];
+                        } else {
+                          newSelectedItems = [
+                            { id: Math.random(), itemName: inputValue },
+                          ];
+                        }
+
                         handleOnChange(newSelectedItems);
                         setInputValue("");
                       }
@@ -345,26 +305,27 @@ const MultipleSelectionDownshiftExamples = ({
           {isOpen && (
             <>
               {items.map((item, index) => {
-                const selected =
-                  !!selectedItems.find((s) => s.id === item.id) ||
-                  selectedItems.includes(item);
+                // Typically we want to compare using itemKey. However, if using
+                // primitive value, we can use this "selectedItems.includes(item);"
+                const selected = itemKey
+                  ? !!selectedItems.find((s) => s[itemKey] === item[itemKey])
+                  : selectedItems.includes(item);
 
-                // Can use this "selectedItems.includes(item);" if primitive value
+                const highlighted = highlightedIndex === index;
 
                 // React.cloneElement(child, props)
 
                 return (
                   <li
-                    // key={item.id}
                     key={`item-${index}`}
-                    // data-list={true}
-                    data-highlighted={highlightedIndex === index}
+                    data-highlighted={highlighted}
                     data-selected={selected}
                     className={cn(
                       "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
                       "dark:data-[highlighted=true]:bg-popover-focus",
                       {
-                        "is-highlighted": highlightedIndex === index,
+                        "is-highlighted": highlighted,
+                        "is-selected": selected,
                       },
                     )}
                     {...getItemProps({ item, index })}
@@ -372,14 +333,9 @@ const MultipleSelectionDownshiftExamples = ({
                     <div className="flex items-center gap-2">
                       <CheckMark
                         selected={selected}
-                        display={displayCheckMark}
+                        displayCheckMark={displayCheckMark}
                       />
-                      <div className="flex flex-col gap-0">
-                        <span>{item.nationality}</span>
-                        <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
-                          Source: National stats board
-                        </span>
-                      </div>
+                      {itemRenderer({ index, item, selected, highlighted })}
                     </div>
                   </li>
                 );
@@ -390,10 +346,14 @@ const MultipleSelectionDownshiftExamples = ({
       </FloatingPortal>
     </div>
   );
+}
+
+const checkDuplicate = (selectedItems, item, itemKey) => {
+  return selectedItems.some((s) => s[itemKey] === item[itemKey]);
 };
 
-const CheckMark = ({ selected, display }) => {
-  if (display === false) return null;
+const CheckMark = ({ selected, displayCheckMark }) => {
+  if (!displayCheckMark) return null;
 
   return selected ? (
     <Check size={16} strokeWidth={2} />
@@ -401,17 +361,3 @@ const CheckMark = ({ selected, display }) => {
     <div className="invisible w-4" />
   );
 };
-
-const TagRenderer = ({ selectedItem, index, getSelectedItemProps }) => {
-  return (
-    <span
-      key={`selected-item-${index}`}
-      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-sm text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
-      {...getSelectedItemProps({ selectedItem, index })}
-    >
-      {selectedItem.nationality}
-    </span>
-  );
-};
-
-export default MultipleSelectionDownshiftExamples;

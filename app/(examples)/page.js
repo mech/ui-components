@@ -38,6 +38,35 @@ import { useState } from "react";
 import Card from "@/components/Card";
 import FormCol from "@/components/FormCol";
 import { HandPalm } from "@phosphor-icons/react/dist/ssr";
+import MultiSelect from "@/components/MultiSelect";
+
+const TagRenderer = ({ selectedItem, index, getSelectedItemProps }) => {
+  return (
+    <div
+      key={`selected-item-${index}`}
+      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black text-red-500 outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
+      {...getSelectedItemProps({ selectedItem, index })}
+    >
+      {selectedItem.nationality}
+    </div>
+  );
+};
+
+const TagRenderer2 = ({ selectedItem, index, getSelectedItemProps }) => {
+  return (
+    <div
+      key={`selected-item-${index}`}
+      className="cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black text-red-500 outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
+      {...getSelectedItemProps({ selectedItem, index })}
+    >
+      {selectedItem.itemName}
+    </div>
+  );
+};
+
+const TagNormal = ({ selectedItem, index, getSelectedItemProps }) => {
+  return selectedItem.itemName;
+};
 
 export default function Home() {
   const [page, setPage] = useState(1);
@@ -54,8 +83,30 @@ export default function Home() {
     setFormData(data);
   };
 
+  const nationalities = [
+    { id: "1", itemName: "Singaporean" },
+    { id: "2", itemName: "Malaysian" },
+    { id: "3", itemName: "Indonesian" },
+  ];
+
   return (
     <main className="space-y-4 p-4">
+      <MultiSelect
+        label="National"
+        multiple={false}
+        items={nationalities}
+        itemKey="id"
+        itemRenderer={({ item }) => item.itemName}
+        tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
+          <TagNormal
+            // key={`selected-item-${index}`}
+            index={index}
+            selectedItem={selectedItem}
+            getSelectedItemProps={getSelectedItemProps}
+          />
+        )}
+      />
+
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)} className="space-y-4">
           <Card className="space-y-5">
@@ -75,7 +126,7 @@ export default function Home() {
               </div>
             </FormCol>
 
-            <FormCol>
+            <FormCol className="data-[cols='1']:sm:grid-cols-2">
               <Input label="Location Two" />
             </FormCol>
 
@@ -98,6 +149,8 @@ export default function Home() {
           </div>
 
           <MultipleSelectionDownshiftExamples
+            // displayCheckMark={false}
+            // errorMessage="test"
             name="multi-select"
             size="md"
             // defaultValue={[
@@ -107,6 +160,14 @@ export default function Home() {
             //   },
             //   { id: "7", nationality: "Myanmar" },
             // ]}
+            tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
+              <TagRenderer
+                // key={`selected-item-${index}`}
+                index={index}
+                selectedItem={selectedItem}
+                getSelectedItemProps={getSelectedItemProps}
+              />
+            )}
           />
 
           <DownshiftExamples />

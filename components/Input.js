@@ -42,7 +42,7 @@ const Input = forwardRef(
     const id = `input-${useId()}`;
 
     const labelClassNames = cn(
-      "bg-dialog absolute -top-3 left-2 px-1 text-sm text-foreground",
+      "absolute -top-3 left-2 bg-dialog px-1 text-sm",
       {
         "text-input-error": errorMessage,
         "-top-2.5 text-xs": size === "sm",
