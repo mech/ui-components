@@ -59,7 +59,7 @@ const MultipleSelectionDownshiftExamples = ({
 
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
   // However, if you want to use it as "control prop", you can handle it with useState
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(defaultValue);
   const [inputValue, setInputValue] = useState("");
 
   const { field } = useController({

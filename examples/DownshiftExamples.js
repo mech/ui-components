@@ -13,6 +13,7 @@ import cn from "@/lib/cn";
 import { matchSorter } from "match-sorter";
 import { Check, CircleX } from "lucide-react";
 import button from "@/components/Button";
+import { FormProvider, useForm } from "react-hook-form";
 
 const fetch = [
   { id: "0", nationality: "NULL" },
@@ -57,6 +58,7 @@ const stateReducer = (state, actionAndChanges) => {
 };
 
 const DownshiftExamples = () => {
+  const form = useForm({});
   const [items, setItems] = useState(fetch);
 
   // Trying multiple selected items
@@ -148,30 +150,33 @@ const DownshiftExamples = () => {
   return (
     <div data-control="combobox-input">
       <div ref={refs.setReference}>
-        <Input
-          suffix={
-            <button
-              onClick={() => {
-                setSelectedItems([]);
-                selectItem(null);
-              }}
-            >
-              <CircleX size={24} />
-            </button>
-          }
-          // label={`Nationality: ${selectedItems.length} picked`}
-          label="A"
-          placeholder={placeholder}
-          className="placeholder-black"
-          {...getInputProps({
-            onFocus: () => {
-              // This work together with stateReducer
-              if (!isOpen) {
-                openMenu();
-              }
-            },
-          })}
-        />
+        <FormProvider {...form}>
+          <Input
+            name="downshift-1"
+            suffix={
+              <button
+                onClick={() => {
+                  setSelectedItems([]);
+                  selectItem(null);
+                }}
+              >
+                <CircleX size={24} />
+              </button>
+            }
+            // label={`Nationality: ${selectedItems.length} picked`}
+            label="A"
+            placeholder={placeholder}
+            className="placeholder-black"
+            {...getInputProps({
+              onFocus: () => {
+                // This work together with stateReducer
+                if (!isOpen) {
+                  openMenu();
+                }
+              },
+            })}
+          />
+        </FormProvider>
       </div>
 
       <FloatingPortal>

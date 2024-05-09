@@ -13,6 +13,7 @@ import cn from "@/lib/cn";
 import { Fragment, useState } from "react";
 import { cva } from "class-variance-authority";
 import { Check } from "lucide-react";
+import { useController } from "react-hook-form";
 
 const sizeVariants = cva([], {
   variants: {
@@ -41,18 +42,30 @@ export default function MultiSelect({
   displayCheckMark = true,
   tagRenderer,
   itemRenderer,
+  onInputValueChange,
+  name,
+  rules,
+  onChange,
 }) {
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
   // However, if you want to use it as a "control prop", you can handle it with useState
   const [selectedItems, setSelectedItems] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, _setInputValue] = useState("");
 
   itemToString = itemToString || ((item) => (item ? item[itemName] : ""));
   itemRenderer = itemRenderer || (({ item }) => item[itemName]);
 
+  const { field } = useController({ name, rules });
+
   const handleOnChange = (selectedItems) => {
     setSelectedItems(selectedItems);
-    // field.onChange(selectedItems);
+
+    onChange ? onChange(selectedItems) : field.onChange(selectedItems);
+  };
+
+  const setInputValue = (value) => {
+    _setInputValue(value);
+    onInputValueChange && onInputValueChange(value);
   };
 
   // -----
@@ -256,7 +269,7 @@ export default function MultiSelect({
               className={cn(
                 "order-2 w-full appearance-none rounded-md bg-background text-black text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               )}
-              placeholder={placeholder}
+              placeholder={selectedItems.length === 0 ? placeholder : ""}
               {...getInputProps(
                 getDropdownProps({
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
@@ -285,8 +298,6 @@ export default function MultiSelect({
                           newSelectedItems = [
                             { id: Math.random(), [`${itemName}`]: inputValue },
                           ];
-
-                          console.log(newSelectedItems);
                         }
 
                         handleOnChange(newSelectedItems);

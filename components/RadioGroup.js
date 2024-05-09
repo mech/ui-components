@@ -8,24 +8,22 @@ import { useController } from "react-hook-form";
 // -----
 // RadioGroup
 // -----
-const RadioGroup = forwardRef(({ className, name, ...props }, ref) => {
-  const { field } = useController({
-    name,
-    defaultValue: props.defaultValue,
-  });
+const RadioGroup = forwardRef(
+  ({ name, rules, errorMessage, className, ...props }, ref) => {
+    const { field } = useController({ name, rules });
+    const classNames = cn("grid gap-2", className);
 
-  const classNames = cn("grid gap-2", className);
-
-  return (
-    <RadioGroupPrimitive.Root
-      ref={ref}
-      className={classNames}
-      value={field.value}
-      onValueChange={field.onChange}
-      {...props}
-    />
-  );
-});
+    return (
+      <RadioGroupPrimitive.Root
+        ref={ref}
+        className={classNames}
+        value={field.value}
+        onValueChange={field.onChange}
+        {...props}
+      />
+    );
+  },
+);
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
 // -----

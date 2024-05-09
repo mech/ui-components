@@ -4,6 +4,8 @@ import { forwardRef, useId } from "react";
 import { cva } from "class-variance-authority";
 import cn from "@/lib/cn";
 import { Info, SealWarning } from "@phosphor-icons/react";
+import { useController } from "react-hook-form";
+import { useMergeRefs } from "@floating-ui/react";
 
 // Using focus-within to style inner input
 // group and group-focus-within
@@ -35,11 +37,15 @@ const Input = forwardRef(
       suffixStyling = true,
       className,
       wrapperClassName,
+      name,
+      rules,
       ...props
     },
     ref,
   ) => {
+    const { field } = useController({ name, rules });
     const id = `input-${useId()}`;
+    const mergeRefs = useMergeRefs([field.ref, ref]);
 
     const labelClassNames = cn(
       "absolute -top-3 left-2 bg-dialog px-1 text-sm",
@@ -74,7 +80,6 @@ const Input = forwardRef(
           <input
             id={id}
             type={type}
-            ref={ref}
             autoComplete="off"
             autoCapitalize="none"
             autoCorrect="off"
@@ -92,7 +97,9 @@ const Input = forwardRef(
               },
               className,
             )}
+            {...field}
             {...props}
+            ref={mergeRefs}
           />
           {prefix && (
             <span

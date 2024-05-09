@@ -39,6 +39,8 @@ import Card from "@/components/Card";
 import FormCol from "@/components/FormCol";
 import { HandPalm } from "@phosphor-icons/react/dist/ssr";
 import MultiSelect from "@/components/MultiSelect";
+import MultiSelectExamples from "@/examples/MultiSelectExamples";
+import UrqlProvider from "@/app/(workspace)/fetch-examples/UrqlProvider";
 
 const TagRenderer = ({ selectedItem, index, getSelectedItemProps }) => {
   return (
@@ -71,7 +73,11 @@ const TagNormal = ({ selectedItem, index, getSelectedItemProps }) => {
 export default function Home() {
   const [page, setPage] = useState(1);
   const [formData, setFormData] = useState({});
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      linkedInUrl: "",
+    },
+  });
 
   const {
     register,
@@ -90,209 +96,217 @@ export default function Home() {
   ];
 
   return (
-    <main className="space-y-4 p-4">
-      <MultiSelect
-        label="Nationality"
-        multiple={false}
-        items={nationalities}
-        itemKey="id"
-        itemName="nationality"
-        tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
-          <TagRenderer2
-            // key={`selected-item-${index}`}
-            index={index}
-            selectedItem={selectedItem}
-            getSelectedItemProps={getSelectedItemProps}
-          />
-        )}
-      />
+    <UrqlProvider>
+      <main className="space-y-4 p-4">
+        <MultiSelectExamples />
 
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(submit)} className="space-y-4">
-          <Card className="space-y-5">
-            <FormCol>
-              <Input label="Location One" />
-              <Input label="Location Two" errorMessage={null} />
+        <MultiSelect
+          label="Nationality"
+          multiple={false}
+          items={nationalities}
+          itemKey="id"
+          itemName="nationality"
+          tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
+            <TagRenderer2
+              // key={`selected-item-${index}`}
+              index={index}
+              selectedItem={selectedItem}
+              getSelectedItemProps={getSelectedItemProps}
+            />
+          )}
+        />
 
-              <div className="flex items-center justify-center gap-4 self-center">
-                <HandPalm
-                  color="red"
-                  size="32"
-                  weight="fill"
-                  className="flex-none self-auto"
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(submit)} className="space-y-4">
+            <Card className="space-y-5">
+              <FormCol>
+                <Input name="location1" label="Location One" />
+                <Input
+                  name="location3"
+                  label="Location Two"
+                  errorMessage={null}
                 />
-                <Switch name="a" className="self-auto" />
-                <Checkbox name="b" className="self-auto" />
-              </div>
-            </FormCol>
 
-            <FormCol className="data-[cols='1']:sm:grid-cols-2">
-              <Input label="Location Two" />
-            </FormCol>
-
-            <FormCol>
-              <Input label="Location One" />
-              <Input label="Location Two" />
-            </FormCol>
-          </Card>
-
-          {/*<ButtonExamples />*/}
-
-          <div>
-            <h1>Segmented control</h1>
-
-            <SegmentedControlRoot size="sm">
-              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
-            </SegmentedControlRoot>
-          </div>
-
-          <MultipleSelectionDownshiftExamples
-            // displayCheckMark={false}
-            // errorMessage="test"
-            name="multi-select"
-            size="md"
-            // defaultValue={[
-            //   {
-            //     id: "5",
-            //     nationality: "Vietnamese",
-            //   },
-            //   { id: "7", nationality: "Myanmar" },
-            // ]}
-            tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
-              <TagRenderer
-                // key={`selected-item-${index}`}
-                index={index}
-                selectedItem={selectedItem}
-                getSelectedItemProps={getSelectedItemProps}
-              />
-            )}
-          />
-
-          <DownshiftExamples />
-          {/*<FloatingExamples />*/}
-
-          <div className="flex gap-4">
-            <DropdownMenuExamples />
-            <DialogExamples />
-            <PopoverExamples />
-          </div>
-
-          <AccordionExamples />
-
-          <div className="">
-            <Drawer modal={false}>
-              <DrawerTrigger>
-                <Button variant="secondary">Inspector</Button>
-              </DrawerTrigger>
-              <DrawerContent
-                side="left"
-                className="w-1/2"
-                onInteractOutside={(e) => e.preventDefault()}
-                onCloseAutoFocus={(e) => e.preventDefault()}
-              >
-                <div className="flex items-center justify-between p-4">
-                  <strong>Some inspecting to do</strong>
-                  <DrawerClose asChild>
-                    <Button variant="secondary">Close</Button>
-                  </DrawerClose>
+                <div className="flex items-center justify-center gap-4 self-center">
+                  <HandPalm
+                    color="red"
+                    size="32"
+                    weight="fill"
+                    className="flex-none self-auto"
+                  />
+                  <Switch name="a" className="self-auto" />
+                  <Checkbox name="b" className="self-auto" />
                 </div>
+              </FormCol>
 
-                <section className="space-y-4 p-4">
-                  <LoremIpsum p={1} />
-                </section>
-              </DrawerContent>
-            </Drawer>
-          </div>
+              <FormCol className="data-[cols='1']:sm:grid-cols-2">
+                <Input name="location2" label="Location Two" />
+              </FormCol>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <SegmentedControlRoot size="sm" defaultValue="1">
-              <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
-              <SegmentedControlItem value="2">Profile</SegmentedControlItem>
-              <SegmentedControlItem value="3">Roles</SegmentedControlItem>
-            </SegmentedControlRoot>
+              <FormCol>
+                <Input name="location1" label="Location One" />
+                <Input name="location22" label="Location Two" />
+              </FormCol>
+            </Card>
 
-            <SegmentedControlRoot defaultValue="2">
-              <SegmentedControlItem value="1">Query</SegmentedControlItem>
-              <SegmentedControlItem value="2">Filters</SegmentedControlItem>
-              <SegmentedControlItem value="3">Sorts</SegmentedControlItem>
-            </SegmentedControlRoot>
+            {/*<ButtonExamples />*/}
 
-            <Input
-              // size="lg"
-              {...register("linkedInUrl", { required: "URL is required" })}
-              label="LinkedIn URL"
-              prefix="https://"
-              // prefixStyling={false}
-              suffix={<Sun size="24" />}
-              suffixStyling={false}
-              placeholder="Enter your LinkedIn account"
-              errorMessage={errors.linkedInUrl?.message}
-              // errorMessage="Gosh!! What is happening!?"
-              // helpText="Just try to enter whatever you want"
+            <div>
+              <h1>Segmented control</h1>
+
+              <SegmentedControlRoot size="sm">
+                <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+                <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+                <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+              </SegmentedControlRoot>
+            </div>
+
+            <MultipleSelectionDownshiftExamples
+              // displayCheckMark={false}
+              // errorMessage="test"
+              name="multi-select"
+              size="md"
+              defaultValue={[
+                {
+                  id: "5",
+                  nationality: "Vietnamese",
+                },
+                { id: "7", nationality: "Myanmar" },
+              ]}
+              tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
+                <TagRenderer
+                  // key={`selected-item-${index}`}
+                  index={index}
+                  selectedItem={selectedItem}
+                  getSelectedItemProps={getSelectedItemProps}
+                />
+              )}
             />
 
-            <Button>Submit</Button>
+            {/*<DownshiftExamples />*/}
+            {/*<FloatingExamples />*/}
 
-            <Switch name="switch-3" size="sm" />
-            <Switch
-              name="switch-1"
-              // requiredMessage="Switch is required"
-              // errorMessage={errors["switch-1"]?.message}
+            <div className="flex gap-4">
+              <DropdownMenuExamples />
+              <DialogExamples />
+              <PopoverExamples />
+            </div>
+
+            <AccordionExamples />
+
+            <div className="">
+              <Drawer modal={false}>
+                <DrawerTrigger>
+                  <Button variant="secondary">Inspector</Button>
+                </DrawerTrigger>
+                <DrawerContent
+                  side="left"
+                  className="w-1/2"
+                  onInteractOutside={(e) => e.preventDefault()}
+                  onCloseAutoFocus={(e) => e.preventDefault()}
+                >
+                  <div className="flex items-center justify-between p-4">
+                    <strong>Some inspecting to do</strong>
+                    <DrawerClose asChild>
+                      <Button variant="secondary">Close</Button>
+                    </DrawerClose>
+                  </div>
+
+                  <section className="space-y-4 p-4">
+                    <LoremIpsum p={1} />
+                  </section>
+                </DrawerContent>
+              </Drawer>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <SegmentedControlRoot size="sm" defaultValue="1">
+                <SegmentedControlItem value="1">Inbox</SegmentedControlItem>
+                <SegmentedControlItem value="2">Profile</SegmentedControlItem>
+                <SegmentedControlItem value="3">Roles</SegmentedControlItem>
+              </SegmentedControlRoot>
+
+              <SegmentedControlRoot defaultValue="2">
+                <SegmentedControlItem value="1">Query</SegmentedControlItem>
+                <SegmentedControlItem value="2">Filters</SegmentedControlItem>
+                <SegmentedControlItem value="3">Sorts</SegmentedControlItem>
+              </SegmentedControlRoot>
+
+              <Input
+                // size="lg"
+                label="LinkedIn URL"
+                prefix="https://"
+                // prefixStyling={false}
+                suffix={<Sun size="24" />}
+                suffixStyling={false}
+                placeholder="Enter your LinkedIn account"
+                errorMessage={errors.linkedInUrl?.message}
+                name="linkedInUrl"
+                // errorMessage="Gosh!! What is happening!?"
+                // helpText="Just try to enter whatever you want"
+              />
+
+              <Button>Submit</Button>
+
+              <Switch name="switch-3" size="sm" />
+              <Switch
+                name="switch-1"
+                // requiredMessage="Switch is required"
+                // errorMessage={errors["switch-1"]?.message}
+              />
+              <Switch name="switch-2" />
+
+              <Checkbox name="cb-0" checked="indeterminate" />
+              <Checkbox name="cb-1" />
+
+              <RadioGroup name="rr-1" defaultValue="2">
+                <RadioGroupItem value="1">One</RadioGroupItem>
+                <RadioGroupItem value="2">Two</RadioGroupItem>
+                <RadioGroupItem value="3">Three</RadioGroupItem>
+              </RadioGroup>
+            </div>
+
+            <InputOTP
+              name="opt"
+              requiredMessage="OTP is required"
+              errorMessage={errors.opt?.message}
+              maxLength={6}
+              render={({ slots }) => (
+                <>
+                  <InputOTPGroup>
+                    {slots.slice(0, 3).map((slot, index) => (
+                      <InputOTPSlot key={index} {...slot} order={1} />
+                    ))}
+                  </InputOTPGroup>
+                  <InputOTPSeparator />
+                  <InputOTPGroup>
+                    {slots.slice(3).map((slot, index) => (
+                      <InputOTPSlot key={index} {...slot} order={2} />
+                    ))}
+                  </InputOTPGroup>
+                </>
+              )}
             />
-            <Switch name="switch-2" />
 
-            <Checkbox name="cb-0" checked="indeterminate" />
-            <Checkbox name="cb-1" />
+            <div className="flex flex-col gap-1">
+              <strong>Internal Page: {page}</strong>
+              <Pagination
+                currentPage={page}
+                totalPages={40}
+                onChange={(p) => setPage(p)}
+              />
+            </div>
 
-            <RadioGroup name="rr-1" defaultValue="2">
-              <RadioGroupItem value="1">One</RadioGroupItem>
-              <RadioGroupItem value="2">Two</RadioGroupItem>
-              <RadioGroupItem value="3">Three</RadioGroupItem>
-            </RadioGroup>
-          </div>
+            <div>
+              <pre>{JSON.stringify(formData, null, 2)}</pre>
+            </div>
 
-          <InputOTP
-            name="opt"
-            requiredMessage="OTP is required"
-            errorMessage={errors.opt?.message}
-            maxLength={6}
-            render={({ slots }) => (
-              <>
-                <InputOTPGroup>
-                  {slots.slice(0, 3).map((slot, index) => (
-                    <InputOTPSlot key={index} {...slot} order={1} />
-                  ))}
-                </InputOTPGroup>
-                <InputOTPSeparator />
-                <InputOTPGroup>
-                  {slots.slice(3).map((slot, index) => (
-                    <InputOTPSlot key={index} {...slot} order={2} />
-                  ))}
-                </InputOTPGroup>
-              </>
-            )}
-          />
+            <Button type="submit">Test form</Button>
+          </form>
+        </FormProvider>
 
-          <div className="flex flex-col gap-1">
-            <strong>Internal Page: {page}</strong>
-            <Pagination
-              currentPage={page}
-              totalPages={40}
-              onChange={(p) => setPage(p)}
-            />
-          </div>
-
-          <div>
-            <pre>{JSON.stringify(formData, null, 2)}</pre>
-          </div>
-
-          <Button type="submit">Test form</Button>
-        </form>
-      </FormProvider>
-
-      {/*<Switch />*/}
-    </main>
+        {/*<Switch />*/}
+      </main>
+    </UrqlProvider>
   );
 }

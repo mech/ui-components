@@ -32,11 +32,14 @@ import {
 } from "@/components/DropdownMenu";
 import ServerComponentTest from "@/app/(examples)/users/ServerComponentTest";
 import { useSearchParams } from "next/navigation";
+import { FormProvider, useForm } from "react-hook-form";
 // import { Atkinson_Hyperlegible } from "next/font/google";
 
 // const atkinson = Atkinson_Hyperlegible({ weight: ["400", "700"] });
 
 const AppBar = () => {
+  const form = useForm({});
+
   // sticky inset-0
   // const searchParams = useSearchParams();
 
@@ -71,12 +74,15 @@ const AppBar = () => {
 
           <div className="flex flex-col gap-1">
             <div className="text-gray-500">WORKSPACE</div>
-            <Input
-              placeholder="Filter workspace"
-              size="sm"
-              prefix={<FilterIcon />}
-              prefixStyling={false}
-            />
+            <FormProvider {...form}>
+              <Input
+                name="filter"
+                placeholder="Filter workspace"
+                size="sm"
+                prefix={<FilterIcon />}
+                prefixStyling={false}
+              />
+            </FormProvider>
           </div>
         </div>
 

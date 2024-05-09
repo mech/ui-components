@@ -14,8 +14,10 @@ import {
 import Button from "@/components/Button";
 import { useState } from "react";
 import Input from "@/components/Input";
+import { FormProvider, useForm } from "react-hook-form";
 
 const FloatingExamples = () => {
+  const form = useForm({});
   const [isOpen, setIsOpen] = useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -49,11 +51,14 @@ const FloatingExamples = () => {
 
   return (
     <div>
-      <Input
-        ref={refs.setReference}
-        {...getReferenceProps()}
-        label="Nationality"
-      />
+      <FormProvider {...form}>
+        <Input
+          name="example-1"
+          ref={refs.setReference}
+          {...getReferenceProps()}
+          label="Nationality"
+        />
+      </FormProvider>
       {isOpen && (
         <FloatingPortal>
           <ul

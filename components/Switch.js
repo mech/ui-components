@@ -58,14 +58,11 @@ const thumbVariants = cva(
 );
 
 const Switch = forwardRef(
-  (
-    { className, name, requiredMessage = false, errorMessage, size, ...props },
-    ref,
-  ) => {
+  ({ name, rules, errorMessage, className, size, ...props }, ref) => {
     const { field } = useController({
       name,
-      rules: { required: requiredMessage },
-      defaultValue: props.value || false,
+      rules,
+      // defaultValue: props.value || false,
     });
 
     const classNames = cn(rootVariants({ size, className }));
@@ -73,7 +70,6 @@ const Switch = forwardRef(
     return (
       <SwitchPrimitive.Root
         ref={field.ref}
-        // ref={ref}
         className={classNames}
         checked={field.value}
         onCheckedChange={field.onChange}
