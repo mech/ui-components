@@ -1,6 +1,6 @@
 "use client";
 
-import MultiSelect from "@/components/MultiSelect";
+import { MultiSelect } from "@/components/MultiSelect";
 import { matchSorter } from "match-sorter";
 import { useState } from "react";
 import { useQuery } from "urql";
@@ -65,23 +65,23 @@ const MultiSelectExamples = () => {
       placeholder="Test"
       itemKey="id"
       itemName="name"
-      tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
-        <TagRenderer2
-          index={index}
-          selectedItem={selectedItem}
-          getSelectedItemProps={getSelectedItemProps}
-        />
-      )}
-      itemRenderer={({ item }) => (
-        <div className="flex flex-col gap-0">
-          <span>{item.name}</span>
-          <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
-            {item.email}
-          </span>
-        </div>
-      )}
       onInputValueChange={onInputValueChange}
-    />
+    >
+      <MultiSelect.Tag>
+        {({ selectedItem }) => selectedItem.name}
+      </MultiSelect.Tag>
+
+      <MultiSelect.Item>
+        {({ item }) => (
+          <div className="flex flex-col gap-0">
+            <span>{item.name}</span>
+            <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
+              {item.email}
+            </span>
+          </div>
+        )}
+      </MultiSelect.Item>
+    </MultiSelect>
   );
 };
 

@@ -10,7 +10,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import cn from "@/lib/cn";
-import { Fragment, useState } from "react";
+import { Fragment, useState, Children, cloneElement } from "react";
 import { cva } from "class-variance-authority";
 import { Check } from "lucide-react";
 import { useController } from "react-hook-form";
@@ -28,7 +28,7 @@ const sizeVariants = cva([], {
   },
 });
 
-export default function MultiSelect({
+function MultiSelect({
   multiple = true,
   items = [],
   itemToString,
@@ -40,20 +40,25 @@ export default function MultiSelect({
   size,
   disabled = false,
   displayCheckMark = true,
-  tagRenderer,
-  itemRenderer,
   onInputValueChange,
   name,
   rules,
   onChange,
+  children,
 }) {
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
   // However, if you want to use it as a "control prop", you can handle it with useState
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, _setInputValue] = useState("");
 
+  const tagChild = Children.toArray(children).find((child) => {
+    return child.type.name === "Tag";
+  }) || <DefaultTag itemName={itemName} />;
+  const itemChild = Children.toArray(children).find((child) => {
+    return child.type.name === "Item";
+  }) || <DefaultItem itemName={itemName} />;
+
   itemToString = itemToString || ((item) => (item ? item[itemName] : ""));
-  itemRenderer = itemRenderer || (({ item }) => item[itemName]);
 
   const { field } = useController({ name, rules });
 
@@ -155,12 +160,6 @@ export default function MultiSelect({
               }
             }
 
-            // If we only want single value
-            // const newSelectedItems = [newSelectedItem];
-
-            // setSelectedItems(newSelectedItems);
-            // field.onChange(newSelectedItems);
-
             // Let outside onChange know (esp. RHF)
             handleOnChange(newSelectedItems);
 
@@ -252,14 +251,19 @@ export default function MultiSelect({
         </label>
         <div className="flex w-full flex-wrap items-center gap-1 text-foreground">
           {selectedItems.map((selectedItem, index) => {
+            // We clone the MultiSelect.Tag component from user space and
+            // pass in the necessary props to make it work. Essentially we are
+            // asking the user to provide us with the <Tag> first, then we clone
+            // and render it for them later here.
+            const tagChildClone = cloneElement(tagChild, {
+              index,
+              selectedItem,
+              getSelectedItemProps,
+            });
+
             return (
               <Fragment key={`selected-item-${index}`}>
-                {typeof tagRenderer === "function" &&
-                  tagRenderer({
-                    selectedItem,
-                    index,
-                    getSelectedItemProps,
-                  })}
+                {tagChildClone}
               </Fragment>
             );
           })}
@@ -323,52 +327,87 @@ export default function MultiSelect({
             { suppressRefError: true },
           )}
         >
-          {isOpen && (
-            <>
-              {items.map((item, index) => {
-                // Typically we want to compare using itemKey. However, if using
-                // primitive value, we can use this "selectedItems.includes(item);"
-                const selected = itemKey
-                  ? !!selectedItems.find((s) => s[itemKey] === item[itemKey])
-                  : selectedItems.includes(item);
+          {isOpen &&
+            items.map((item, index) => {
+              // Typically we want to compare using itemKey. However, if using
+              // primitive value, we can use this "selectedItems.includes(item);"
+              const selected = itemKey
+                ? !!selectedItems.find((s) => s[itemKey] === item[itemKey])
+                : selectedItems.includes(item);
 
-                const highlighted = highlightedIndex === index;
+              const highlighted = highlightedIndex === index;
 
-                // React.cloneElement(child, props)
+              const itemChildClone = cloneElement(itemChild, {
+                index,
+                item,
+                selected,
+                highlighted,
+              });
 
-                // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
-                return (
-                  <li
-                    key={`item-${index}`}
-                    data-highlighted={highlighted}
-                    data-selected={selected}
-                    className={cn(
-                      "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
-                      "dark:data-[highlighted=true]:bg-popover-focus",
-                      {
-                        "is-highlighted": highlighted,
-                        "is-selected": selected,
-                      },
-                    )}
-                    {...getItemProps({ item, index })}
-                  >
-                    <div className="flex items-center gap-2">
-                      <CheckMark
-                        selected={selected}
-                        displayCheckMark={displayCheckMark}
-                      />
-                      {itemRenderer({ index, item, selected, highlighted })}
-                    </div>
-                  </li>
-                );
-              })}
-            </>
-          )}
+              // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
+              return (
+                <li
+                  key={`item-${index}`}
+                  data-highlighted={highlighted}
+                  data-selected={selected}
+                  className={cn(
+                    "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
+                    "dark:data-[highlighted=true]:bg-popover-focus",
+                    {
+                      "is-highlighted": highlighted,
+                      "is-selected": selected,
+                    },
+                  )}
+                  {...getItemProps({ item, index })}
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckMark
+                      selected={selected}
+                      displayCheckMark={displayCheckMark}
+                    />
+                    {itemChildClone}
+                  </div>
+                </li>
+              );
+            })}
         </ul>
       </FloatingPortal>
     </div>
   );
 }
+
+const Tag = ({
+  children,
+  className,
+  index,
+  selectedItem,
+  getSelectedItemProps,
+}) => {
+  return (
+    <div
+      key={`selected-item-${index}`}
+      className={cn(
+        "cursor-pointer rounded-md bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400",
+        className,
+      )}
+      {...getSelectedItemProps({ selectedItem, index })}
+    >
+      {children({ index, selectedItem })}
+    </div>
+  );
+};
+
+const DefaultTag = ({ itemName, ...props }) => (
+  <Tag {...props}>{({ selectedItem }) => selectedItem[itemName]}</Tag>
+);
+
+const Item = ({ children, index, item, selected, highlighted }) => {
+  return children({ index, item, selected, highlighted });
+};
+
+const DefaultItem = ({ itemName, ...props }) => (
+  <Item {...props}>{({ item }) => item[itemName]}</Item>
+);
 
 const checkDuplicate = (selectedItems, item, itemKey) => {
   return selectedItems.some((s) => s[itemKey] === item[itemKey]);
@@ -383,3 +422,8 @@ const CheckMark = ({ selected, displayCheckMark }) => {
     <div className="invisible w-4" />
   );
 };
+
+MultiSelect.Tag = Tag;
+MultiSelect.Item = Item;
+
+export { MultiSelect };

@@ -46,27 +46,21 @@ export default function Page() {
                 </label>
               </FormCol>
 
-              <FormCol>
-                <Input name="name" label="Name" />
-              </FormCol>
+              <Input name="name" label="Name" />
 
-              <FormCol>
-                <RadioGroup name="rr">
-                  <label className="flex items-center gap-2">
-                    <RadioGroupItem value="1" /> One
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <RadioGroupItem value="2" /> Two
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <RadioGroupItem value="3" /> Three
-                  </label>
-                </RadioGroup>
-              </FormCol>
+              <RadioGroup name="rr">
+                <label className="flex items-center gap-2">
+                  <RadioGroupItem value="1" /> One
+                </label>
+                <label className="flex items-center gap-2">
+                  <RadioGroupItem value="2" /> Two
+                </label>
+                <label className="flex items-center gap-2">
+                  <RadioGroupItem value="3" /> Three
+                </label>
+              </RadioGroup>
 
-              <FormCol>
-                <MultiSelectExamples />
-              </FormCol>
+              <MultiSelectExamples />
 
               <Button type="submit">Submit</Button>
             </Card>

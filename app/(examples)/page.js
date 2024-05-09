@@ -98,27 +98,32 @@ export default function Home() {
   return (
     <UrqlProvider>
       <main className="space-y-4 p-4">
-        <MultiSelectExamples />
-
-        <MultiSelect
-          label="Nationality"
-          multiple={false}
-          items={nationalities}
-          itemKey="id"
-          itemName="nationality"
-          tagRenderer={({ index, selectedItem, getSelectedItemProps }) => (
-            <TagRenderer2
-              // key={`selected-item-${index}`}
-              index={index}
-              selectedItem={selectedItem}
-              getSelectedItemProps={getSelectedItemProps}
-            />
-          )}
-        />
-
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(submit)} className="space-y-4">
             <Card className="space-y-5">
+              <MultiSelectExamples />
+
+              <MultiSelect
+                name="ms-1"
+                label="Nationality"
+                multiple={false}
+                items={nationalities}
+                itemKey="id"
+                itemName="nationality"
+                tagRenderer={({
+                  index,
+                  selectedItem,
+                  getSelectedItemProps,
+                }) => (
+                  <TagRenderer2
+                    // key={`selected-item-${index}`}
+                    index={index}
+                    selectedItem={selectedItem}
+                    getSelectedItemProps={getSelectedItemProps}
+                  />
+                )}
+              />
+
               <FormCol>
                 <Input name="location1" label="Location One" />
                 <Input
