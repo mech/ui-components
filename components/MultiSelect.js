@@ -109,6 +109,7 @@ function MultiSelect({
     getMenuProps,
     getItemProps,
     highlightedIndex,
+    closeMenu,
     selectedItem, // Not useful here since we give it `null`
   } = useCombobox({
     selectedItem: null, // Since `useMultipleSelection` will handle the items selection
@@ -126,6 +127,18 @@ function MultiSelect({
             ...changes,
             isOpen: true,
             highlightedIndex: state.highlightedIndex, // To maintain selection position at dropdown
+          };
+        case useCombobox.stateChangeTypes.InputClick:
+          return {
+            ...changes,
+            isOpen: true, // We always want InputClick to show menu (no hiding)
+          };
+        case useCombobox.stateChangeTypes.InputBlur:
+          // iOS Safari will invoke this after itemClick, so we need to closeMenu
+          // at input onBlur
+          return {
+            ...changes,
+            isOpen: state.isOpen,
           };
         default:
           return changes;
@@ -231,7 +244,7 @@ function MultiSelect({
   );
 
   const menuClassNames = cn(
-    "absolute z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
+    "z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
     {
       border: isOpen && items.length > 0,
     },
@@ -282,6 +295,9 @@ function MultiSelect({
                   onChange: (e) => {
                     // This is needed to prevent input cursor from jumping to the end when typing in the middle
                     setInputValue(e.target.value);
+                  },
+                  onBlur: () => {
+                    closeMenu();
                   },
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
                   onKeyDown: (e) => {

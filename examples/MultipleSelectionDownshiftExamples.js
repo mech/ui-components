@@ -334,63 +334,60 @@ const MultipleSelectionDownshiftExamples = ({
         </div>
       </div>
 
-      <FloatingPortal>
-        <ul
-          style={floatingStyles}
-          className={menuClassNames}
-          {...getMenuProps(
-            {
-              ref: refs.setFloating,
-            },
-            { suppressRefError: true },
-          )}
-        >
-          {isOpen && (
-            <>
-              {items.map((item, index) => {
-                const selected =
-                  !!selectedItems.find((s) => s.id === item.id) ||
-                  selectedItems.includes(item);
+      {/*<FloatingPortal>*/}
+      <ul
+        style={floatingStyles}
+        className={menuClassNames}
+        {...getMenuProps(
+          {
+            ref: refs.setFloating,
+          },
+          { suppressRefError: true },
+        )}
+      >
+        {isOpen && (
+          <>
+            {items.map((item, index) => {
+              const selected =
+                !!selectedItems.find((s) => s.id === item.id) ||
+                selectedItems.includes(item);
 
-                // Can use this "selectedItems.includes(item);" if primitive value
+              // Can use this "selectedItems.includes(item);" if primitive value
 
-                // React.cloneElement(child, props)
+              // React.cloneElement(child, props)
 
-                return (
-                  <li
-                    // key={item.id}
-                    key={`item-${index}`}
-                    // data-list={true}
-                    data-highlighted={highlightedIndex === index}
-                    data-selected={selected}
-                    className={cn(
-                      "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
-                      "dark:data-[highlighted=true]:bg-popover-focus",
-                      {
-                        "is-highlighted": highlightedIndex === index,
-                      },
-                    )}
-                    {...getItemProps({ item, index })}
-                  >
-                    <div className="flex items-center gap-2">
-                      <CheckMark
-                        selected={selected}
-                        display={displayCheckMark}
-                      />
-                      <div className="flex flex-col gap-0">
-                        <span>{item.nationality}</span>
-                        <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
-                          Source: National stats board
-                        </span>
-                      </div>
+              return (
+                <li
+                  // key={item.id}
+                  key={`item-${index}`}
+                  // data-list={true}
+                  data-highlighted={highlightedIndex === index}
+                  data-selected={selected}
+                  className={cn(
+                    "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
+                    "dark:data-[highlighted=true]:bg-popover-focus",
+                    {
+                      "is-highlighted": highlightedIndex === index,
+                    },
+                  )}
+                  {...getItemProps({ item, index })}
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckMark selected={selected} display={displayCheckMark} />
+                    <div className="flex flex-col gap-0">
+                      <span>{item.nationality}</span>
+                      <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
+                        S1: National stats board
+                      </span>
                     </div>
-                  </li>
-                );
-              })}
-            </>
-          )}
-        </ul>
-      </FloatingPortal>
+                  </div>
+                </li>
+              );
+            })}
+          </>
+        )}
+      </ul>
+      {/*</FloatingPortal>*/}
     </div>
   );
 };

@@ -37,7 +37,8 @@ const stateReducer = (state, actionAndChanges) => {
     case useCombobox.stateChangeTypes.InputClick:
       return {
         ...changes,
-        isOpen: state.isOpen, // do not toggle the menu when input is clicked.
+        isOpen: state.isOpen,
+        // isOpen: true, // do not toggle the menu when input is clicked.
       };
     case useCombobox.stateChangeTypes.InputKeyDownEnter:
     case useCombobox.stateChangeTypes.ItemClick:
@@ -48,8 +49,12 @@ const stateReducer = (state, actionAndChanges) => {
         inputValue: "", // If we disallow custom value
       };
     case useCombobox.stateChangeTypes.InputBlur:
+      // Seems like iOS will invoke this
+      console.log("Input is blur!!");
+
       return {
         ...changes,
+        isOpen: state.isOpen,
         inputValue: "", // If we disallow custom value
       };
     default:
@@ -67,6 +72,7 @@ const DownshiftExamples = () => {
   const {
     isOpen,
     openMenu,
+    closeMenu,
     getLabelProps,
     getInputProps,
     getMenuProps,
@@ -131,7 +137,7 @@ const DownshiftExamples = () => {
   });
 
   const menuClassNames = cn(
-    "absolute z-50 w-full overflow-scroll rounded-lg bg-white shadow-md",
+    "z-50 w-full overflow-scroll rounded-lg bg-white shadow-md",
     {
       border: isOpen && items.length > 0,
     },
@@ -173,6 +179,9 @@ const DownshiftExamples = () => {
                 if (!isOpen) {
                   openMenu();
                 }
+              },
+              onBlur: () => {
+                closeMenu();
               },
             })}
           />
