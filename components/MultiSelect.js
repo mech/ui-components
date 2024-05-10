@@ -222,10 +222,13 @@ function MultiSelect({
     whileElementsMounted: autoUpdate,
   });
 
-  const labelClassNames = cn("absolute -top-3 left-2 bg-dialog px-1 text-sm", {
-    "text-input-error": errorMessage,
-    "-top-2.5 text-xs": size === "sm",
-  });
+  const labelClassNames = cn(
+    "absolute -top-3 left-2 bg-dialog px-1 text-sm text-foreground",
+    {
+      "text-input-error": errorMessage,
+      "-top-2.5 text-xs": size === "sm",
+    },
+  );
 
   const menuClassNames = cn(
     "absolute z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
@@ -387,7 +390,7 @@ const Tag = ({
     <div
       key={`selected-item-${index}`}
       className={cn(
-        "cursor-pointer rounded-md bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400",
+        "cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400",
         className,
       )}
       {...getSelectedItemProps({ selectedItem, index })}

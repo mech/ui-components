@@ -1,22 +1,10 @@
 "use client";
 
 import { MultiSelect } from "@/components/MultiSelect";
-import { matchSorter } from "match-sorter";
 import { useState } from "react";
 import { useQuery } from "urql";
 import { useDebounce } from "use-debounce";
-
-const TagRenderer2 = ({ selectedItem, index, getSelectedItemProps }) => {
-  return (
-    <div
-      key={`selected-item-${index}`}
-      className="cursor-pointer rounded-md bg-gray-200 px-2 py-1 text-xs text-black outline-none focus:bg-blue-500 focus:text-white dark:bg-neutral-400"
-      {...getSelectedItemProps({ selectedItem, index })}
-    >
-      {selectedItem.name}
-    </div>
-  );
-};
+import { matchSorter } from "match-sorter";
 
 const USERS_SEARCH = `
   query UsersSearch($page: Int!, $perPage: Int!, $query: String) {

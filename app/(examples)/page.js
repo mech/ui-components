@@ -38,7 +38,7 @@ import { useState } from "react";
 import Card from "@/components/Card";
 import FormCol from "@/components/FormCol";
 import { HandPalm } from "@phosphor-icons/react/dist/ssr";
-import MultiSelect from "@/components/MultiSelect";
+import { MultiSelect } from "@/components/MultiSelect";
 import MultiSelectExamples from "@/examples/MultiSelectExamples";
 import UrqlProvider from "@/app/(workspace)/fetch-examples/UrqlProvider";
 
@@ -110,18 +110,6 @@ export default function Home() {
                 items={nationalities}
                 itemKey="id"
                 itemName="nationality"
-                tagRenderer={({
-                  index,
-                  selectedItem,
-                  getSelectedItemProps,
-                }) => (
-                  <TagRenderer2
-                    // key={`selected-item-${index}`}
-                    index={index}
-                    selectedItem={selectedItem}
-                    getSelectedItemProps={getSelectedItemProps}
-                  />
-                )}
               />
 
               <FormCol>

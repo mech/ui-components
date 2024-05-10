@@ -48,7 +48,7 @@ const Input = forwardRef(
     const mergeRefs = useMergeRefs([field.ref, ref]);
 
     const labelClassNames = cn(
-      "absolute -top-3 left-2 bg-dialog px-1 text-sm",
+      "absolute -top-3 left-2 bg-dialog px-1 text-sm text-foreground",
       {
         "text-input-error": errorMessage,
         "-top-2.5 text-xs": size === "sm",

@@ -42,12 +42,12 @@ const variants = cva(
         top: "inset-x-0 top-0 rounded-b-xl border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
         bottom:
           "inset-x-0 bottom-0 rounded-t-xl border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "bottom-0 left-0 top-0 rounded-xl data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+        left: "bottom-0 left-0 top-0 rounded-r-xl data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
         right:
-          "bottom-0 right-0 top-0 rounded-xl data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+          "bottom-0 right-0 top-0 rounded-l-xl data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
       },
       offset: {
-        true: "m-4 border",
+        true: "m-4 rounded-xl border",
       },
     },
     compoundVariants: [
@@ -60,6 +60,11 @@ const variants = cva(
         side: "right",
         offset: false,
         className: "border-l",
+      },
+      {
+        side: "bottom",
+        offset: false,
+        className: "border-b",
       },
     ],
     defaultVariants: {

@@ -9,9 +9,26 @@ import { useController } from "react-hook-form";
 // RadioGroup
 // -----
 const RadioGroup = forwardRef(
-  ({ name, rules, errorMessage, className, ...props }, ref) => {
+  (
+    {
+      name,
+      rules,
+      errorMessage,
+      className,
+      orientation = "horizontal",
+      ...props
+    },
+    ref,
+  ) => {
     const { field } = useController({ name, rules });
-    const classNames = cn("grid gap-2", className);
+    const classNames = cn(
+      "flex",
+      {
+        "gap-8": orientation === "horizontal",
+        "flex-col gap-2": orientation === "vertical",
+      },
+      className,
+    );
 
     return (
       <RadioGroupPrimitive.Root

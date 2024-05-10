@@ -11,6 +11,7 @@ import Input from "@/components/Input";
 import { RadioGroup, RadioGroupItem } from "@/components/RadioGroup";
 import MultiSelectExamples from "@/examples/MultiSelectExamples";
 import UrqlProvider from "@/app/(workspace)/fetch-examples/UrqlProvider";
+import RHFormProvider from "@/components/RHFormProvider";
 
 export default function Page() {
   const [formData, setFormData] = useState({});
@@ -31,45 +32,42 @@ export default function Page() {
   return (
     <div className="p-4">
       <UrqlProvider>
-        <FormProvider {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <h1>Form examples</h1>
+        <RHFormProvider
+          onSubmit={handleSubmit(onSubmit)}
+          form={form}
+          formData={formData}
+          debug
+        >
+          <Card className="space-y-4">
+            <RadioGroup name="rr" orientation="vertical">
+              <label className="inline-flex w-auto items-center gap-2">
+                <RadioGroupItem value="1" /> One
+              </label>
+              <label className="inline-flex items-center gap-2">
+                <RadioGroupItem value="2" /> Two
+              </label>
+              <label className="inline-flex items-center gap-2">
+                <RadioGroupItem value="3" /> Three
+              </label>
+            </RadioGroup>
 
-            <Card className="space-y-4">
-              <FormCol>
-                <label className="flex cursor-pointer items-center gap-2">
-                  Enable notification <Switch name="enableNotification1" />
-                </label>
+            <FormCol>
+              <label className="flex cursor-pointer items-center gap-2">
+                Enable notification <Switch name="enableNotification1" />
+              </label>
 
-                <label className="flex cursor-pointer items-center gap-2">
-                  Enable notification <Checkbox name="enableNotification2" />
-                </label>
-              </FormCol>
+              <label className="flex cursor-pointer items-center gap-2">
+                Enable notification <Checkbox name="enableNotification2" />
+              </label>
+            </FormCol>
 
-              <Input name="name" label="Name" />
+            <Input name="name" label="Name" />
 
-              <RadioGroup name="rr">
-                <label className="flex items-center gap-2">
-                  <RadioGroupItem value="1" /> One
-                </label>
-                <label className="flex items-center gap-2">
-                  <RadioGroupItem value="2" /> Two
-                </label>
-                <label className="flex items-center gap-2">
-                  <RadioGroupItem value="3" /> Three
-                </label>
-              </RadioGroup>
+            <MultiSelectExamples />
 
-              <MultiSelectExamples />
-
-              <Button type="submit">Submit</Button>
-            </Card>
-
-            <Card>
-              <pre>{JSON.stringify(formData, null, 2)}</pre>
-            </Card>
-          </form>
-        </FormProvider>
+            <Button type="submit">Submit</Button>
+          </Card>
+        </RHFormProvider>
       </UrqlProvider>
     </div>
   );
