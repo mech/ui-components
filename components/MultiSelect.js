@@ -279,6 +279,10 @@ function MultiSelect({
               placeholder={selectedItems.length === 0 ? placeholder : ""}
               {...getInputProps(
                 getDropdownProps({
+                  onChange: (e) => {
+                    // This is needed to prevent input cursor from jumping to the end when typing in the middle
+                    setInputValue(e.target.value);
+                  },
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
                   onKeyDown: (e) => {
                     if (e.key === "Backspace") {

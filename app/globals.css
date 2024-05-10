@@ -169,3 +169,8 @@
     transform: translateX(100%);
   }
 }
+
+mark {
+  background-color: #fde047;
+  color: #000;
+}

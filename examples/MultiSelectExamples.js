@@ -4,6 +4,7 @@ import { MultiSelect } from "@/components/MultiSelect";
 import { useState } from "react";
 import { useQuery } from "urql";
 import { useDebounce } from "use-debounce";
+import Highlighter from "react-highlight-words";
 import { matchSorter } from "match-sorter";
 
 const USERS_SEARCH = `
@@ -62,9 +63,15 @@ const MultiSelectExamples = () => {
       <MultiSelect.Item>
         {({ item }) => (
           <div className="flex flex-col gap-0">
-            <span>{item.name}</span>
+            <Highlighter
+              textToHighlight={item.name}
+              searchWords={query.split(/\s+/)}
+            />
             <span className="text-sm text-gray-500 group-[.is-highlighted]:text-white">
-              {item.email}
+              <Highlighter
+                textToHighlight={item.email}
+                searchWords={query.split(/\s+/)}
+              />
             </span>
           </div>
         )}
