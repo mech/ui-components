@@ -105,6 +105,7 @@ const MultipleSelectionDownshiftExamples = ({
     getMenuProps,
     getItemProps,
     highlightedIndex,
+    closeMenu,
     selectedItem,
   } = useCombobox({
     items,

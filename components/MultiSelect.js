@@ -51,6 +51,9 @@ function MultiSelect({
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputValue, _setInputValue] = useState("");
 
+  // In case the data only has one key like [{nationality: "Singaporean"}, {nationality: "Malaysian"}]
+  itemKey = itemKey || itemName;
+
   const tagChild = Children.toArray(children).find((child) => {
     return child.type.name === "Tag";
   }) || <DefaultTag itemName={itemName} />;
@@ -71,6 +74,23 @@ function MultiSelect({
   const setInputValue = (value) => {
     _setInputValue(value);
     onInputValueChange && onInputValueChange(value);
+  };
+
+  const addCustomValue = (value) => {
+    if (value.trim().length > 0) {
+      let newSelectedItems = [];
+
+      if (multiple) {
+        newSelectedItems = [
+          ...selectedItems,
+          { id: Math.random(), [`${itemName}`]: value },
+        ];
+      } else {
+        newSelectedItems = [{ id: Math.random(), [`${itemName}`]: value }];
+      }
+
+      handleOnChange(newSelectedItems);
+    }
   };
 
   // -----
@@ -181,22 +201,7 @@ function MultiSelect({
           break;
         case useCombobox.stateChangeTypes.InputBlur:
           // InputBlur must be separate in order for Backspace to work
-          if (inputValue.trim().length > 0) {
-            let newSelectedItems = [];
-
-            if (multiple) {
-              newSelectedItems = [
-                ...selectedItems,
-                { id: Math.random(), [`${itemName}`]: inputValue },
-              ];
-            } else {
-              newSelectedItems = [
-                { id: Math.random(), [`${itemName}`]: inputValue },
-              ];
-            }
-
-            handleOnChange(newSelectedItems);
-          }
+          addCustomValue(inputValue); // Don't use `newInputValue` as it will be undefined!
 
           setInputValue("");
           break;
@@ -254,12 +259,14 @@ function MultiSelect({
     <div data-control="multiple-selection-combobox-input">
       <div
         ref={refs.setReference}
+        data-disabled={disabled}
         data-invalid={!!errorMessage}
         className={cn(
           sizeVariants({ size }),
           "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent",
           "focus-within:border-input-focus focus-within:text-input-ring focus-within:ring-4 focus-within:ring-input-ring focus-within:ring-opacity-30 focus:outline-none",
           "data-[invalid=true]:border-input-error data-[invalid=true]:ring-4 data-[invalid=true]:ring-input-error data-[invalid=true]:ring-opacity-30",
+          "data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
         )}
       >
         <label className={labelClassNames} {...getLabelProps()}>
@@ -286,6 +293,7 @@ function MultiSelect({
 
           <div className="flex grow">
             <input
+              disabled={disabled}
               className={cn(
                 "order-2 w-full appearance-none rounded-md bg-background text-black text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
               )}
@@ -296,12 +304,16 @@ function MultiSelect({
                     // This is needed to prevent input cursor from jumping to the end when typing in the middle
                     setInputValue(e.target.value);
                   },
-                  onBlur: () => {
+                  onBlur: (e) => {
+                    // Necessary to make iOS Safari behave when clicking on item
+                    addCustomValue(e.target.value);
+                    setInputValue("");
                     closeMenu();
                   },
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
                   onKeyDown: (e) => {
                     if (e.key === "Backspace") {
+                      console.log("Backspace...");
                       e.nativeEvent.preventDownshiftDefault = true;
                       if (e.target.value === "") {
                         if (multiple) {
@@ -313,23 +325,8 @@ function MultiSelect({
                     } else if (e.key === "Enter") {
                       const customValue = e.target.value;
 
-                      if (customValue.trim().length > 0) {
-                        let newSelectedItems = [];
-
-                        if (multiple) {
-                          newSelectedItems = [
-                            ...selectedItems,
-                            { id: Math.random(), [`${itemName}`]: inputValue },
-                          ];
-                        } else {
-                          newSelectedItems = [
-                            { id: Math.random(), [`${itemName}`]: inputValue },
-                          ];
-                        }
-
-                        handleOnChange(newSelectedItems);
-                        setInputValue("");
-                      }
+                      addCustomValue(customValue);
+                      setInputValue("");
                     }
                   },
                 }),

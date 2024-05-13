@@ -90,9 +90,9 @@ export default function Home() {
   };
 
   const nationalities = [
-    { id: "1", nationality: "Singaporean" },
-    { id: "2", nationality: "Malaysian" },
-    { id: "3", nationality: "Indonesian" },
+    { nationality: "Singaporean" },
+    { nationality: "Malaysian" },
+    { nationality: "Indonesian" },
   ];
 
   return (
@@ -105,11 +105,12 @@ export default function Home() {
 
               <MultiSelect
                 name="ms-1"
-                label="Nationality"
-                multiple={false}
+                label="Nationality (MS)"
+                multiple={true}
                 items={nationalities}
-                itemKey="id"
+                // itemKey="nationality"
                 itemName="nationality"
+                disabled={false}
               />
 
               <FormCol>
