@@ -6,6 +6,14 @@ import { useQuery } from "urql";
 import { useDebounce } from "use-debounce";
 import Highlighter from "react-highlight-words";
 import { matchSorter } from "match-sorter";
+import RaceBy from "@/components/RaceBy";
+import {
+  DatabaseBackup,
+  MessageSquareDashed,
+  Shapes,
+  Sparkles,
+} from "lucide-react";
+import Link from "next/link";
 
 const USERS_SEARCH = `
   query UsersSearch($page: Int!, $perPage: Int!, $query: String) {
@@ -47,6 +55,7 @@ const MultiSelectExamples = () => {
 
   return (
     <MultiSelect
+      fetching={fetching}
       name="users"
       label="Users"
       multiple={false}
@@ -56,6 +65,46 @@ const MultiSelectExamples = () => {
       itemName="name"
       onInputValueChange={onInputValueChange}
     >
+      <MultiSelect.Header>
+        <div
+          className="sticky top-0 bg-background"
+          onMouseDown={(e) => {
+            // Must use onMouseDown, no need stopPropagation
+            e.preventDefault();
+          }}
+        >
+          <ul className="no-scrollbar flex cursor-pointer select-none flex-nowrap items-center gap-0 overflow-y-hidden overflow-x-scroll overscroll-contain border-b">
+            <li className="rounded-mds flex-none border-r px-4 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800">
+              <button
+                className="flex items-center gap-1"
+                onClick={() => console.log("Unread")}
+              >
+                <MessageSquareDashed className="shrink-0" />
+                Unread
+              </button>
+            </li>
+            <li className="rounded-mds flex-none border-r px-4 py-2 shadow-inner transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800">
+              <div className="flex flex-nowrap items-center gap-1">
+                <Sparkles className="shrink-0" />
+                AI Assistant
+              </div>
+            </li>
+            <li className="rounded-mds flex-none border-r px-4 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800">
+              <div className="flex items-center gap-1">
+                <Shapes className="shrink-0" />
+                <span className="flex-none">More Options...</span>
+              </div>
+            </li>
+            <li className="rounded-mds flex-none border-r px-4 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800">
+              <div className="flex items-center gap-1">
+                <DatabaseBackup className="shrink-0" />
+                <span className="flex-none">Data Insights</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </MultiSelect.Header>
+
       <MultiSelect.Tag>
         {({ selectedItem }) => selectedItem.name}
       </MultiSelect.Tag>

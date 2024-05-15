@@ -14,6 +14,8 @@ import { Fragment, useState, Children, cloneElement } from "react";
 import { cva } from "class-variance-authority";
 import { Check } from "lucide-react";
 import { useController } from "react-hook-form";
+import RaceBy from "@/components/RaceBy";
+import { useMergeRefs } from "@floating-ui/react";
 
 const sizeVariants = cva([], {
   variants: {
@@ -30,6 +32,7 @@ const sizeVariants = cva([], {
 
 function MultiSelect({
   multiple = true,
+  fetching = false,
   items = [],
   itemToString,
   itemKey,
@@ -60,6 +63,13 @@ function MultiSelect({
   const itemChild = Children.toArray(children).find((child) => {
     return child.type.name === "Item";
   }) || <DefaultItem itemName={itemName} />;
+  const fetchingChild = Children.toArray(children).find((child) => {
+    return child.type.name === "Fetching";
+  }) || <DefaultFetching />;
+  const headerChild =
+    Children.toArray(children).find((child) => {
+      return child.type.name === "Header";
+    }) || null;
 
   itemToString = itemToString || ((item) => (item ? item[itemName] : ""));
 
@@ -156,6 +166,7 @@ function MultiSelect({
         case useCombobox.stateChangeTypes.InputBlur:
           // iOS Safari will invoke this after itemClick, so we need to closeMenu
           // at input onBlur
+
           return {
             ...changes,
             isOpen: state.isOpen,
@@ -251,7 +262,8 @@ function MultiSelect({
   const menuClassNames = cn(
     "z-50 w-full overflow-scroll rounded-lg bg-popover shadow-md",
     {
-      border: isOpen && items.length > 0,
+      border:
+        (isOpen && items.length > 0) || (isOpen && (fetching || headerChild)),
     },
   );
 
@@ -313,7 +325,6 @@ function MultiSelect({
                   // preventKeyAction: isOpen, // Need to comment or else Backspace can't work
                   onKeyDown: (e) => {
                     if (e.key === "Backspace") {
-                      console.log("Backspace...");
                       e.nativeEvent.preventDownshiftDefault = true;
                       if (e.target.value === "") {
                         if (multiple) {
@@ -337,16 +348,18 @@ function MultiSelect({
       </div>
 
       <FloatingPortal>
-        <ul
+        <div
           style={floatingStyles}
           className={menuClassNames}
           {...getMenuProps(
             {
-              ref: refs.setFloating,
+              ref: useMergeRefs([refs.setFloating]),
             },
             { suppressRefError: true },
           )}
         >
+          {isOpen && headerChild}
+          {fetching && fetchingChild}
           {isOpen &&
             items.map((item, index) => {
               // Typically we want to compare using itemKey. However, if using
@@ -366,7 +379,7 @@ function MultiSelect({
 
               // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
               return (
-                <li
+                <div
                   key={`item-${index}`}
                   data-highlighted={highlighted}
                   data-selected={selected}
@@ -387,10 +400,10 @@ function MultiSelect({
                     />
                     {itemChildClone}
                   </div>
-                </li>
+                </div>
               );
             })}
-        </ul>
+        </div>
       </FloatingPortal>
     </div>
   );
@@ -429,6 +442,22 @@ const DefaultItem = ({ itemName, ...props }) => (
   <Item {...props}>{({ item }) => item[itemName]}</Item>
 );
 
+const Fetching = ({ children }) => {
+  return children;
+};
+
+const DefaultFetching = () => {
+  return (
+    <li className="flex items-center justify-center gap-4 p-4">
+      <RaceBy />
+    </li>
+  );
+};
+
+const Header = ({ children }) => {
+  return children;
+};
+
 const checkDuplicate = (selectedItems, item, itemKey) => {
   return selectedItems.some((s) => s[itemKey] === item[itemKey]);
 };
@@ -445,5 +474,7 @@ const CheckMark = ({ selected, displayCheckMark }) => {
 
 MultiSelect.Tag = Tag;
 MultiSelect.Item = Item;
+MultiSelect.Fetching = Fetching;
+MultiSelect.Header = Header;
 
 export { MultiSelect };
