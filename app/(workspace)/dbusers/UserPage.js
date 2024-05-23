@@ -11,6 +11,8 @@ import TimestampColumn from "@/components/DataGrid/TimestampColumn";
 import CustomColumnsDialog from "@/app/(workspace)/dbusers/CustomColumnsDialog";
 import ServerComponentTest from "@/app/(examples)/users/ServerComponentTest";
 
+import { ChevronRightIcon } from "lucide-react";
+
 export const dynamic = "force-dynamic";
 
 const defaultTableColumns = [
@@ -80,6 +82,12 @@ export default async function UserPage({ searchParams }) {
   return (
     <DataGrid.Root className="space-y-4 p-4">
       {/*<ServerComponentTest />*/}
+
+      <div className="flex items-center gap-2">
+        <strong>Organizations</strong>
+        <ChevronRightIcon size={18} />
+        <span>Create &amp; Manage Views</span>
+      </div>
 
       <div className="flex items-center justify-between">
         <Pagination currentPage={currentPage} totalPages={9800} />

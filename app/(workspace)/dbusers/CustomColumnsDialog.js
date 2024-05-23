@@ -75,7 +75,7 @@ const DraggableColumn = ({ children, item, index }) => {
     <div
       ref={ref}
       data-dragging={dragging}
-      className="grid cursor-grab grid-cols-[auto,auto,1fr] items-center gap-2 p-2 data-[dragging=true]:cursor-grabbing data-[dragging=true]:opacity-50"
+      className="grid cursor-grab grid-cols-[auto,auto,1fr] items-center gap-2 p-2 transition data-[dragging=true]:cursor-grabbing data-[dragging=true]:opacity-50"
     >
       {children}
     </div>
@@ -123,7 +123,7 @@ const DroppableContainer = ({ children, item, index }) => {
     <div
       ref={ref}
       data-dragged-over={isDraggedOver}
-      className="relative data-[dragged-over=true]:rounded-full data-[dragged-over=true]:bg-gray-100"
+      className="relative rounded-full transition data-[dragged-over=true]:bg-gray-100"
     >
       {closestEdge && <DropIndicator edge={closestEdge} />}
       {children}
@@ -138,12 +138,20 @@ const CustomColumnsDialog = ({ tableColumns }) => {
   const pathname = usePathname();
   const [pending, startTransition] = useTransition();
 
+  const methods = useForm();
+  const { handleSubmit, reset } = methods;
+
   useEffect(() => {
     setItems(tableColumns);
+    // reset(
+    //   tableColumns.reduce((acc, item) => {
+    //     acc[item.columnName] = {
+    //       visible: item.visible,
+    //     };
+    //     return acc;
+    //   }, {}),
+    // );
   }, [tableColumns]);
-
-  const methods = useForm();
-  const { handleSubmit } = methods;
 
   const reorderItem = useCallback(
     async ({ startIndex, indexOfTarget, closestEdgeOfTarget }) => {
@@ -236,7 +244,7 @@ const CustomColumnsDialog = ({ tableColumns }) => {
           <form onSubmit={handleSubmit(submit)}>
             <AlertDialogTitle>Custom columns to show or hide</AlertDialogTitle>
 
-            <div className="mx-auto w-2/3 py-4">
+            <div className="mx-auto w-2/3 select-none py-4">
               {items.map((item, index) => {
                 return (
                   <DroppableContainer
@@ -246,10 +254,9 @@ const CustomColumnsDialog = ({ tableColumns }) => {
                   >
                     <DraggableColumn item={item} index={index}>
                       <GripVertical size={20} />
-
                       {item.columnName}
                       <Switch
-                        value={item.visible}
+                        defaultChecked={item.visible}
                         name={`${item.columnName}.visible`}
                         size="sm"
                         className="justify-self-end"

@@ -22,7 +22,13 @@ export default function PanelContainer2({ master, details = null }) {
             <div className="my-2 w-2 rounded-full bg-border/50 transition-colors hover:bg-border"></div>
           </PanelResizeHandle>
 
-          <Panel id="details" order={2} defaultSize={40} minSize={30}>
+          <Panel
+            id="details"
+            order={2}
+            defaultSize={40}
+            minSize={30}
+            maxSize={90}
+          >
             <div className="relative h-full overflow-auto">
               <Suspense key={params.id + currentPage} fallback={<Loading />}>
                 {details}

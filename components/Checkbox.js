@@ -5,43 +5,44 @@ import cn from "@/lib/cn";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { useController } from "react-hook-form";
 
-const Checkbox = forwardRef(
-  ({ name, rules, errorMessage, className, ...props }, ref) => {
-    const { field } = useController({
-      name,
-      rules,
-      // defaultValue: props.checked || false,
-    });
+const Checkbox = forwardRef(({ name, rules, className, ...props }, ref) => {
+  const { field, fieldState } = useController({
+    name,
+    rules,
+    defaultValue: props.defaultChecked || false,
+  });
 
-    const classNames = cn(
-      "peer h-5 w-5 shrink-0 rounded-md border-2 border-blue-500 ring-offset-white",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:ring-offset-2",
-      "disabled:cursor-not-allowed disabled:opacity-50",
-      "data-[state=checked]:bg-blue-500 data-[state=indeterminate]:bg-blue-500",
-      "data-[error=true]:border data-[error=true]:border-red-500 data-[error=true]:ring-4 data-[error=true]:ring-red-500 data-[error=true]:ring-opacity-30",
-      className,
-    );
+  const errors = fieldState.error;
+  const hasError = !!errors;
 
-    return (
-      <CheckboxPrimitive.Root
-        ref={field.ref}
-        className={classNames}
-        checked={field.value}
-        onCheckedChange={field.onChange}
-        data-error={!!errorMessage}
-        {...props}
-      >
-        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
-          {props.checked === "indeterminate" ? (
-            <IndeterminateIcon />
-          ) : (
-            <CheckmarkIcon />
-          )}
-        </CheckboxPrimitive.Indicator>
-      </CheckboxPrimitive.Root>
-    );
-  },
-);
+  const classNames = cn(
+    "peer h-5 w-5 shrink-0 rounded-md border-2 border-blue-500 ring-offset-white",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:ring-offset-2",
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    "data-[state=checked]:bg-blue-500 data-[state=indeterminate]:bg-blue-500",
+    "data-[error=true]:border data-[error=true]:border-red-500 data-[error=true]:ring-4 data-[error=true]:ring-red-500 data-[error=true]:ring-opacity-30",
+    className,
+  );
+
+  return (
+    <CheckboxPrimitive.Root
+      ref={field.ref}
+      className={classNames}
+      checked={field.value}
+      onCheckedChange={field.onChange}
+      data-error={hasError}
+      {...props}
+    >
+      <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
+        {props.checked === "indeterminate" ? (
+          <IndeterminateIcon />
+        ) : (
+          <CheckmarkIcon />
+        )}
+      </CheckboxPrimitive.Indicator>
+    </CheckboxPrimitive.Root>
+  );
+});
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 const CheckmarkIcon = () => {

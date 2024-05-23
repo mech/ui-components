@@ -17,7 +17,7 @@ import {
   Search,
 } from "lucide-react";
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr";
-import Input from "@/components/Input";
+import SearchInput from "@/app/(workspace)/dbusers2/SearchInput";
 
 export default function Page({ searchParams }) {
   // const currentPage = Number(searchParams?.page) || 1;
@@ -49,12 +49,7 @@ export default function Page({ searchParams }) {
   return (
     <>
       <div className="flex items-center justify-between gap-8 border-b px-4 py-2">
-        <Input
-          prefix={<Search size={16} />}
-          prefixStyling={false}
-          placeholder="Cmd+K"
-          wrapperClassName="focus-within:ring-0 focus-within:border-transparent border-transparent rounded-full bg-gray-100 w-[200px] focus-within:w-full transition-all duration-300"
-        />
+        <SearchInput />
 
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-1">

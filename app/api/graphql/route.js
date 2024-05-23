@@ -1,6 +1,11 @@
 import { Client, fetchExchange } from "urql";
+import { cookies } from "next/headers";
 
 export async function POST(request) {
+  const cookieStore = cookies();
+
+  console.log(cookieStore);
+
   const res = await request.json();
 
   const query = res.query;
@@ -8,6 +13,12 @@ export async function POST(request) {
 
   const client = new Client({
     url: "http://192.168.1.235:8000/graphql",
+    fetchOptions: {
+      credentials: "include",
+      headers: {
+        "X-Next-Version": "Next v15.1",
+      },
+    },
     exchanges: [fetchExchange],
   });
 

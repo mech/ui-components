@@ -48,6 +48,7 @@ function MultiSelect({
   rules,
   onChange,
   children,
+  menuWrapperClassName,
 }) {
   // `selectedItems` is not needed as it is handled by `useMultipleSelection`
   // However, if you want to use it as a "control prop", you can handle it with useState
@@ -360,49 +361,55 @@ function MultiSelect({
         >
           {isOpen && headerChild}
           {fetching && fetchingChild}
-          {isOpen &&
-            items.map((item, index) => {
-              // Typically we want to compare using itemKey. However, if using
-              // primitive value, we can use this "selectedItems.includes(item);"
-              const selected = itemKey
-                ? !!selectedItems.find((s) => s[itemKey] === item[itemKey])
-                : selectedItems.includes(item);
+          {isOpen && (
+            <div
+              className={items.length > 0 ? menuWrapperClassName : undefined}
+            >
+              {items.map((item, index) => {
+                // Typically we want to compare using itemKey. However, if using
+                // primitive value, we can use this "selectedItems.includes(item);"
+                const selected = itemKey
+                  ? !!selectedItems.find((s) => s[itemKey] === item[itemKey])
+                  : selectedItems.includes(item);
 
-              const highlighted = highlightedIndex === index;
+                const highlighted = highlightedIndex === index;
 
-              const itemChildClone = cloneElement(itemChild, {
-                index,
-                item,
-                selected,
-                highlighted,
-              });
+                const itemChildClone = cloneElement(itemChild, {
+                  index,
+                  item,
+                  selected,
+                  highlighted,
+                });
 
-              // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
-              return (
-                <div
-                  key={`item-${index}`}
-                  data-highlighted={highlighted}
-                  data-selected={selected}
-                  className={cn(
-                    "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
-                    "dark:data-[highlighted=true]:bg-popover-focus",
-                    {
-                      "is-highlighted": highlighted,
-                      "is-selected": selected,
-                    },
-                  )}
-                  {...getItemProps({ item, index })}
-                >
-                  <div className="flex items-center gap-2">
-                    <CheckMark
-                      selected={selected}
-                      displayCheckMark={displayCheckMark}
-                    />
-                    {itemChildClone}
+                // [&>*] - https://github.com/tailwindlabs/tailwindcss/discussions/10301
+                return (
+                  <div
+                    key={`item-${index}`}
+                    data-highlighted={highlighted}
+                    data-selected={selected}
+                    className={cn(
+                      "group p-2 data-[highlighted=true]:bg-blue-500 data-[highlighted=true]:text-white [&>*]:data-[selected=true]:font-semibold",
+                      "dark:data-[highlighted=true]:bg-popover-focus",
+                      {
+                        "is-highlighted": highlighted,
+                        "is-selected": selected,
+                      },
+                      itemChild.props.className,
+                    )}
+                    {...getItemProps({ item, index })}
+                  >
+                    <div className="flex items-center gap-2">
+                      <CheckMark
+                        selected={selected}
+                        displayCheckMark={displayCheckMark}
+                      />
+                      {itemChildClone}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          )}
         </div>
       </FloatingPortal>
     </div>

@@ -1,14 +1,23 @@
+"use server";
+
 import { Client, fetchExchange } from "urql";
 import { unstable_cache as cache } from "next/dist/server/web/spec-extension/unstable-cache";
 import { unstable_noStore as noStore } from "next/cache";
+import { cookies } from "next/headers";
 
 // export const dynamic = "force-dynamic";
 
 async function getUsers({ page }) {
   noStore();
 
+  // const cookieStore = cookies();
+  // console.log(cookieStore);
+
   const client = new Client({
     url: "http://192.168.1.235:8000/graphql",
+    fetchOptions: {
+      credentials: "include",
+    },
     exchanges: [fetchExchange],
   });
 

@@ -57,30 +57,31 @@ const thumbVariants = cva(
   },
 );
 
-const Switch = forwardRef(
-  ({ name, rules, errorMessage, className, size, ...props }, ref) => {
-    const { field } = useController({
-      name,
-      rules,
-      // defaultValue: props.value || false,
-    });
+const Switch = forwardRef(({ name, rules, className, size, ...props }, ref) => {
+  const { field, fieldState } = useController({
+    name,
+    rules,
+    defaultValue: props.defaultChecked || false,
+  });
 
-    const classNames = cn(rootVariants({ size, className }));
+  const errors = fieldState.error;
+  const hasError = !!errors;
 
-    return (
-      <SwitchPrimitive.Root
-        ref={field.ref}
-        className={classNames}
-        checked={field.value}
-        onCheckedChange={field.onChange}
-        data-error={!!errorMessage}
-        {...props}
-      >
-        <SwitchPrimitive.Thumb className={cn(thumbVariants({ size }))} />
-      </SwitchPrimitive.Root>
-    );
-  },
-);
+  const classNames = cn(rootVariants({ size, className }));
+
+  return (
+    <SwitchPrimitive.Root
+      ref={field.ref}
+      className={classNames}
+      checked={field.value}
+      onCheckedChange={field.onChange}
+      data-error={hasError}
+      {...props}
+    >
+      <SwitchPrimitive.Thumb className={cn(thumbVariants({ size }))} />
+    </SwitchPrimitive.Root>
+  );
+});
 Switch.displayName = SwitchPrimitive.Root.displayName;
 
 export { Switch };

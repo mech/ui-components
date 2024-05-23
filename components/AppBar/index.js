@@ -110,6 +110,9 @@ const AppBar = () => {
                     <li>Members</li>
                     <li>Access Rights</li>
                     <li>Governance</li>
+                    <li>Cockpit</li>
+                    <li>Issues</li>
+                    <li>On Track</li>
                   </ul>
                 </div>
               </AccordionContent>

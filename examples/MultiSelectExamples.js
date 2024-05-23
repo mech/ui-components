@@ -64,10 +64,11 @@ const MultiSelectExamples = () => {
       itemKey="id"
       itemName="name"
       onInputValueChange={onInputValueChange}
+      menuWrapperClassName="grid grid-cols-4 p-2 gap-2"
     >
       <MultiSelect.Header>
         <div
-          className="sticky top-0 bg-background"
+          className="bg-background"
           onMouseDown={(e) => {
             // Must use onMouseDown, no need stopPropagation
             e.preventDefault();
@@ -109,7 +110,7 @@ const MultiSelectExamples = () => {
         {({ selectedItem }) => selectedItem.name}
       </MultiSelect.Tag>
 
-      <MultiSelect.Item>
+      <MultiSelect.Item className="rounded-md bg-gray-50">
         {({ item }) => (
           <div className="flex flex-col gap-0">
             <Highlighter

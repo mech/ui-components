@@ -23,6 +23,7 @@ import Select from "react-select";
 import FloatingExamples from "@/examples/FloatingExamples";
 import DownshiftExamples from "@/examples/DownshiftExamples";
 import MultipleSelectionDownshiftExamples from "@/examples/MultipleSelectionDownshiftExamples";
+import { MultiSelect } from "@/components/MultiSelect";
 
 const options = [
   {
@@ -41,6 +42,15 @@ const options = [
   { value: "orange", label: "Orange" },
   { value: "grape", label: "Grape" },
   { value: "peach", label: "Peach" },
+];
+
+const nationalities = [
+  { nationality: "Singaporean" },
+  { nationality: "Malaysian" },
+  { nationality: "Indonesian" },
+  { nationality: "Filipino" },
+  { nationality: "Vietnamese" },
+  { nationality: "Thai" },
 ];
 
 const DialogExamples = () => {
@@ -125,6 +135,15 @@ const DialogExamples = () => {
 
             <FloatingExamples />
             <DownshiftExamples />
+            <MultiSelect
+              name="ms-1"
+              label="Nationality (MS)"
+              multiple={true}
+              items={nationalities}
+              // itemKey="nationality"
+              itemName="nationality"
+              disabled={false}
+            />
             {/*<MultipleSelectionDownshiftExamples />*/}
           </section>
 

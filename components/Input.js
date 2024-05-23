@@ -30,7 +30,6 @@ const Input = forwardRef(
       label,
       size,
       helpText,
-      errorMessage,
       prefix,
       suffix,
       prefixStyling = true,
@@ -39,18 +38,22 @@ const Input = forwardRef(
       wrapperClassName,
       name,
       rules,
+      defaultValue = "", // Need this to be empty string to prevent error on controlled/uncontrolled switching
       ...props
     },
     ref,
   ) => {
-    const { field } = useController({ name, rules });
+    const { field, fieldState } = useController({ name, rules, defaultValue });
     const id = `input-${useId()}`;
     const mergeRefs = useMergeRefs([field.ref, ref]);
+    const errors = fieldState.error;
+    const hasError = !!errors;
+    const errorMessage = errors?.message;
 
     const labelClassNames = cn(
       "absolute -top-3 left-2 bg-dialog px-1 text-sm text-foreground",
       {
-        "text-input-error": errorMessage,
+        "text-input-error": hasError,
         "-top-2.5 text-xs": size === "sm",
       },
     );
@@ -66,7 +69,7 @@ const Input = forwardRef(
         })}
       >
         <div
-          data-invalid={!!errorMessage}
+          data-invalid={hasError}
           className={cn(
             "group relative flex w-full rounded-md border border-input text-black transition ease-in-out file:border-0 file:bg-transparent",
             "focus-within:border-input-focus focus-within:text-input-ring focus-within:ring-4 focus-within:ring-input-ring focus-within:ring-opacity-30 focus:outline-none",
@@ -84,7 +87,7 @@ const Input = forwardRef(
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck="false"
-            data-invalid={!!errorMessage}
+            data-invalid={hasError}
             className={cn(
               variants({ size }),
               "order-2 w-full appearance-none rounded-md bg-transparent text-foreground outline-none disabled:cursor-not-allowed data-[invalid=true]:text-red-500",
@@ -116,7 +119,7 @@ const Input = forwardRef(
             </span>
           )}
 
-          {suffix && !errorMessage && (
+          {suffix && !hasError && (
             <span
               className={cn(
                 prefixSuffixClassNames,
@@ -131,7 +134,7 @@ const Input = forwardRef(
             </span>
           )}
 
-          {!!errorMessage && (
+          {hasError && (
             <span
               className={cn(
                 prefixSuffixClassNames,

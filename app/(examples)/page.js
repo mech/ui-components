@@ -41,6 +41,8 @@ import { HandPalm } from "@phosphor-icons/react/dist/ssr";
 import { MultiSelect } from "@/components/MultiSelect";
 import MultiSelectExamples from "@/examples/MultiSelectExamples";
 import UrqlProvider from "@/app/(workspace)/fetch-examples/UrqlProvider";
+import DraggableExamples from "@/examples/DraggableExamples";
+import { GripVertical } from "lucide-react";
 
 const TagRenderer = ({ selectedItem, index, getSelectedItemProps }) => {
   return (
@@ -70,22 +72,40 @@ const TagNormal = ({ selectedItem, index, getSelectedItemProps }) => {
   return selectedItem.itemName;
 };
 
+const draggableItems = [
+  { id: 1, name: "mech", visible: true },
+  { id: 2, name: "mechai", visible: false },
+  { id: 3, name: "swee", visible: true },
+];
+
 export default function Home() {
   const [page, setPage] = useState(1);
   const [formData, setFormData] = useState({});
+  const [dItems, setDItems] = useState(draggableItems);
   const methods = useForm({
-    defaultValues: {
-      linkedInUrl: "",
-    },
+    // defaultValues: {
+    //   linkedInUrl: "",
+    // },
   });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
+    reset,
   } = methods;
 
   const submit = (data) => {
+    const newDItems = dItems.map((item) => {
+      return {
+        ...item,
+        visible: data[item.name]?.visible,
+      };
+    });
+
+    data["items"] = newDItems;
+
     setFormData(data);
   };
 
@@ -101,6 +121,28 @@ export default function Home() {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(submit)} className="space-y-4">
             <Card className="space-y-5">
+              <DraggableExamples
+                items={draggableItems}
+                onDrop={(items) => {
+                  setDItems(items);
+                }}
+              >
+                {({ item }) => {
+                  return (
+                    <>
+                      <GripVertical size={20} />
+                      {item.name}
+                      <Switch
+                        defaultChecked={item.visible}
+                        name={`${item.name}.visible`}
+                        size="sm"
+                        className="justify-self-end"
+                      />
+                    </>
+                  );
+                }}
+              </DraggableExamples>
+
               <MultiSelectExamples />
 
               <MultiSelect
@@ -114,12 +156,12 @@ export default function Home() {
               />
 
               <FormCol>
-                <Input name="location1" label="Location One" />
                 <Input
-                  name="location3"
-                  label="Location Two"
-                  errorMessage={null}
+                  name="location1"
+                  label="Location One"
+                  defaultValue="OMG"
                 />
+                <Input name="location3" label="Location Two" />
 
                 <div className="flex items-center justify-center gap-4 self-center">
                   <HandPalm
@@ -138,7 +180,7 @@ export default function Home() {
               </FormCol>
 
               <FormCol>
-                <Input name="location1" label="Location One" />
+                <Input name="location11" label="Location One" />
                 <Input name="location22" label="Location Two" />
               </FormCol>
             </Card>
@@ -234,15 +276,16 @@ export default function Home() {
                 suffix={<Sun size="24" />}
                 suffixStyling={false}
                 placeholder="Enter your LinkedIn account"
-                errorMessage={errors.linkedInUrl?.message}
                 name="linkedInUrl"
+                rules={{ required: true }}
+                defaultValue="OMG"
                 // errorMessage="Gosh!! What is happening!?"
                 // helpText="Just try to enter whatever you want"
               />
 
               <Button>Submit</Button>
 
-              <Switch name="switch-3" size="sm" />
+              <Switch name="switch-3" size="sm" rules={{ required: true }} />
               <Switch
                 name="switch-1"
                 // requiredMessage="Switch is required"
@@ -251,7 +294,7 @@ export default function Home() {
               <Switch name="switch-2" />
 
               <Checkbox name="cb-0" checked="indeterminate" />
-              <Checkbox name="cb-1" />
+              <Checkbox name="cb-1" rules={{ required: true }} />
 
               <RadioGroup name="rr-1" defaultValue="2">
                 <RadioGroupItem value="1">One</RadioGroupItem>
